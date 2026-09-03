@@ -25,7 +25,7 @@ data class ComponentExampleMetadata(
 )
 
 /**
- * Canonical source-of-truth record for a FrogUI component.
+ * Native projection of canonical registry JSON. Contains data, never UI factories.
  */
 @Immutable
 data class FrogComponentMetadata(
@@ -37,5 +37,8 @@ data class FrogComponentMetadata(
     val since: String,
     val docsPath: String,
     val properties: List<ComponentPropertyMetadata> = emptyList(),
-    val examples: List<ComponentExampleMetadata> = emptyList()
+    val examples: List<ComponentExampleMetadata> = emptyList(),
+    val displayName: String = name,
+    val variants: List<String> = emptyList(),
+    val sizes: List<String> = emptyList()
 )

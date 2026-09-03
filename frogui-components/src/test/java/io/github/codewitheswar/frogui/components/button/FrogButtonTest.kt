@@ -1,11 +1,18 @@
 package io.github.codewitheswar.frogui.components.button
 
 import androidx.compose.ui.unit.dp
+import io.github.codewitheswar.frogui.registry.FrogComponentRegistry
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 
 class FrogButtonTest {
+
+    @Test
+    fun registryCapabilitiesMatchPublicEnums() {
+        assertEquals(FrogButtonVariant.entries.map { it.name }, FrogComponentRegistry.Button.variants)
+        assertEquals(FrogButtonSize.entries.map { it.name }, FrogComponentRegistry.Button.sizes)
+    }
 
     @Test
     fun testButtonSizes() {

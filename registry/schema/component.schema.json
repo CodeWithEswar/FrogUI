@@ -14,8 +14,22 @@
     "since",
     "docs",
     "source",
+    "variants",
+    "sizes",
     "properties",
     "examples"
+  ],
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "stable" } } },
+      "then": {
+        "required": ["stabilityReview", "accessibility"],
+        "properties": {
+          "properties": { "minItems": 1 },
+          "examples": { "minItems": 1 }
+        }
+      }
+    }
   ],
   "additionalProperties": false,
   "properties": {
@@ -76,6 +90,11 @@
     "source": {
       "type": "string",
       "description": "Relative repository path to the primary Composable implementation file."
+    },
+    "stabilityReview": {
+      "type": "string",
+      "pattern": "^docs/components/[a-z0-9-]+-review\\.md$",
+      "description": "Required for Stable: repository path to reviewed API, device, test, and documentation evidence."
     },
     "variants": {
       "type": "array",

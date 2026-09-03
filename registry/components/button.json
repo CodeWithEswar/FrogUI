@@ -3,9 +3,9 @@
   "id": "button",
   "name": "FrogButton",
   "displayName": "Button",
-  "description": "A versatile, accessible action button with 5 visual variants, 3 sizes, tactile press physics, loading state, and slot APIs.",
+  "description": "Triggers an action with semantic variants, sizes, loading feedback, and composable content slots.",
   "category": "actions",
-  "status": "stable",
+  "status": "experimental",
   "since": "1.0.0",
   "docs": "/components/button",
   "source": "frogui-components/src/main/java/io/github/codewitheswar/frogui/components/button/FrogButton.kt",
@@ -24,7 +24,7 @@
   "accessibility": {
     "role": "Role.Button",
     "minTouchTarget": "48dp",
-    "talkBackNotes": "Provides Role.Button; emits stateDescription = 'Loading' during background operations; suppresses touch events when disabled or loading."
+    "talkBackNotes": "Intended to expose button role, loading state, and disabled behavior. TalkBack, label grouping, localization, and actual touch bounds require verification before stability."
   },
   "properties": [
     {

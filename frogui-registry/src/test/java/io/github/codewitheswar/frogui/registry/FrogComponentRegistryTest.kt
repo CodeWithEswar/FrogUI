@@ -20,7 +20,7 @@ class FrogComponentRegistryTest {
         val button = FrogComponentRegistry.Button
         assertEquals("FrogButton", button.name)
         assertEquals(FrogComponentCategory.Actions, button.category)
-        assertEquals(FrogComponentStatus.Stable, button.status)
+        assertEquals(FrogComponentStatus.Experimental, button.status)
         assertFalse(button.properties.isEmpty())
         assertFalse(button.examples.isEmpty())
     }
@@ -42,19 +42,19 @@ class FrogComponentRegistryTest {
     }
 
     @Test
-    fun testMachineReadableRegistryFiles() {
-        val candidates = listOf(
-            java.io.File("../registry/components/button.json"),
-            java.io.File("registry/components/button.json"),
-            java.io.File("../../registry/components/button.json")
-        )
-        val buttonFile = candidates.firstOrNull { it.exists() }
-        assertNotNull("registry/components/button.json must exist in the repository", buttonFile)
+    fun testCatalogDoesNotAdvertiseRoadmapPlaceholders() {
+        assertEquals(listOf("button"), FrogComponentRegistry.allComponents.map { it.id })
+        assertTrue(FrogComponentRegistry.search("card").isEmpty())
+        assertTrue(FrogComponentRegistry.findById("not-a-component") == null)
+    }
 
-        val jsonContent = buttonFile!!.readText()
-        assertTrue("button.json must declare id: button", jsonContent.contains("\"id\": \"button\""))
-        assertTrue("button.json must declare name: FrogButton", jsonContent.contains("\"name\": \"FrogButton\""))
-        assertTrue("button.json must declare category: actions", jsonContent.contains("\"category\": \"actions\""))
-        assertTrue("button.json must declare status: stable", jsonContent.contains("\"status\": \"stable\""))
+    @Test
+    fun testGeneratedPropertiesAndExamples() {
+        val button = FrogComponentRegistry.Button
+        assertTrue(button.properties.any { it.name == "modifier" })
+        assertTrue(button.properties.any { it.name == "colors" })
+        assertTrue(button.properties.any { it.name == "content" })
+        assertTrue(button.examples.first().codeSnippet.contains("Text(\"Continue\")"))
+        assertTrue(button.examples.first().codeSnippet.contains('\n'))
     }
 }

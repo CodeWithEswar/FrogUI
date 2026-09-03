@@ -1,5 +1,4 @@
 {
-  "$schema": "./schema/component.schema.json",
   "version": "1.0.0",
   "name": "FrogUI Component Registry",
   "description": "Index of canonical FrogUI components for cross-platform consumption, documentation generation, and developer tooling.",
@@ -43,12 +42,6 @@
   "components": [
     {
       "id": "button",
-      "name": "FrogButton",
-      "displayName": "Button",
-      "category": "actions",
-      "status": "stable",
-      "since": "1.0.0",
-      "description": "A versatile, accessible action button with 5 visual variants, 3 sizes, tactile press physics, loading state, and slot APIs.",
       "file": "components/button.json"
     }
   ]
