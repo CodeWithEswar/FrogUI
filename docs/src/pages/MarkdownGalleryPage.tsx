@@ -4,7 +4,7 @@ import { Callout } from '../components/ui/Callout';
 
 export const MarkdownGalleryPage: React.FC = () => {
   return (
-    <article className="max-w-3xl space-y-10">
+    <article className="w-full space-y-10">
       <header className="space-y-3 pb-6 border-b border-zinc-200 dark:border-zinc-800">
         <div className="inline-flex items-center px-2 py-0.5 rounded text-[10px] uppercase font-mono font-semibold bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
           Internal Dev Surface

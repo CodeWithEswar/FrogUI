@@ -56,7 +56,7 @@ export const ComponentPreview: React.FC<ComponentPreviewProps> = ({
   };
 
   return (
-    <div className="my-6 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-xs">
+    <div className="my-6 w-full rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-xs">
       {/* Controls toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/90 dark:bg-zinc-900/90">
         {/* Variant selector */}

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { navigationSections } from '../../generated/routes';
 import { ThemeToggle } from '../ui/ThemeToggle';
+import { AppLogo } from '../ui/AppLogo';
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -43,7 +44,10 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
         <div>
           {/* Top header */}
           <div className="flex items-center justify-between pb-4 border-b border-zinc-200 dark:border-zinc-800 mb-6">
-            <span className="font-bold text-lg text-zinc-900 dark:text-zinc-100">FrogUI</span>
+            <div className="flex items-center gap-2">
+              <AppLogo className="w-6 h-6" />
+              <span className="font-bold text-lg text-zinc-900 dark:text-zinc-100">FrogUI</span>
+            </div>
             <button
               onClick={onClose}
               className="p-1 rounded-md text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"

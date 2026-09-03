@@ -11,9 +11,9 @@ export const ApiTable: React.FC<ApiTableProps> = ({ properties }) => {
   }
 
   return (
-    <div className="my-6">
+    <div className="my-6 w-full">
       {/* Desktop Table View */}
-      <div className="hidden md:block overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 shadow-xs">
+      <div className="hidden md:block w-full overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 shadow-xs">
         <table className="w-full text-left text-sm border-collapse">
           <thead>
             <tr className="border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-900/90 text-xs font-semibold text-zinc-600 dark:text-zinc-400">

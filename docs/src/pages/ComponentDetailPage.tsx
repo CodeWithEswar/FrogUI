@@ -31,9 +31,9 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
   ];
 
   return (
-    <div className="flex gap-8 justify-between">
-      {/* Article Content */}
-      <article className="flex-1 max-w-3xl min-w-0 space-y-12">
+    <div className="flex items-start gap-8 lg:gap-12 justify-between w-full">
+      {/* Article Content - Only middle content scrolls */}
+      <article className="flex-1 min-w-0 space-y-12 pb-16">
         {/* Component Header */}
         <header className="space-y-4 pb-6 border-b border-zinc-200 dark:border-zinc-800">
           <div className="flex flex-wrap items-center justify-between gap-3">

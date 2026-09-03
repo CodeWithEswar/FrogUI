@@ -8,8 +8,8 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentPath, onNavigate }) => {
   return (
-    <aside className="w-64 shrink-0 hidden md:block py-6 pr-6 border-r border-zinc-200 dark:border-zinc-800/80 min-h-[calc(100vh-3.5rem)] text-sm">
-      <div className="sticky top-20 space-y-8">
+    <aside className="w-64 shrink-0 hidden md:block sticky top-14 self-start h-[calc(100vh-3.5rem)] overflow-y-auto py-6 pr-6 border-r border-zinc-200 dark:border-zinc-800/80 text-sm">
+      <div className="space-y-8">
         {navigationSections.map(section => (
           <div key={section.title} className="space-y-2">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-3">

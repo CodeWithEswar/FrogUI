@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeToggle } from '../ui/ThemeToggle';
+import { AppLogo } from '../ui/AppLogo';
 import { release } from '../../generated/catalog';
 
 interface HeaderProps {
@@ -17,7 +18,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-zinc-200 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 h-14 flex items-center justify-between gap-4">
         {/* Left: Mobile hamburger & FrogUI Brand Logo */}
         <div className="flex items-center gap-3">
           <button
@@ -40,12 +41,8 @@ export const Header: React.FC<HeaderProps> = ({
             }}
             className="flex items-center gap-2.5 group"
           >
-            {/* FrogUI Monochrome Badge Mark */}
-            <div className="w-7 h-7 rounded-lg bg-zinc-900 dark:bg-zinc-100 flex items-center justify-center text-white dark:text-zinc-900 shadow-xs transition-transform group-hover:scale-105">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 3a9 9 0 0 0-9 9c0 4.97 4.03 9 9 9s9-4.03 9-9a9 9 0 0 0-9-9zm-3.5 6a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm7 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-3.5 8c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/>
-              </svg>
-            </div>
+            {/* Canonical FrogUI Vector App Logo */}
+            <AppLogo className="w-7 h-7" />
             <div className="flex items-baseline gap-1.5">
               <span className="font-bold text-base tracking-tight text-zinc-900 dark:text-zinc-100">
                 FrogUI

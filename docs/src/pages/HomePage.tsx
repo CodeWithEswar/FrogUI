@@ -1,6 +1,7 @@
 import React from 'react';
 import { catalog, release } from '../generated/catalog';
 import { CodeBlock } from '../components/ui/CodeBlock';
+import { AppLogo } from '../components/ui/AppLogo';
 
 interface HomePageProps {
   onNavigate: (path: string) => void;
@@ -8,47 +9,79 @@ interface HomePageProps {
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   return (
-    <div className="space-y-16 max-w-4xl">
-      {/* Hero Section */}
-      <section className="space-y-6 pt-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/70 text-xs text-zinc-600 dark:text-zinc-400">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span>v{release.version} &middot; Open-Source Android UI Ecosystem</span>
+    <div className="space-y-16 w-full">
+      {/* Hero Section - Full Width Adaptive Grid */}
+      <section className="pt-4 lg:pt-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10">
+        <div className="space-y-6 max-w-2xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/70 text-xs text-zinc-600 dark:text-zinc-400">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>v{release.version} &middot; Open-Source Android UI Ecosystem</span>
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 leading-tight">
+            Composable components for modern Android.
+          </h1>
+
+          <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            FrogUI provides predictable, customizable, accessible, and ownership-friendly Jetpack Compose UI components. Strong defaults without trapping developers inside proprietary runtimes.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <button
+              onClick={() => onNavigate('/docs/introduction')}
+              className="px-5 py-2.5 rounded-lg bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-medium text-sm hover:bg-zinc-800 dark:hover:bg-white transition-colors shadow-xs"
+            >
+              Get Started &rarr;
+            </button>
+            <button
+              onClick={() => onNavigate('/components/button')}
+              className="px-5 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 font-medium text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            >
+              Browse Components
+            </button>
+            <a
+              href="https://github.com/CodeWithEswar/FrogUI"
+              target="_blank"
+              rel="noreferrer"
+              className="px-5 py-2.5 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 font-medium text-sm transition-colors"
+            >
+              GitHub
+            </a>
+          </div>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 leading-tight">
-          Composable components for modern Android.
-        </h1>
+        {/* Hero Right Brand Showcase Card */}
+        <div className="w-full lg:w-80 shrink-0 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 shadow-lg space-y-5">
+          <div className="flex items-center gap-4">
+            <AppLogo className="w-14 h-14" />
+            <div>
+              <div className="font-bold text-lg text-zinc-900 dark:text-zinc-100">FrogUI Native</div>
+              <div className="text-xs text-zinc-500">Jetpack Compose Suite</div>
+            </div>
+          </div>
 
-        <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl">
-          FrogUI provides predictable, customizable, accessible, and ownership-friendly Jetpack Compose UI components. Strong defaults without trapping developers inside proprietary runtimes.
-        </p>
-
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <button
-            onClick={() => onNavigate('/docs/introduction')}
-            className="px-5 py-2.5 rounded-lg bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-medium text-sm hover:bg-zinc-800 dark:hover:bg-white transition-colors shadow-xs"
-          >
-            Get Started &rarr;
-          </button>
-          <button
-            onClick={() => onNavigate('/components/button')}
-            className="px-5 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 font-medium text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-          >
-            Browse Components
-          </button>
-          <a
-            href="https://github.com/CodeWithEswar/FrogUI"
-            target="_blank"
-            rel="noreferrer"
-            className="px-5 py-2.5 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 font-medium text-sm transition-colors"
-          >
-            GitHub
-          </a>
+          <div className="space-y-2 pt-2 border-t border-zinc-100 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400 font-mono">
+            <div className="flex items-center justify-between">
+              <span>Compose First</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-bold">100%</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Touch Targets</span>
+              <span className="text-zinc-800 dark:text-zinc-200">&ge; 48dp</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Theme System</span>
+              <span className="text-zinc-800 dark:text-zinc-200">Zinc Scale</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Module Coupling</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-bold">Acyclic</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Quick Install Snippet */}
+      {/* Quick Install Snippet - Full Width */}
       <section className="space-y-4">
         <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
           Quick Setup
@@ -67,12 +100,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         />
       </section>
 
-      {/* Core Principles */}
+      {/* Core Principles - Full Width 4-column Grid */}
       <section className="space-y-6">
         <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
           Engineering Principles
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-5 rounded-xl border border-zinc-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/40 space-y-2">
             <h3 className="font-semibold text-sm text-zinc-900 dark:text-zinc-100">
               Predictable Native Composition
@@ -111,7 +144,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Catalog Grid */}
+      {/* Catalog Grid - Full Width 3-column Grid */}
       <section className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
@@ -122,7 +155,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {catalog.map(component => (
             <button
               key={component.id}

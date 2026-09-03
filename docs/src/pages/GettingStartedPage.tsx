@@ -13,7 +13,7 @@ export const GettingStartedPage: React.FC<GettingStartedPageProps> = ({
   onNavigate
 }) => {
   return (
-    <article className="max-w-3xl space-y-10">
+    <article className="w-full space-y-10">
       <header className="space-y-3 pb-6 border-b border-zinc-200 dark:border-zinc-800">
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
           {section === 'installation'

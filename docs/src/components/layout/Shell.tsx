@@ -37,13 +37,13 @@ export const Shell: React.FC<ShellProps> = ({ currentPath, onNavigate, children 
         onToggleMobileMenu={() => setIsMobileMenuOpen(prev => !prev)}
       />
 
-      {/* Main Container */}
-      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex">
-        {/* Left Sidebar */}
+      {/* Main Container - Full Width Layout */}
+      <div className="flex-1 w-full px-4 sm:px-6 lg:px-8 xl:px-12 flex items-start">
+        {/* Left Sidebar - Fixed sticky panel */}
         <Sidebar currentPath={currentPath} onNavigate={onNavigate} />
 
         {/* Page Content Container */}
-        <main className="flex-1 min-w-0 py-8 md:px-8">
+        <main className="flex-1 min-w-0 py-8 md:px-8 lg:px-10">
           {children}
         </main>
       </div>
