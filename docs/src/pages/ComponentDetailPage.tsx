@@ -20,16 +20,19 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
     ? `https://github.com/CodeWithEswar/FrogUI/blob/main/${component.source}`
     : 'https://github.com/CodeWithEswar/FrogUI';
 
+  const basicExample = component.examples.find(e => e.id === 'basic') || component.examples[0];
+  const variantExamples = component.examples.filter(e => e.id !== basicExample?.id);
+
   const tocItems: TocItem[] = [
     { id: 'overview', title: 'Overview & Preview', level: 2 },
     { id: 'installation', title: 'Installation', level: 2 },
-    { id: 'usage', title: 'Usage Examples', level: 2 },
+    { id: 'usage', title: 'Basic Usage', level: 2 },
+    ...(variantExamples.length > 0 ? [{ id: 'examples', title: 'Examples', level: 2 }] : []),
     { id: 'api-reference', title: 'API Reference', level: 2 },
+    { id: 'accessibility', title: 'Accessibility', level: 2 },
+    { id: 'guidance', title: 'Usage Guidance', level: 2 },
     { id: 'design-tokens', title: 'Design Tokens & Anatomy', level: 2 }
   ];
-
-  const basicExample = component.examples.find(e => e.id === 'basic') || component.examples[0];
-  const variantExamples = component.examples.filter(e => e.id !== basicExample?.id);
 
   return (
     <div className="w-full xl:pr-72 flex justify-between gap-10">
@@ -215,23 +218,175 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
             Usage Guidance
           </h2>
           <div className="prose prose-zinc dark:prose-invert max-w-none text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 space-y-4">
-            <p>
-              Use <code className="font-mono text-xs">FrogButton</code> to trigger an action such as saving a form or continuing a workflow. The caller supplies the action callback and owns enabled/loading state.
-            </p>
-            <p>
-              Wrap application content in <code className="font-mono text-xs">FrogTheme</code>. Use composable content and icon slots, native Modifier, semantic variant/size values, and FrogButtonColors for customization.
-            </p>
-            <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 pt-2">
-              Choosing a Variant
-            </h3>
-            <ul className="list-disc pl-5 space-y-1.5">
-              <li><strong className="text-zinc-800 dark:text-zinc-200">Primary:</strong> Gives the main action the most visual emphasis. Recommended once per visual screen.</li>
-              <li><strong className="text-zinc-800 dark:text-zinc-200">Secondary:</strong> Tonal Zinc surface for secondary operations (e.g. &ldquo;Cancel&rdquo;, &ldquo;Back&rdquo;).</li>
-              <li><strong className="text-zinc-800 dark:text-zinc-200">Outline:</strong> Transparent surface with structural border for lower emphasis.</li>
-              <li><strong className="text-zinc-800 dark:text-zinc-200">Ghost:</strong> Borderless button for toolbars and compact surfaces.</li>
-              <li><strong className="text-zinc-800 dark:text-zinc-200">Destructive:</strong> High-warning action communicating permanent operations (e.g. &ldquo;Delete repository&rdquo;).</li>
-            </ul>
+            {component.id === 'drawer' ? (
+              <>
+                <p>
+                  Use <code className="font-mono text-xs">FrogDrawer</code> to present contextual secondary flows, settings panels, filter sheets, or multi-level navigation drawers without navigating away from the active screen.
+                </p>
+                <p>
+                  Application state remains with the caller via <code className="font-mono text-xs">rememberFrogDrawerState()</code>. Call <code className="font-mono text-xs">state.open()</code> and <code className="font-mono text-xs">state.close()</code> inside a coroutine scope to trigger smooth spring animations.
+                </p>
+                <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 pt-2">
+                  Presentation Modes
+                </h3>
+                <ul className="list-disc pl-5 space-y-1.5">
+                  <li><strong className="text-zinc-800 dark:text-zinc-200">Auto (Default):</strong> Responsive layout adapting automatically based on available width. Renders as a modal bottom sheet on compact screens (&lt; 620dp) and docks as a contextual side panel on tablet/desktop screens (&ge; 620dp).</li>
+                  <li><strong className="text-zinc-800 dark:text-zinc-200">Bottom:</strong> Always presents as a bottom sheet with a central drag handle, supporting pointer drag-down dismissal and hardware back press.</li>
+                  <li><strong className="text-zinc-800 dark:text-zinc-200">Side:</strong> Always docks as an edge sheet at <code className="font-mono text-xs">Start</code> or <code className="font-mono text-xs">End</code> edge, suitable for persistent desktop side inspectors.</li>
+                </ul>
+              </>
+            ) : (
+              <>
+                <p>
+                  Use <code className="font-mono text-xs">FrogButton</code> to trigger an action such as saving a form or continuing a workflow. The caller supplies the action callback and owns enabled/loading state.
+                </p>
+                <p>
+                  Wrap application content in <code className="font-mono text-xs">FrogTheme</code>. Use composable content and icon slots, native Modifier, semantic variant/size values, and FrogButtonColors for customization.
+                </p>
+                <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 pt-2">
+                  Choosing a Variant
+                </h3>
+                <ul className="list-disc pl-5 space-y-1.5">
+                  <li><strong className="text-zinc-800 dark:text-zinc-200">Primary:</strong> Gives the main action the most visual emphasis. Recommended once per visual screen.</li>
+                  <li><strong className="text-zinc-800 dark:text-zinc-200">Secondary:</strong> Tonal Zinc surface for secondary operations (e.g. &ldquo;Cancel&rdquo;, &ldquo;Back&rdquo;).</li>
+                  <li><strong className="text-zinc-800 dark:text-zinc-200">Outline:</strong> Transparent surface with structural border for lower emphasis.</li>
+                  <li><strong className="text-zinc-800 dark:text-zinc-200">Ghost:</strong> Borderless button for toolbars and compact surfaces.</li>
+                  <li><strong className="text-zinc-800 dark:text-zinc-200">Destructive:</strong> High-warning action communicating permanent operations (e.g. &ldquo;Delete repository&rdquo;).</li>
+                </ul>
+              </>
+            )}
           </div>
+        </section>
+
+        {/* Section 8: Design Tokens & Anatomy */}
+        <section id="design-tokens" className="space-y-4 pt-6 border-t border-zinc-200 dark:border-zinc-800">
+          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+            Design Tokens &amp; Anatomy
+          </h2>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            Structural anatomy and design token specifications governing {component.name}:
+          </p>
+
+          {component.id === 'drawer' ? (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">1. Drag Handle</div>
+                  <div className="text-xs text-zinc-700 dark:text-zinc-300">48dp &times; 4dp centered pill with 2dp corner radius. Serves as visual affordance for touch swipe dismiss.</div>
+                </div>
+                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">2. Header Slot</div>
+                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Contains title text with heading semantics, subtitle, and dismiss icon button.</div>
+                </div>
+                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">3. Content Body</div>
+                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Scrollable container with nested scroll interop between drag gestures and inner list scrolling.</div>
+                </div>
+                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">4. Footer Slot</div>
+                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Sticky action container with primary action and dismiss buttons docked to the bottom.</div>
+                </div>
+                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">5. Modal Scrim</div>
+                  <div className="text-xs text-zinc-700 dark:text-zinc-300">60% black backdrop (<code className="font-mono text-[10px]">scrimColor</code>) that dims background content and handles tap-to-dismiss.</div>
+                </div>
+                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">6. Surface Container</div>
+                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Elevated surface with 16dp corner radius and 1dp border separating sheet from background.</div>
+                </div>
+              </div>
+
+              {/* Token Table */}
+              <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+                <table className="min-w-full divide-y divide-zinc-200 dark:divide-zinc-800 text-xs">
+                  <thead className="bg-zinc-50 dark:bg-zinc-900/80 text-zinc-500 font-semibold">
+                    <tr>
+                      <th className="px-4 py-2.5 text-left">Token</th>
+                      <th className="px-4 py-2.5 text-left">Value</th>
+                      <th className="px-4 py-2.5 text-left">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800 font-mono text-[11px]">
+                    <tr>
+                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold">AutoBreakpoint</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">620.dp</td>
+                      <td className="px-4 py-2 text-zinc-500 font-sans">Threshold between Bottom Sheet and Side Drawer modes</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold">CornerRadius</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">16.dp</td>
+                      <td className="px-4 py-2 text-zinc-500 font-sans">Top corners (bottom sheet) or side corners (docked panel)</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold">AnimationSpec</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">spring(StiffnessMediumLow)</td>
+                      <td className="px-4 py-2 text-zinc-500 font-sans">Natural physics spring curve for open, close, and drag release</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold">ScrimColor</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">Black.copy(alpha = 0.6f)</td>
+                      <td className="px-4 py-2 text-zinc-500 font-sans">Backdrop overlay opacity in modal presentation</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">1. Touch Target</div>
+                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Minimum 48dp bounding box ensured across all sizes for accessible touch interaction.</div>
+                </div>
+                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">2. Container Surface</div>
+                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Rounded pill container with variant-specific surface fill, stroke, and pressed elevation.</div>
+                </div>
+                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">3. Content Row</div>
+                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Horizontal arrangement containing leading icon slot, text label, and trailing icon slot.</div>
+                </div>
+              </div>
+
+              {/* Token Table */}
+              <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+                <table className="min-w-full divide-y divide-zinc-200 dark:divide-zinc-800 text-xs">
+                  <thead className="bg-zinc-50 dark:bg-zinc-900/80 text-zinc-500 font-semibold">
+                    <tr>
+                      <th className="px-4 py-2.5 text-left">Size</th>
+                      <th className="px-4 py-2.5 text-left">Height</th>
+                      <th className="px-4 py-2.5 text-left">Radius</th>
+                      <th className="px-4 py-2.5 text-left">Padding</th>
+                      <th className="px-4 py-2.5 text-left">Typography</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800 font-mono text-[11px]">
+                    <tr>
+                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold font-sans">Small</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">32.dp</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">8.dp</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">12.dp horizontal</td>
+                      <td className="px-4 py-2 text-zinc-500 font-sans">labelMedium (12sp)</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold font-sans">Medium</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">40.dp</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">10.dp</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">16.dp horizontal</td>
+                      <td className="px-4 py-2 text-zinc-500 font-sans">labelLarge (14sp)</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold font-sans">Large</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">48.dp</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">12.dp</td>
+                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">20.dp horizontal</td>
+                      <td className="px-4 py-2 text-zinc-500 font-sans">titleSmall (16sp)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </section>
       </article>
 
