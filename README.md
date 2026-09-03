@@ -1,7 +1,7 @@
 # FrogUI
 
 <p align="center">
-  <img src="app/src/main/res/drawable/frogui_mark.xml" width="96" height="96" alt="FrogUI Logo" />
+  <img src="art/frogui_logo.png" width="128" height="128" alt="FrogUI Logo" />
 </p>
 
 <p align="center">
