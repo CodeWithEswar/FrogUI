@@ -1,0 +1,55 @@
+{
+  "$schema": "./schema/component.schema.json",
+  "version": "1.0.0",
+  "name": "FrogUI Component Registry",
+  "description": "Index of canonical FrogUI components for cross-platform consumption, documentation generation, and developer tooling.",
+  "categories": [
+    {
+      "id": "actions",
+      "displayName": "Actions",
+      "description": "Interactive elements that trigger user operations, submissions, and state transitions."
+    },
+    {
+      "id": "inputs",
+      "displayName": "Inputs",
+      "description": "Form controls, text fields, toggles, and selection controls for collecting user input."
+    },
+    {
+      "id": "data-display",
+      "displayName": "Data Display",
+      "description": "Cards, badges, lists, and avatars for organizing and presenting application data."
+    },
+    {
+      "id": "feedback",
+      "displayName": "Feedback",
+      "description": "Indicators, alerts, and progress states communicating status to the user."
+    },
+    {
+      "id": "navigation",
+      "displayName": "Navigation",
+      "description": "Tabs, rails, bars, and segmented controls for hierarchical and peer navigation."
+    },
+    {
+      "id": "overlays",
+      "displayName": "Overlays",
+      "description": "Modals, dialogs, bottom sheets, and tooltips presented above primary surfaces."
+    },
+    {
+      "id": "layout",
+      "displayName": "Layout",
+      "description": "Structural scaffolds, spacers, containers, and responsive grids."
+    }
+  ],
+  "components": [
+    {
+      "id": "button",
+      "name": "FrogButton",
+      "displayName": "Button",
+      "category": "actions",
+      "status": "stable",
+      "since": "1.0.0",
+      "description": "A versatile, accessible action button with 5 visual variants, 3 sizes, tactile press physics, loading state, and slot APIs.",
+      "file": "components/button.json"
+    }
+  ]
+}

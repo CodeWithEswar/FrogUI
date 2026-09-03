@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://frogui.dev/schema/component.schema.json",
+  "title": "FrogUI Component Metadata Schema",
+  "description": "Machine-readable contract defining a canonical FrogUI component across library, showcase, docs, and tooling.",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "displayName",
+    "description",
+    "category",
+    "status",
+    "since",
+    "docs",
+    "source",
+    "properties",
+    "examples"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Stable, lowercase, URL-safe, CLI-safe identifier (e.g. 'button')."
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^Frog[A-Z][a-zA-Z0-9]*$",
+      "description": "Public Kotlin Composable name (e.g. 'FrogButton')."
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Human-friendly display name for showcase navigation and documentation headers."
+    },
+    "description": {
+      "type": "string",
+      "description": "Concise, truthful technical summary of the component's purpose."
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "actions",
+        "inputs",
+        "data-display",
+        "feedback",
+        "navigation",
+        "overlays",
+        "layout"
+      ],
+      "description": "Functional classification within the FrogUI component taxonomy."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "experimental",
+        "beta",
+        "stable",
+        "deprecated"
+      ],
+      "description": "Production maturity and API stability status."
+    },
+    "since": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version in which the component was introduced."
+    },
+    "docs": {
+      "type": "string",
+      "pattern": "^/components/[a-z0-9-]+$",
+      "description": "Canonical relative URL path in GitHub Pages documentation."
+    },
+    "source": {
+      "type": "string",
+      "description": "Relative repository path to the primary Composable implementation file."
+    },
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Supported visual semantic variants (e.g. ['Primary', 'Secondary', 'Outline', 'Ghost', 'Destructive'])."
+    },
+    "sizes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Supported dimensional scales (e.g. ['Small', 'Medium', 'Large'])."
+    },
+    "accessibility": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "minTouchTarget": {
+          "type": "string"
+        },
+        "talkBackNotes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "minTouchTarget"
+      ],
+      "additionalProperties": false
+    },
+    "properties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "defaultValue",
+          "description"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "defaultValue": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "description",
+          "codeSnippet"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "codeSnippet": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

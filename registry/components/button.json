@@ -1,0 +1,153 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "id": "button",
+  "name": "FrogButton",
+  "displayName": "Button",
+  "description": "A versatile, accessible action button with 5 visual variants, 3 sizes, tactile press physics, loading state, and slot APIs.",
+  "category": "actions",
+  "status": "stable",
+  "since": "1.0.0",
+  "docs": "/components/button",
+  "source": "frogui-components/src/main/java/io/github/codewitheswar/frogui/components/button/FrogButton.kt",
+  "variants": [
+    "Primary",
+    "Secondary",
+    "Outline",
+    "Ghost",
+    "Destructive"
+  ],
+  "sizes": [
+    "Small",
+    "Medium",
+    "Large"
+  ],
+  "accessibility": {
+    "role": "Role.Button",
+    "minTouchTarget": "48dp",
+    "talkBackNotes": "Provides Role.Button; emits stateDescription = 'Loading' during background operations; suppresses touch events when disabled or loading."
+  },
+  "properties": [
+    {
+      "name": "onClick",
+      "type": "() -> Unit",
+      "defaultValue": "required",
+      "description": "Callback triggered when the button is clicked by touch, keyboard, or accessibility action."
+    },
+    {
+      "name": "modifier",
+      "type": "Modifier",
+      "defaultValue": "Modifier",
+      "description": "Layout modifier applied to the outer touch-target container."
+    },
+    {
+      "name": "variant",
+      "type": "FrogButtonVariant",
+      "defaultValue": "FrogButtonVariant.Primary",
+      "description": "Visual semantic variant: Primary, Secondary, Outline, Ghost, or Destructive."
+    },
+    {
+      "name": "size",
+      "type": "FrogButtonSize",
+      "defaultValue": "FrogButtonSize.Medium",
+      "description": "Dimensional scale: Small (32dp), Medium (40dp), or Large (48dp)."
+    },
+    {
+      "name": "enabled",
+      "type": "Boolean",
+      "defaultValue": "true",
+      "description": "Controls interaction state. When false, clicks are suppressed and visual style becomes muted."
+    },
+    {
+      "name": "loading",
+      "type": "Boolean",
+      "defaultValue": "false",
+      "description": "When true, displays an inline circular progress indicator, sets TalkBack stateDescription to 'Loading', and suppresses clicks."
+    },
+    {
+      "name": "shape",
+      "type": "Shape",
+      "defaultValue": "FrogButtonDefaults.shape(size)",
+      "description": "Corner radius shape applied to button background and border."
+    },
+    {
+      "name": "colors",
+      "type": "FrogButtonColors",
+      "defaultValue": "FrogButtonDefaults.colors(variant)",
+      "description": "Resolved colors across enabled, disabled, pressed, and focused states."
+    },
+    {
+      "name": "border",
+      "type": "BorderStroke?",
+      "defaultValue": "FrogButtonDefaults.border(variant, enabled && !loading)",
+      "description": "Optional stroke border applied to button boundary."
+    },
+    {
+      "name": "contentPadding",
+      "type": "PaddingValues",
+      "defaultValue": "FrogButtonDefaults.contentPadding(size)",
+      "description": "Internal spacing between button boundary and content row."
+    },
+    {
+      "name": "interactionSource",
+      "type": "MutableInteractionSource",
+      "defaultValue": "remember { MutableInteractionSource() }",
+      "description": "Interaction stream driving press animations and focus rings."
+    },
+    {
+      "name": "leadingIcon",
+      "type": "(@Composable () -> Unit)?",
+      "defaultValue": "null",
+      "description": "Optional slot rendered before the button label."
+    },
+    {
+      "name": "trailingIcon",
+      "type": "(@Composable () -> Unit)?",
+      "defaultValue": "null",
+      "description": "Optional slot rendered after the button label."
+    },
+    {
+      "name": "content",
+      "type": "@Composable RowScope.() -> Unit",
+      "defaultValue": "required",
+      "description": "The button label or custom row content."
+    }
+  ],
+  "examples": [
+    {
+      "id": "primary",
+      "title": "Primary Action",
+      "description": "High-emphasis action for the primary task on the screen.",
+      "codeSnippet": "FrogButton(\n    variant = FrogButtonVariant.Primary,\n    onClick = { }\n) {\n    Text(\"Continue\")\n}"
+    },
+    {
+      "id": "secondary",
+      "title": "Secondary Action",
+      "description": "Tonal zinc surface for alternative operations.",
+      "codeSnippet": "FrogButton(\n    variant = FrogButtonVariant.Secondary,\n    onClick = { }\n) {\n    Text(\"Cancel\")\n}"
+    },
+    {
+      "id": "outline",
+      "title": "Outlined Action",
+      "description": "Transparent surface with structural Zinc border.",
+      "codeSnippet": "FrogButton(\n    variant = FrogButtonVariant.Outline,\n    onClick = { }\n) {\n    Text(\"Documentation\")\n}"
+    },
+    {
+      "id": "ghost",
+      "title": "Ghost Action",
+      "description": "Flat low-emphasis button for toolbars and compact surfaces.",
+      "codeSnippet": "FrogButton(\n    variant = FrogButtonVariant.Ghost,\n    onClick = { }\n) {\n    Text(\"Learn more\")\n}"
+    },
+    {
+      "id": "destructive",
+      "title": "Destructive Action",
+      "description": "Communicates permanent or dangerous operations.",
+      "codeSnippet": "FrogButton(\n    variant = FrogButtonVariant.Destructive,\n    onClick = { }\n) {\n    Text(\"Delete repository\")\n}"
+    },
+    {
+      "id": "loading",
+      "title": "Loading State",
+      "description": "Displays inline circular progress indicator and pauses user interaction.",
+      "codeSnippet": "FrogButton(\n    variant = FrogButtonVariant.Primary,\n    loading = true,\n    onClick = { }\n) {\n    Text(\"Saving...\")\n}"
+    }
+  ]
+}
