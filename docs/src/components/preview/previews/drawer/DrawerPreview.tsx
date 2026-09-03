@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { ComponentPreviewProps } from '../../types';
+import { PreviewCheckbox } from '../../PreviewCheckbox';
 
 export const DrawerPreview: React.FC<ComponentPreviewProps> = ({ isDark }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -371,25 +372,19 @@ export const DrawerPreview: React.FC<ComponentPreviewProps> = ({ isDark }) => {
         )}
 
         {/* Configuration Checkboxes */}
-        <div className="absolute bottom-3 right-3 flex items-center gap-3 text-xs z-10 bg-zinc-900/90 text-zinc-200 backdrop-blur-xs px-2.5 py-1.5 rounded-lg border border-zinc-800 shadow-md">
-          <label className="flex items-center gap-1.5 cursor-pointer select-none group">
-            <input
-              type="checkbox"
-              checked={hasHeader}
-              onChange={e => setHasHeader(e.target.checked)}
-              className="rounded border-zinc-700 bg-zinc-800 text-zinc-100 focus:ring-0"
-            />
-            <span className="text-[11px] font-medium">Header</span>
-          </label>
-          <label className="flex items-center gap-1.5 cursor-pointer select-none group">
-            <input
-              type="checkbox"
-              checked={hasFooter}
-              onChange={e => setHasFooter(e.target.checked)}
-              className="rounded border-zinc-700 bg-zinc-800 text-zinc-100 focus:ring-0"
-            />
-            <span className="text-[11px] font-medium">Footer</span>
-          </label>
+        <div className="absolute bottom-3 right-3 flex items-center gap-3 text-xs z-10">
+          <PreviewCheckbox
+            label="Header"
+            checked={hasHeader}
+            onChange={setHasHeader}
+            isDark={isDark}
+          />
+          <PreviewCheckbox
+            label="Footer"
+            checked={hasFooter}
+            onChange={setHasFooter}
+            isDark={isDark}
+          />
         </div>
       </div>
     </div>
