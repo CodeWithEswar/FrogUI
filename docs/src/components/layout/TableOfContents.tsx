@@ -38,26 +38,32 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
   if (items.length === 0) return null;
 
   return (
-    <div className="w-56 shrink-0 hidden xl:block sticky top-14 self-start h-[calc(100vh-3.5rem)] overflow-y-auto pl-6 py-6 text-xs">
+    <aside className="hidden xl:block fixed top-14 right-0 bottom-0 w-64 overflow-y-auto p-6 border-l border-zinc-200 dark:border-zinc-800/80 bg-zinc-50/90 dark:bg-zinc-950/90 backdrop-blur-sm text-xs z-30">
       <div className="space-y-3">
         <h4 className="font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 text-[11px]">
           On this page
         </h4>
         <nav aria-label="Table of contents">
-          <ul className="space-y-1 border-l border-zinc-200 dark:border-zinc-800">
+          <ul className="relative border-l border-zinc-200 dark:border-zinc-800 space-y-1">
             {items.map(item => {
               const isActive = activeId === item.id;
               return (
                 <li key={item.id} className="relative">
+                  {isActive && (
+                    <span
+                      className="absolute -left-[1px] top-1 bottom-1 w-[2px] bg-zinc-900 dark:bg-zinc-100 rounded-full"
+                      aria-hidden="true"
+                    />
+                  )}
                   <a
                     href={`#${item.id}`}
                     onClick={() => setActiveId(item.id)}
-                    className={`block transition-colors -ml-[2px] border-l-2 py-1 ${
-                      item.level === 3 ? 'pl-6' : 'pl-3.5'
+                    className={`block py-1 transition-colors ${
+                      item.level === 3 ? 'pl-6 text-[11px]' : 'pl-4 text-xs'
                     } ${
                       isActive
-                        ? 'border-zinc-900 dark:border-zinc-100 text-zinc-900 dark:text-zinc-100 font-medium'
-                        : 'border-transparent text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:border-zinc-300 dark:hover:border-zinc-700'
+                        ? 'text-zinc-900 dark:text-zinc-100 font-semibold'
+                        : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'
                     }`}
                   >
                     {item.title}
@@ -68,6 +74,6 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
           </ul>
         </nav>
       </div>
-    </div>
+    </aside>
   );
 };

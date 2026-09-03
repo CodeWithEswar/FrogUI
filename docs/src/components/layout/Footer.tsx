@@ -5,7 +5,7 @@ import { AppLogo } from '../ui/AppLogo';
 export const Footer: React.FC = () => {
   return (
     <footer className="mt-20 border-t border-zinc-200 dark:border-zinc-800/80 py-8 text-xs text-zinc-500 dark:text-zinc-400">
-      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="w-full px-4 sm:px-6 lg:px-8 xl:pr-72 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <AppLogo className="w-4 h-4" />
           <span className="font-semibold text-zinc-800 dark:text-zinc-200">FrogUI</span>
