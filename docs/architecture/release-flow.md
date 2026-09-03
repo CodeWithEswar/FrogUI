@@ -1,41 +1,45 @@
-# Release direction and quality gates
+# Release and CI flow
 
-Follow the [product contract](product-contract.md), [component lifecycle](component-lifecycle.md),
-and [Maven-first ADR](decisions/0004-maven-first-distribution.md).
+## Canonical version and publication boundary
 
-## Available local checks
+`gradle/release.properties` owns version, app version code, and publication status.
+The current version is an unpublished development snapshot. Gradle coordinates,
+Showcase version labels, and generated docs/registry release metadata read this source.
+Record actual releases and coordinate release notes, tag, registry, and Maven version
+before changing publication claims.
+
+Only foundation, theme, and components apply `frogui.publishing`. The convention
+produces release AAR, sources JAR, POM (license/developer/SCM), and module metadata
+in the ignored local `build/maven` repository:
 
 ```bash
-./gradlew verifyProductContract
-./gradlew testDebugUnitTest
-./gradlew lintDebug
-./gradlew assembleDebug
-./gradlew check
+./gradlew publishAllPublicationsToBuildRepository
 ```
 
-Contract checks cover declared dependency boundaries and registry validation/generation.
-Unit tests cover catalog behavior and Button variant/size parity. Android Lint and
-assembly are available through AGP. Report actual results; none alone certifies
-accessibility or API stability. Device/Compose semantics tests remain reference-component work.
+This is local staging, not Maven Central. App, registry tooling, testing, docs, and
+build logic are not published. A future signed release adds credentials from a
+secret store, Central upload, API/consumer verification, and release coordination.
+No signing keys, tokens, remote publishing repository, or source-install CLI is configured.
 
-## Gates still to establish
+## CI workflows
 
-There is no configured CI pipeline, binary API baseline/check, full JSON Schema
-validation, web documentation build, or Maven publication yet. Implement and run
-these before claiming an automated release pipeline. Publication also needs API
-compatibility review, component stability evidence, consumer installation verification,
-artifact metadata/license checks, and matching docs/Showcase versions.
+- `android-ci.yml`: library/build changes → schema/route checks, JVM tests, Lint,
+  debug assembly, Android test APK compilation. Device execution is a separate gate.
+- `registry-docs.yml`: relevant metadata/docs/source changes → Node tests and docs
+  catalog/search build, without Gradle or Android binaries.
+- `release.yml`: manual local Maven staging and artifact upload; no signing or
+  remote release. This does not publish a version to consumers.
 
-Maven is initial distribution. Intended artifact names include `frogui-foundation`
-and `frogui-components`; registry is for tooling, not required by component consumers.
-Coordinates become authoritative only after publication is configured and verified.
-Use local project dependencies today; a published `1.0.0` artifact is not implied.
-Source-install CLI remains optional post-v1 work.
+These workflow files are configured; local execution does not imply a successful
+GitHub-hosted run. Path filters avoid expensive Android jobs for prose-only edits.
 
-## Versioning
+Pages deployment is independent of Maven. See [docs flow](docs-flow.md) for the
+artifact/deploy boundary; actual web UI and deployment are deferred.
 
-Use semantic versioning: major for incompatible public changes, minor for compatible
-features, patch for fixes. Pre-1.0 breaking changes need explicit release notes.
-After 1.0, stable API removal requires a major release and at least one minor release
-of deprecation/migration guidance beforehand. Record experimental API changes clearly;
-an experimental component label never licenses silently breaking a stable API.
+## Release gates
+
+Before stable publication: complete component evidence, binary/API compatibility
+baseline, actual device/assistive-tech tests, consumer installation/POM checks,
+signed artifacts, matching release notes/tag/version, and an honest documentation
+surface. Pre-1.0 breaking changes need migration notes. After 1.0, removing stable
+APIs requires a major release and at least one minor release of deprecation guidance.

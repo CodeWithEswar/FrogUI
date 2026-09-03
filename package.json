@@ -1,0 +1,22 @@
+{
+  "name": "frogui-build-tools",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "registry:validate": "node tools/registry/generate.mjs --validate",
+    "registry:generate": "node tools/registry/generate.mjs --docs",
+    "docs:dev": "npm --prefix docs run dev",
+    "docs:typecheck": "npm --prefix docs run typecheck",
+    "docs:build": "node tools/registry/generate.mjs --docs && node docs/scripts/build.mjs && npm --prefix docs run build",
+    "icons:generate": "node tools/icons/generate.mjs",
+    "icons:check": "node tools/icons/generate.mjs --check",
+    "test": "node tools/icons/generate.mjs --check && node --test tools/registry/*.test.mjs docs/scripts/*.test.mjs"
+  },
+  "devDependencies": {
+    "@hugeicons/core-free-icons": "4.3.0",
+    "ajv": "8.20.0"
+  }
+}

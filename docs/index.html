@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/FrogUI/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FrogUI — Composable Components for Modern Android</title>
+    <meta name="description" content="Predictable, customizable, accessible, ownership-friendly Jetpack Compose component ecosystem for modern Android." />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="FrogUI — Composable Components for Modern Android" />
+    <meta property="og:description" content="Predictable, customizable, accessible, ownership-friendly Jetpack Compose component ecosystem." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://codewitheswar.github.io/FrogUI/" />
+    
+    <!-- Theme flash prevention -->
+    <script>
+      (function() {
+        var theme = localStorage.getItem('frogui-theme') || 'system';
+        var dark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (dark) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+
+    <!-- SPA Redirect Restore for GitHub Pages -->
+    <script>
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
+  </head>
+  <body class="bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 min-h-screen antialiased selection:bg-zinc-800 selection:text-zinc-100 dark:selection:bg-zinc-200 dark:selection:text-zinc-900">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

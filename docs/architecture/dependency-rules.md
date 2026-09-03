@@ -1,41 +1,38 @@
-# Dependency rules
+# Dependency rules and graph validation
 
-The [product contract](product-contract.md) and ADRs govern dependency decisions.
+The [product contract](product-contract.md) and [layering ADR](decisions/0005-layered-modules.md)
+govern this acyclic graph. Arrows below mean “depends on.”
 
-## Production boundaries
-
-| Module | Allowed project dependencies | Responsibility |
+| Module | Allowed production project edges | Allowed test project edges |
 | --- | --- | --- |
-| `:frogui-foundation` | None | Semantic tokens, theme, branding; internal Material bridge allowed. |
-| `:frogui-components` | Foundation | Reusable native controls; no app state or tooling runtime. |
-| `:frogui-registry` | None | Generated metadata, models, categories, search. |
-| `:app` | Foundation, components, registry | Native Showcase navigation, demo state, typed inspector. |
+| foundation | None | None |
+| theme | foundation | testing |
+| components | foundation, theme | registry, testing |
+| registry | None | None |
+| testing | theme | None |
+| app | foundation, theme, components, registry | those libraries plus testing |
 
-Components exposes foundation through `api` because public defaults and theme types
-use it. Registry is independent; components never requires it in production. The
-planned patterns layer does not exist and needs a boundary review when introduced.
+Actual components exposes theme with `api`; theme exposes foundation. Foundation's
+public token types use Compose Runtime, graphics/text, shapes, and animation core.
+It has no Material or Android Core dependency. Theme/components may use Material
+internally. Registry uses only Kotlin/Compose Runtime and the BOM. Testing is an
+internal Android test harness; it is not published or allowed in consumer release dependencies.
 
-Foundation/components may declare Kotlin, Compose, and AndroidX Core dependencies.
-Registry may declare Kotlin, Compose Runtime (annotations), and the Compose BOM.
-Its Android library packaging does not permit framework UI classes or composable
-factories in metadata models. Material is internal, not the public semantic API.
+`gradle/product-contract.gradle.kts` checks project edges on production and test
+`api`, `implementation`, `compileOnly`, and `runtimeOnly` configurations, including
+variant prefixes. It rejects unlisted modules/edges, raw file dependencies, direct
+external dependencies outside the allowed families, Material in foundation, and
+test UI dependencies in production libraries (except debug-only test manifests).
+Build-plugin tooling configurations are separate.
 
-Optional integrations need explicit requirements and separate boundaries. Simple
-components must not require the whole ecosystem or dictate consumers' app architecture.
+Run `./gradlew verifyArchitecture` for dependency checks plus registry/docs and
+typed Showcase route tests. Module `check` also depends on `verifyProductContract`.
+The graph cannot gain an upward edge or test-support runtime edge without changing
+this explicit policy. Review transitive dependencies and public types: this is
+not a transitive security audit, Kotlin semantic analyzer, or binary API validator.
 
-## Automated enforcement
-
-`gradle/product-contract.gradle.kts` checks declared dependencies during configuration.
-It rejects forbidden project edges, unreviewed modules, and direct external library
-dependencies outside the families above. It checks production `api`, `implementation`,
-`compileOnly`, and `runtimeOnly` configurations, including variant prefixes.
-Configurations whose names contain `test` are excluded. Build-plugin tooling is
-outside the runtime policy. Components uses registry only via `testImplementation`
-to compare public enums with metadata.
-
-`verifyProductContract` also validates/generates registry data; each module's `check`
-depends on it. This is a declaration check, not a transitive dependency audit,
-source-import linter, binary API checker, or side-effect detector. Review transitive
-and file dependencies, public types, and behavior when changing build configuration.
-New dependency families require documented justification and a policy update;
-significant architectural deviations require an ADR.
+Resource ownership: app owns branding/launcher/platform theme assets; components
+owns generic spoken-state strings; foundation owns token models; theme owns resolvers.
+There are no copied library component sources in app. Test utilities may depend on
+public themes but cannot hold production state. Optional integrations need their own
+reviewed module boundary; services/backends are not part of the core UI ecosystem.

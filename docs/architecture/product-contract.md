@@ -200,7 +200,8 @@ Foundational decisions: [Compose](decisions/0001-compose-only-v1.md),
 [Maven first](decisions/0004-maven-first-distribution.md).
 
 `./gradlew verifyProductContract` checks declared module/dependency boundaries and
-registry invariants and generates the Kotlin catalog. Module `check` tasks depend
+registry schemas, source references, and docs destinations. Android builds generate
+the Kotlin catalog; `verifyArchitecture` also checks typed native routes. Module `check` tasks depend
 on it. See [dependency rules](dependency-rules.md) and [registry contract](registry-contract.md)
 for exactly what is automated. API, device behavior, and scope decisions require
 review using the [component lifecycle](component-lifecycle.md) and PR template.
@@ -208,7 +209,7 @@ Automation does not certify those judgments.
 
 ## Current implementation
 
-Phase 02 establishes policy, not a component release. Button is **Experimental**;
+Phase 03 establishes layered modules and generated adapters, not a component release. Button is **Experimental**;
 IconButton exists in source but has no dedicated catalog/workbench contract yet.
 Unimplemented components belong on the roadmap, not in a Beta catalog. No component
 currently has evidence sufficient for Stable.
@@ -216,15 +217,17 @@ currently has evidence sufficient for Stable.
 Before Button becomes the reference for expansion, complete and record:
 
 - API review, customization review, and full metadata/API parity, including defaults.
-- Semantic interaction tests, manual TalkBack and keyboard focus evidence, localized
-  loading announcements, actual hit-target verification, and contrast measurements.
+- Semantic interaction tests, manual TalkBack and keyboard focus evidence,
+  actual hit-target verification, and contrast measurements. Generic loading strings
+  now belong to components resources; translation and announcement behavior need review.
 - Light/dark, increased font sizes, compact/medium/expanded behavior, and motion
   with system animation reduction/disablement. Existing scaling/indicator code is
   not proof. Move component-specific raw overlay colors to semantic tokens as needed.
 - Compose previews, complete accessibility/usage docs, and all discovery sections.
-- Binary API compatibility tooling, full JSON Schema validation, documentation build,
-  and publishing/CI infrastructure in their appropriate phases. These are not yet
-  configured as automated repository gates.
+- Binary API compatibility tooling, full public docs UI, screenshot baselines, and
+  signed Maven/Pages releases in their appropriate phases. Full schema validation,
+  docs catalog/search data builds, CI workflow definitions, and local Maven staging
+  now exist; they do not certify Stable or imply public publication.
 
 ## Contributor answer check
 
