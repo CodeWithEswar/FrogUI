@@ -55,7 +55,15 @@ fun ComponentDetailScreen(
     modifier: Modifier = Modifier
 ) {
     val component = remember(componentId) {
-        FrogComponentRegistry.findById(componentId) ?: FrogComponentRegistry.Button
+        FrogComponentRegistry.findById(componentId)
+    }
+
+    if (component == null) {
+        Column(modifier = modifier) {
+            Text("Component not found")
+            FrogButton(onClick = onBack) { Text("Back to components") }
+        }
+        return
     }
 
     val colors = FrogTheme.colors

@@ -1,79 +1,41 @@
-# FrogUI Architecture — Release Flow & Publishing Strategy
+# Release direction and quality gates
 
-## 1. Quality Gates & Validation Flow
+Follow the [product contract](product-contract.md), [component lifecycle](component-lifecycle.md),
+and [Maven-first ADR](decisions/0004-maven-first-distribution.md).
 
-Every proposed change in FrogUI must clear an automated multi-stage pipeline before merging into `main`:
+## Available local checks
 
-```text
-    Pull Request
-         │
-         ▼
-    Compilation (./gradlew assembleDebug)
-         │
-         ▼
-    Unit Tests (./gradlew testDebugUnitTest)
-         │
-         ▼
-    Static Analysis & Lint (./gradlew lintDebug)
-         │
-         ▼
-    Registry Schema Validation (JSON Schema conformance)
-         │
-         ▼
-    Binary API Check (Public surface compatibility)
-         │
-         ▼
-    Documentation Build (Static verification)
-         │
-         ▼
-       MERGE
+```bash
+./gradlew verifyProductContract
+./gradlew testDebugUnitTest
+./gradlew lintDebug
+./gradlew assembleDebug
+./gradlew check
 ```
 
----
+Contract checks cover declared dependency boundaries and registry validation/generation.
+Unit tests cover catalog behavior and Button variant/size parity. Android Lint and
+assembly are available through AGP. Report actual results; none alone certifies
+accessibility or API stability. Device/Compose semantics tests remain reference-component work.
 
-## 2. Versioning Strategy
+## Gates still to establish
 
-FrogUI adheres strictly to [Semantic Versioning 2.0.0](https://semver.org/):
+There is no configured CI pipeline, binary API baseline/check, full JSON Schema
+validation, web documentation build, or Maven publication yet. Implement and run
+these before claiming an automated release pipeline. Publication also needs API
+compatibility review, component stability evidence, consumer installation verification,
+artifact metadata/license checks, and matching docs/Showcase versions.
 
-```text
-MAJOR . MINOR . PATCH
-```
+Maven is initial distribution. Intended artifact names include `frogui-foundation`
+and `frogui-components`; registry is for tooling, not required by component consumers.
+Coordinates become authoritative only after publication is configured and verified.
+Use local project dependencies today; a published `1.0.0` artifact is not implied.
+Source-install CLI remains optional post-v1 work.
 
-* **MAJOR**: Incompatible API changes, removal of deprecated components, breaking theme changes.
-* **MINOR**: New components, new variants, backward-compatible feature additions.
-* **PATCH**: Bug fixes, internal performance improvements, documentation corrections.
+## Versioning
 
-### Pre-1.0.0 vs Post-1.0.0 Guarantees
-* **Pre-1.0.0 (`0.x.y`)**: Rapid evolution; breaking changes documented in release notes.
-* **Post-1.0.0 (`1.0.0+`)**: Stable components require a full deprecation cycle (minimum 1 minor version) before API removal.
-
----
-
-## 3. Publication Architecture
-
-When release pipelines are activated in future phases, FrogUI will publish clean Maven artifacts:
-
-```text
-io.github.codewitheswar:frogui-foundation:<version>
-io.github.codewitheswar:frogui-components:<version>
-io.github.codewitheswar:frogui-registry:<version>
-```
-
-Consumer setup will be straightforward:
-
-```kotlin
-// settings.gradle.kts
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-// build.gradle.kts
-dependencies {
-    implementation("io.github.codewitheswar:frogui-components:1.0.0")
-}
-```
-
-> **Note**: As dictated by Phase 01 principles, no artifacts are published during this foundational stage. All release coordinates remain local project references until publishing infrastructure is formally approved.
+Use semantic versioning: major for incompatible public changes, minor for compatible
+features, patch for fixes. Pre-1.0 breaking changes need explicit release notes.
+After 1.0, stable API removal requires a major release and at least one minor release
+of deprecation/migration guidance beforehand. Record experimental API changes clearly;
+an experimental component label never licenses silently breaking a stable API.

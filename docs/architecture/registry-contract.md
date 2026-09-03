@@ -1,90 +1,57 @@
-# FrogUI Architecture — Component Registry Contract
+# Component registry contract
 
-## 1. Registry Purpose
+See [ADR 0002](decisions/0002-registry-metadata.md) and the
+[product contract](product-contract.md). The registry describes UI; it never renders it.
 
-The FrogUI Component Registry serves as the single machine-readable contract linking Kotlin source code, the Android Showcase application, GitHub Pages documentation, and future automation tooling.
+## Ownership and identity
 
-```text
-    Kotlin Implementation (:frogui-components)
-                         │
-                         ▼
-        Canonical Registry (registry/components/*.json)
-                         │
-        ┌────────────────┼────────────────┐
-        ▼                ▼                ▼
-  Showcase App     GitHub Pages      Future Tooling
-  (Navigation &    Documentation     (CLI / Scaffolding)
-   Inspector)       (Web Pages)
-```
+`registry/components/<id>.json` owns shared identity, display name, short description,
+category, status, version, docs/source paths, variants, sizes, properties, and concise
+examples. `registry/index.json` holds taxonomy and ordered `{ id, file }` references;
+it does not copy descriptions/status. `component.schema.json` documents the shape.
 
-The registry describes components; it does not replace the authoritativeness of the Kotlin language compiler.
+Kotlin owns actual APIs and behavior. Long usage guidance, migration advice,
+rationale, and verification evidence belong in Markdown, not registry JSON.
 
----
+IDs are permanent, unique lowercase kebab-case. For Button, the record is
+`components/button.json`, public API `FrogButton`, native route/`docsPath`
+`components/button`, and web route `/components/button` (website adds deployment
+base path). A future `frogui add button` command is not currently available.
 
-## 2. Component Identification Rules
+`since` currently denotes the intended first release, not Maven publication. Preserve
+it as the actual introduction version when released. Catalog only implemented
+components with a workbench that renders that component. IconButton exists in source
+but awaits its own discovery contract; the current catalog contains Button.
 
-Every component must possess a permanent, unique identifier adhering to these rules:
+## Native generation
 
-1. **Format**: Lowercase, kebab-case (`^[a-z0-9]+(-[a-z0-9]+)*$`).
-2. **Stability**: Never changed once published.
-3. **No Generated UUIDs**: Must be readable and intuitive (`button`, `card`, `text-field`, `dialog`).
-4. **Universal Mapping**:
-   * Registry ID: `button`
-   * Android Package: `io.github.codewitheswar.frogui.components.button`
-   * Primary Composable: `FrogButton`
-   * Showcase Route: `components/button`
-   * Documentation URL: `/components/button`
-   * Future CLI Command: `frogui add button`
+`:frogui-registry:generateComponentRegistry` reads JSON at build time and writes
+`GeneratedComponentRegistry.kt` in ignored `build/generated/registry/kotlin`.
+`preBuild` depends on generation. `FrogComponentRegistry` exposes generated data
+records and search helpers. Edit JSON, never generated output.
 
----
+Inspector behavior remains typed Kotlin calling actual composables. No runtime JSON
+parsing, reflection invocation, or dynamic UI engine is introduced. Future web docs
+must read the same component records. Button unit tests compare generated variant/
+size lists to public Kotlin enum entries.
 
-## 3. Schema Structure & Core Fields
+## Existing checks and limits
 
-The registry enforces strict conformance against `registry/schema/component.schema.json`:
+Run `./gradlew verifyProductContract` and `./gradlew testDebugUnitTest`.
 
-```json
-{
-  "$schema": "../schema/component.schema.json",
-  "id": "button",
-  "name": "FrogButton",
-  "displayName": "Button",
-  "description": "A versatile, accessible action button with 5 visual variants, 3 sizes, tactile press physics, loading state, and slot APIs.",
-  "category": "actions",
-  "status": "stable",
-  "since": "1.0.0",
-  "docs": "/components/button",
-  "source": "frogui-components/src/main/java/io/github/codewitheswar/frogui/components/button/FrogButton.kt",
-  "variants": ["Primary", "Secondary", "Outline", "Ghost", "Destructive"],
-  "sizes": ["Small", "Medium", "Large"],
-  "accessibility": {
-    "role": "Role.Button",
-    "minTouchTarget": "48dp",
-    "talkBackNotes": "Provides Role.Button; declares stateDescription = 'Loading' during background operations."
-  },
-  "properties": [...],
-  "examples": [...]
-}
-```
+Generation checks JSON parsing, required projected fields, unique IDs, index/file
+coverage, canonical IDs/paths, source existence and named Kotlin function, allowed
+categories/statuses, version shape, docs routes, unique properties/examples and
+variant/size entries. Repository references cannot escape the checkout.
 
----
+Stable records additionally require properties, examples, accessibility metadata,
+and an existing nonempty `docs/components/<id>-review.md` evidence record. Its
+existence is a prerequisite, not certification; reviewers assess completeness.
 
-## 4. Prevention of Component Drift
+Full draft-07 validation is not implemented by this generator. Function-name lookup
+is a limited source sanity check, not Kotlin signature parsing. Parameter/default
+parity, Showcase destinations, and behavior need review. Binary API checks and a
+website build are future gates; do not claim they passed CI before implementation.
 
-The primary engineering objective of the registry is the total elimination of component drift:
-
-* **Variant Drift**: The library must never support 5 variants while documentation lists 6 and the showcase displays 4.
-* **Property Renaming**: When a Kotlin parameter name changes, automated CI checks will flag any mismatch with the registry schema.
-* **Orphan Components**: Components removed or deprecated from Kotlin source must have their registry status updated accordingly.
-
----
-
-## 5. Automated Validation Rules
-
-The following automated rules are enforced by unit tests and CI pipelines:
-
-1. **Schema Compliance**: Every component JSON must pass draft-07 validation against `component.schema.json`.
-2. **ID Uniqueness**: No two components may share an ID in `registry/index.json`.
-3. **Source Verification**: The `source` file path must exist on disk in the repository.
-4. **Category Conformance**: Must match one of the 7 official categories: `actions`, `inputs`, `data-display`, `feedback`, `navigation`, `overlays`, `layout`.
-5. **Status Conformance**: Must match one of the 4 lifecycle statuses: `experimental`, `beta`, `stable`, `deprecated`.
-6. **Non-Empty Contracts**: Stable components must provide complete `properties` and `examples` arrays.
+Promotion follows the [lifecycle evidence requirements](component-lifecycle.md).
+Showcase status is generated from JSON and cannot be independently promoted.

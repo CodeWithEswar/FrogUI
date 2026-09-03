@@ -1,66 +1,41 @@
-# FrogUI Architecture — Dependency Rules & Isolation Guarantees
+# Dependency rules
 
-## 1. Dependency Graph
+The [product contract](product-contract.md) and ADRs govern dependency decisions.
 
-FrogUI enforces a strict acyclic dependency direction. Lower layers have zero visibility into higher layers:
+## Production boundaries
 
-```text
-    ┌──────────────────────┐
-    │  frogui-foundation   │  <-- Design tokens, themes, branding
-    └──────────────────────┘
-               ▲
-               │ (implementation)
-    ┌──────────────────────┐
-    │  frogui-components   │  <-- Pure Compose UI components
-    └──────────────────────┘
-               ▲
-               │ (implementation)
-    ┌──────────────────────┐
-    │   frogui-patterns    │  <-- Higher-level compositions (planned)
-    └──────────────────────┘
-               ▲
-               │ (implementation)
-    ┌──────────────────────┐
-    │         app          │  <-- Showcase application & workbench
-    └──────────────────────┘
-```
+| Module | Allowed project dependencies | Responsibility |
+| --- | --- | --- |
+| `:frogui-foundation` | None | Semantic tokens, theme, branding; internal Material bridge allowed. |
+| `:frogui-components` | Foundation | Reusable native controls; no app state or tooling runtime. |
+| `:frogui-registry` | None | Generated metadata, models, categories, search. |
+| `:app` | Foundation, components, registry | Native Showcase navigation, demo state, typed inspector. |
 
-The registry module (`:frogui-registry`) provides metadata models and search helpers:
-* It depends only on basic Compose primitives (e.g. `@Immutable`).
-* It does not introduce runtime coupling between components.
+Components exposes foundation through `api` because public defaults and theme types
+use it. Registry is independent; components never requires it in production. The
+planned patterns layer does not exist and needs a boundary review when introduced.
 
----
+Foundation/components may declare Kotlin, Compose, and AndroidX Core dependencies.
+Registry may declare Kotlin, Compose Runtime (annotations), and the Compose BOM.
+Its Android library packaging does not permit framework UI classes or composable
+factories in metadata models. Material is internal, not the public semantic API.
 
-## 2. Forbidden Edges
+Optional integrations need explicit requirements and separate boundaries. Simple
+components must not require the whole ecosystem or dictate consumers' app architecture.
 
-The following dependency directions are strictly forbidden by architectural policy:
+## Automated enforcement
 
-```text
-❌ foundation  ──► components    (Foundation must remain component-agnostic)
-❌ components  ──► app           (Library must never depend on the showcase)
-❌ foundation  ──► app           (Foundation must never depend on the showcase)
-❌ components  ──► docs          (Library has no knowledge of web documentation)
-❌ library     ──► showcase      (No cyclic or reverse coupling allowed)
-```
+`gradle/product-contract.gradle.kts` checks declared dependencies during configuration.
+It rejects forbidden project edges, unreviewed modules, and direct external library
+dependencies outside the families above. It checks production `api`, `implementation`,
+`compileOnly`, and `runtimeOnly` configurations, including variant prefixes.
+Configurations whose names contain `test` are excluded. Build-plugin tooling is
+outside the runtime policy. Components uses registry only via `testImplementation`
+to compare public enums with metadata.
 
-Any pull request introducing circular or upward dependencies will be rejected by CI.
-
----
-
-## 3. Module Boundaries & Responsibilities
-
-### `:frogui-foundation`
-* **Allowed**: Kotlin stdlib, Compose UI, Compose Runtime, Compose Graphics, VectorDrawable XMLs.
-* **Forbidden**: Components (`FrogButton`, `FrogCard`), navigation libraries, network libraries.
-
-### `:frogui-components`
-* **Allowed**: `:frogui-foundation`, Compose UI, Compose Material3 (for accessibility primitives), Compose Foundation.
-* **Forbidden**: Showcase state (`ButtonDemoState`), Showcase UI (`ComponentPreviewCanvas`), navigation controllers.
-
-### `:frogui-registry`
-* **Allowed**: Kotlin stdlib, Compose Runtime (`@Immutable`).
-* **Forbidden**: Android framework classes, UI layout composables, showcase state.
-
-### `:app`
-* **Allowed**: `:frogui-foundation`, `:frogui-components`, `:frogui-registry`, Compose Material3, Navigation Compose, Activity Compose.
-* **Role**: Orchestrates screens, hosts the interactive workbench, and exercises library components on real devices.
+`verifyProductContract` also validates/generates registry data; each module's `check`
+depends on it. This is a declaration check, not a transitive dependency audit,
+source-import linter, binary API checker, or side-effect detector. Review transitive
+and file dependencies, public types, and behavior when changing build configuration.
+New dependency families require documented justification and a policy update;
+significant architectural deviations require an ADR.

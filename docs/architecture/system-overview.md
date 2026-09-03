@@ -1,133 +1,51 @@
-# FrogUI Architecture — System Overview
+# FrogUI system overview
 
-## 1. Executive Summary
+FrogUI is an open-source native Android component ecosystem built with Kotlin,
+Jetpack Compose, AndroidX, and Gradle Kotlin DSL. Read the binding
+[product contract](product-contract.md) before making API or scope decisions.
 
-FrogUI is an open-source, production-grade Android UI ecosystem and developer platform. It is engineered to solve a systemic problem in mobile component ecosystems: **component drift**, where the published library, the showcase demo app, the public documentation, and machine tooling gradually diverge.
+## Product surfaces
 
-FrogUI solves this by enforcing an uncompromising architecture:
+| Surface | Owns | Boundary |
+| --- | --- | --- |
+| Foundation/components | Native APIs, tokens, rendering, interactions, semantics | No Showcase, registry, website, or consumer app architecture dependency. |
+| Android Showcase | Discovery, typed inspector, actual component previews | Canonical native interaction; independently selectable preview theme. |
+| Registry JSON / native registry | Shared metadata / generated data projection | No rendering engine or competing metadata authoring. |
+| Documentation | Architecture and future usage guidance | Future website uses registry metadata and labeled representations. |
 
-> **One component has one canonical implementation, one public API contract, one registry identity, one native Showcase destination, and one documentation destination.**
+The website is planned. The repository currently contains architecture Markdown,
+not a configured GitHub Pages build or browser Compose runtime.
 
----
-
-## 2. Product Surfaces
-
-FrogUI consists of four primary product surfaces coordinated by a single release and validation system:
-
-```text
-                                  FrogUI
-                                     │
-      ┌──────────────────┬───────────┴───────────┬──────────────────┐
-      ▼                  ▼                       ▼                  ▼
- Android Library    Showcase App        Component Registry      Documentation
-(:frogui-components)   (:app)               (registry/)            (docs/)
- Canonical runtime   Real-device dogfood    Machine-readable     GitHub Pages
-   implementation    & component workbench      contract       public developer guide
-```
-
-### 2.1 The Android Library (`:frogui-foundation`, `:frogui-components`)
-* **Role**: The single source of truth for runtime behavior, visual rendering, accessibility semantics, and public Kotlin APIs.
-* **Guarantee**: Consumed by external Android applications. Must have zero dependency on showcase-specific state, demo hacks, or tooling.
-
-### 2.2 The Native Showcase Application (`:app`)
-* **Role**: The component laboratory and dogfooding application running on real Android devices.
-* **Guarantee**: Renders the **exact production components** imported from the library modules. Never creates visual mockup duplicates or alternative demo components.
-
-### 2.3 The Component Registry (`registry/`, `:frogui-registry`)
-* **Role**: The machine-readable bridge connecting Kotlin runtime code to documentation, showcase discovery, and future CLI tooling.
-* **Guarantee**: Describes the component's public contract, properties, examples, and taxonomy. Never contains alternative runtime implementations.
-
-### 2.4 The Documentation Website (`docs/`)
-* **Role**: The public GitHub Pages documentation hosted at `https://codewitheswar.github.io/FrogUI/`.
-* **Guarantee**: Directly reflects registry metadata and Kotlin source contracts without manual divergence.
-
----
-
-## 3. Canonical Ownership Hierarchy
-
-The ecosystem maintains a strict top-down ownership model:
+## Repository map
 
 ```text
-    REAL IMPLEMENTATION
-    (:frogui-components)
-             │
-             ▼
-     PUBLIC API CONTRACT
-     (Kotlin Function / Types)
-             │
-             ▼
-     COMPONENT REGISTRY
-     (registry/*.json & :frogui-registry)
-             │
-     ┌───────┴───────┐
-     ▼               ▼
-SHOWCASE APP   DOCUMENTATION
-   (:app)         (docs/)
-     │               │
-     └───────┬───────┘
-             ▼
-      FUTURE TOOLING
+frogui-foundation/   Semantic tokens, theme, branding
+frogui-components/   FrogButton and FrogIconButton source; depends on foundation
+frogui-registry/     Data models, generated catalog, search; Compose Runtime annotations
+app/                Native Showcase, preview canvas, inspector, screens
+registry/           Canonical component JSON, index references, schema
+docs/architecture/  Product contract, lifecycle, boundaries, registry/release policy, ADRs
+gradle/             Version catalog, wrapper, product-contract checks
 ```
 
-The relationship is never inverted:
-* The runtime library never depends on showcase UI.
-* The runtime library never depends on web documentation.
-* The showcase imports and exercises the library.
-* Documentation presents the library.
+Button is the Experimental reference under development. IconButton awaits its own
+catalog/workbench contract. Other components are roadmap items, not implemented Beta
+controls. The catalog no longer advertises them as usable components.
 
----
+Kotlin defines behavior and public signatures. Registry describes the contract and
+generates native discovery data; future docs consume the same metadata. Showcase calls
+actual composables. Native behavior wins when a web representation differs.
 
-## 4. Repository Monorepo Layout
+Components depends on foundation. App depends on foundation, components, and registry.
+Registry is independent of the UI library. A patterns module is future work.
+See [dependency rules](dependency-rules.md) for enforcement and limitations.
 
-```text
-FrogUI/
-│
-├── app/                        # Native Showcase Application & Component Laboratory
-│   ├── src/main/java/.../
-│   │   ├── navigation/         # Adaptive phone/tablet navigation shell
-│   │   ├── showcase/canvas/    # ComponentPreviewCanvas with isolated theme switching
-│   │   ├── showcase/inspector/ # Real-time PropertyInspector & code snippet generator
-│   │   └── showcase/screens/   # Home, Components, Detail Workbench, Foundation, About
-│   └── src/test/.../           # Showcase unit tests
-│
-├── frogui-foundation/          # Design-system Foundation Tokens
-│   ├── src/main/java/.../
-│   │   ├── color/              # Strict monochrome Zinc palette & semantic colors
-│   │   ├── typography/         # Accessible typography scale
-│   │   ├── spacing/            # Intentional spatial rhythm tokens
-│   │   ├── shape/              # Structural corner radius scale
-│   │   ├── elevation/          # Restrained tonal elevation tokens
-│   │   ├── motion/             # Physics-based spring animations
-│   │   ├── branding/           # Vector-first cubic Bézier brand composables
-│   │   └── theme/              # FrogTheme and CompositionLocals
-│   └── src/test/.../           # Foundation unit tests
-│
-├── frogui-components/          # Pure Jetpack Compose UI Components
-│   ├── src/main/java/.../
-│   │   └── button/             # FrogButton & FrogIconButton reference implementation
-│   └── src/test/.../           # Component sizing, state, and accessibility unit tests
-│
-├── frogui-registry/            # Kotlin Registry Contracts & Validation
-│   ├── src/main/java/.../
-│   │   └── registry/           # FrogComponentMetadata, properties, search, and categories
-│   └── src/test/.../           # Registry integrity & schema conformance tests
-│
-├── registry/                   # Machine-Readable Public Registry Source
-│   ├── schema/
-│   │   └── component.schema.json # JSON Schema (draft-07) specification
-│   ├── components/
-│   │   └── button.json         # Canonical metadata for FrogButton
-│   └── index.json              # Public registry manifest & taxonomy
-│
-├── docs/                       # Public Documentation Source
-│   └── architecture/           # Enforceable architecture specifications
-│
-├── gradle/                     # Gradle Build Configuration
-│   └── libs.versions.toml      # Centralized Version Catalog
-│
-├── .editorconfig               # Repository-wide code formatting standard
-├── CONTRIBUTING.md             # Contribution guidelines & 15-step workflow
-├── CODE_OF_CONDUCT.md          # Contributor Covenant v2.1
-├── SECURITY.md                 # Vulnerability disclosure & SLA policy
-└── README.md                   # Truthful public repository overview
-```
+## Architecture decisions
+
+- [0001: Compose-only v1](decisions/0001-compose-only-v1.md)
+- [0002: Metadata registry](decisions/0002-registry-metadata.md)
+- [0003: Canonical native Showcase](decisions/0003-native-showcase.md)
+- [0004: Maven-first distribution](decisions/0004-maven-first-distribution.md)
+
+Use the [component lifecycle](component-lifecycle.md), [registry contract](registry-contract.md),
+and [release flow](release-flow.md) for implementation and release reviews.

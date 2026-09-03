@@ -34,15 +34,20 @@ FrogUI adopts a **restrained, modern monochrome visual philosophy** tailored spe
 
 ## Features
 
-* **Own Your UI**: Full control over component source and styling without proprietary lock-in.
+* **Own Your UI**: Caller-owned state, native Compose slots and modifiers, and semantic theme customization.
 * **Zero Mascots**: A minimal geometric software-product mark engineered for serious developer tooling.
-* **Accessibility by Default**: Strict TalkBack semantics, `Role.Image` accessibility, scalable typography, and touch target compliance.
+* **Accessibility Contract**: Required semantics, font scaling, contrast, focus, and touch-target verification before a component becomes stable.
 * **Edge-to-Edge Native**: Full modern Android edge-to-edge support with `WindowInsets` awareness.
 * **Responsive Layouts**: Designed for adaptive screens from 360dp compact phones to expanded tablet multi-column inspector layouts.
 
 ---
 
 ## Quick Start
+
+FrogUI is pre-release. Button is **Experimental** and is being completed as the
+architectural reference. IconButton exists in source but awaits a dedicated discovery
+contract. Other components remain roadmap items. No stable component certification
+or published Maven artifact is implied by these examples; use local project dependencies.
 
 ### 1. Theme Configuration
 
@@ -114,13 +119,20 @@ FrogUiMark(
 
 ## Architecture
 
-FrogUI is structured into decoupled, production-grade Android modules:
+The [product contract](docs/architecture/product-contract.md) defines FrogUI's
+engineering principles and v1 boundaries. Read it before designing APIs or adding
+scope. The [four foundational ADRs](docs/architecture/system-overview.md#architecture-decisions)
+cover Compose-only UI, metadata-only registry, canonical native Showcase, and Maven-first
+distribution. See the [component lifecycle](docs/architecture/component-lifecycle.md)
+for the evidence required to mark a component Stable.
+
+FrogUI is structured into separate Android modules:
 
 ```text
 FrogUI/
 ├── frogui-foundation/          # Design tokens (Colors, Typography, Spacing, Shapes, Motion, Theme)
 ├── frogui-components/          # Pure Compose UI components (FrogButton, FrogIconButton, etc.)
-├── frogui-registry/            # Metadata, documentation records, search, and categorization
+├── frogui-registry/            # Native metadata generated from registry JSON, search, categories
 ├── app/                        # Adaptive showcase application & interactive workbench
 │   └── src/main/java/.../
 │       ├── navigation/         # Adaptive phone/tablet navigation shell
@@ -137,9 +149,9 @@ FrogUI/
 - [x] **Brand & Vector System** (`frogui_mark`, `frogui_logo`, adaptive & themed icons, splash)
 - [x] **Design Tokens** (Zinc monochrome color palette, semantic typography, elevation, spacing, motion)
 - [x] **Modular Architecture** (`:frogui-foundation`, `:frogui-components`, `:frogui-registry`, `:app`)
-- [x] **Core Actions** (`FrogButton` with 5 variants & 3 sizes, `FrogIconButton`, tactile motion, accessible semantics)
+- [ ] **Stable Reference Button** (existing Button/IconButton source; API, device accessibility, motion, previews, and documentation evidence still required)
 - [x] **Component Playground & Interactive Inspector** (Independent theme canvas, responsive width presets, live code generator)
-- [x] **Component Registry & Discovery** (Category filtering, search, metadata contracts)
+- [x] **Canonical Registry & Discovery** (Generated native metadata, category filtering, search, contract checks)
 - [ ] **Inputs** (`FrogTextField`, `FrogCheckbox`, `FrogRadio`, `FrogSwitch`)
 - [ ] **Data Display** (`FrogCard`, `FrogBadge`, `FrogAvatar`, `FrogDivider`)
 - [ ] **Overlays & Feedback** (`FrogDialog`, `FrogBottomSheet`, `FrogAlert`, `FrogTooltip`)
@@ -150,10 +162,12 @@ FrogUI/
 
 ## Contributing
 
-Contributions are welcome! Please follow conventional commit guidelines and ensure all Gradle checks pass:
+Read [CONTRIBUTING.md](CONTRIBUTING.md) and use the product-contract PR checklist.
+Run the relevant available checks and report their actual results:
 
 ```bash
 ./gradlew check
+./gradlew verifyProductContract
 ./gradlew lintDebug
 ./gradlew testDebugUnitTest
 ```

@@ -1,53 +1,59 @@
-# FrogUI Architecture — Component Lifecycle & Delivery Workflow
+# Component lifecycle and delivery
 
-## 1. Lifecycle Overview
+The [product contract](product-contract.md) defines quality. Prove FrogButton as the
+reference before expanding the catalog; a composable alone is not a complete product.
 
-In FrogUI, implementing a Composable function is only the initial step of engineering a component. A component is not considered complete until it is integrated into the design foundation, verified for accessibility, registered in the machine-readable catalog, exposed in the Showcase workbench, documented, and tested.
+## Status
 
----
+| Status | Meaning | Gate |
+| --- | --- | --- |
+| Experimental | Implementation exists; API/behavior still developing. | Honest known gaps and canonical metadata for cataloged components. |
+| Beta | Feature-complete contract under consumer validation. | Reviewed draft API, tokens/states, tests, workbench, docs; stabilization gaps explicit. |
+| Stable | All applicable requirements below have reviewed evidence. | API review plus device, test, discovery, and documentation evidence. |
+| Deprecated | Maintained during migration before removal. | Replacement/migration guidance, annotations, release policy. |
 
-## 2. Canonical Lifecycle Statuses
+Roadmap entries have no implementation status. Button is Experimental. No current
+component has evidence sufficient for Stable. Version strings do not prove maturity.
 
-Every component declares a lifecycle status in both Kotlin (`FrogComponentStatus`) and the machine-readable registry (`status`):
+## Delivery workflow
 
-```text
-┌────────────────┐      ┌────────────┐      ┌────────────┐      ┌──────────────┐
-│  Experimental  │ ───► │    Beta    │ ───► │   Stable   │ ───► │  Deprecated  │
-└────────────────┘      └────────────┘      └────────────┘      └──────────────┘
-```
+1. Define purpose, realistic scenarios, and v1 scope.
+2. Review values/callbacks, slots, Modifier placement, semantic types, escape hatches.
+3. Implement native composition with small, explicit dependencies.
+4. Integrate FrogTheme tokens, light/dark, and local overrides.
+5. Define labels, roles, states, selection/errors, focus, and usable touch bounds.
+6. Implement applicable enabled, disabled, pressed, focused, loading/error states.
+7. Add useful Compose previews for themes, major states, and scaling risks.
+8. Test interactions, ownership, semantics, and relevant layout behavior.
+9. Author registry JSON, generate native data, compare capabilities with public APIs.
+10. Build the actual component's Showcase destination with isolated preview theme.
+11. Connect typed inspector controls and adaptive preview/property composition.
+12. Add realistic examples and accurate usage code.
+13. Document what, why, when, how, customization, states, and accessibility.
+14. Run available checks and review API/metadata/docs parity; record manual checks.
+15. Promote only to the maturity demonstrated by evidence and maintainer review.
 
-| Status | Definition | API Stability | Quality Gate |
-| :--- | :--- | :--- | :--- |
-| **Experimental** | Active exploration or proof of concept. | May break without deprecation. | Basic layout compiles; initial API drafted. |
-| **Beta** | Feature-complete and under real-world dogfooding. | Minor changes require migration notice. | Unit tests pass; full token integration; Showcase screen active. |
-| **Stable** | Production-ready reference component. | Strict semantic versioning compatibility. | 100% accessible (48dp touch target, TalkBack); two-pane workbench; complete docs; lint clean. |
-| **Deprecated** | Scheduled for removal in future major release. | Preserved with `@Deprecated` annotations. | Replacement component specified in registry and documentation. |
+## Stable evidence record
 
----
+Create `docs/components/<id>-review.md` and reference it with `stabilityReview` in
+JSON. Include API revision/commit, reviewer, date, test commands/results, Android/
+device or emulator configuration, and evidence links. Each row needs results and
+evidence or a justified not-applicable decision. Missing evidence blocks Stable.
 
-## 3. The 15-Step Component Delivery Workflow
+| Requirement | Evidence |
+| --- | --- |
+| Public API | Necessity/naming, Compose conventions, slots, ownership, customization, Material leakage, dependencies, compatibility. |
+| Theme | Light/dark and custom/nested themes across major variants/states; measured contrast. |
+| Font scaling | Default/increased system fonts including 2×, long/localized content, no clipped/auto-shrunk essential text. |
+| Accessibility | TalkBack role/label/state/selection/error announcements, no duplication, actual touch/focus bounds, localized spoken strings. |
+| Interaction | Click/toggle/input contracts, caller-owned state, disabled/loading behavior, visible press/focus feedback. |
+| Focus/native integration | Keyboard/directional focus; system back, IME, insets, dismissal where relevant. |
+| Adaptive | Compact/medium/expanded and resizing, or justified natural primitive measurement. |
+| Motion | Purposeful transitions, reduced/disabled motion with clear feedback. |
+| Tests/previews | Behavior/semantics tests and useful theme/state/font previews; enum tests alone are insufficient. |
+| Showcase | Actual component; Live Preview, Variants, Sizes, States, Interactive Props, Examples, API, Accessibility, Usage; isolated preview theme. |
+| Registry | Accurate identity, category, status, version, routes, variants/sizes/properties. |
+| Documentation | Real usage/customization/state/accessibility guidance, honest web representations, migration guidance where needed. |
 
-To prevent architectural drift and maintain uniform quality, every component must strictly follow these 15 steps:
-
-### Phase A: Architecture & Design
-1. **Define Component Purpose**: Document user scenarios, developer pain points, and why the component belongs in FrogUI.
-2. **Design Public API Contract**: Define clear function signatures, default arguments, and `@Composable` slot parameters (`leadingIcon`, `trailingIcon`, `content`).
-
-### Phase B: Implementation & Foundation Integration
-3. **Implement Pure Composable**: Write the component in `:frogui-components`.
-4. **Integrate Foundation Tokens**: Bind colors, typography, spacing, shapes, and motion exclusively through `FrogTheme`. Avoid hardcoded DP values or raw hex colors.
-5. **Implement Accessibility Semantics**: Ensure 48dp minimum touch target boundaries (`FrogButtonDefaults.MinTouchTarget`), `Role` declarations, TalkBack announcements, and `stateDescription`.
-6. **Implement Visual States**: Handle enabled, disabled, pressed, focused, and loading states cleanly.
-7. **Create Compose Previews**: Add `@Preview` functions covering light and dark themes, multi-locale text, and font scale variations.
-
-### Phase C: Verification & Tooling Integration
-8. **Write Unit Tests**: Verify size measurements, variant counts, defaults, and interaction contracts in `:frogui-components/src/test`.
-9. **Register Canonical Metadata**: Add entry in `registry/components/<id>.json` and register in `FrogComponentRegistry.kt` with matching properties, examples, and taxonomy.
-10. **Build Native Showcase Screen**: Implement responsive preview in `:app` using `ComponentPreviewCanvas`.
-11. **Add Property Inspector Controls**: Connect interactive toggles for variant, size, enabled, loading, and slot states.
-12. **Add Realistic Preset Examples**: Provide tested usage patterns representing real production scenarios.
-
-### Phase D: Documentation & Release
-13. **Generate Public Documentation**: Document usage, parameter tables, and accessibility guidance in `docs/`.
-14. **Validate API & Metadata Consistency**: Run automated checks verifying zero drift between Kotlin source, registry JSON, and documentation.
-15. **Promote Component Status**: Move component status from `Experimental` to `Beta` or `Stable` via PR review.
+Re-evaluate affected evidence after API/behavior changes. Keep incomplete components
+Experimental or Beta instead of waiving requirements to increase a stable count.
