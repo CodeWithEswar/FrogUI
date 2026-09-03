@@ -1,0 +1,52 @@
+name: Documentation CI
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'registry/**'
+      - 'frogui-*/**'
+      - 'tools/**'
+      - '.github/workflows/docs-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install root dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install docs dependencies
+        run: npm --prefix docs ci --ignore-scripts
+
+      - name: Validate registry schemas and routes
+        run: npm run registry:validate
+
+      - name: Run registry and docs tests
+        run: npm test
+
+      - name: Typecheck documentation TypeScript
+        run: npm run docs:typecheck
+
+      - name: Build static documentation bundle
+        run: npm run docs:build
+
+      - name: Validate static output and base-path
+        run: |
+          test -f docs/dist/index.html || { echo "Missing index.html"; exit 1; }
+          test -f docs/dist/404.html || { echo "Missing 404.html"; exit 1; }
+          grep -q "/FrogUI/" docs/dist/index.html || { echo "Missing /FrogUI/ base path in index.html"; exit 1; }
+          test -f docs/dist/catalog.json || { echo "Missing catalog.json"; exit 1; }
+          test -f docs/dist/search.json || { echo "Missing search.json"; exit 1; }

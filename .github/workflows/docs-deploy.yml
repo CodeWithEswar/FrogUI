@@ -1,0 +1,67 @@
+name: Deploy Documentation to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'registry/**'
+      - 'frogui-*/**'
+      - 'tools/**'
+      - '.github/workflows/docs-deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install root dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install docs dependencies
+        run: npm --prefix docs ci --ignore-scripts
+
+      - name: Validate registry metadata
+        run: npm run registry:validate
+
+      - name: Build documentation platform
+        run: npm run docs:build
+
+      - name: Verify build artifact integrity
+        run: |
+          test -f docs/dist/index.html || exit 1
+          test -f docs/dist/404.html || exit 1
+          grep -q "/FrogUI/" docs/dist/index.html || exit 1
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs/dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

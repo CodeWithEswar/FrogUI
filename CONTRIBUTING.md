@@ -1,7 +1,7 @@
 # Contributing to FrogUI
 
 Start with the [product contract](docs/architecture/product-contract.md) and
-[architecture decisions](docs/architecture/system-overview.md#architecture-decisions).
+[architecture decisions](docs/architecture/system-overview.md#flows-and-decisions).
 Provide strong defaults without taking ownership away from application developers.
 
 ## Before implementing
@@ -39,6 +39,10 @@ Use the checked-in wrapper and version catalog. The daemon requests JDK 21
 with minimum SDK 24. Follow build files when installing tooling.
 
 ```bash
+npm ci --ignore-scripts
+npm test
+npm run docs:build
+./gradlew verifyArchitecture
 ./gradlew verifyProductContract
 ./gradlew testDebugUnitTest
 ./gradlew lintDebug
@@ -48,8 +52,16 @@ with minimum SDK 24. Follow build files when installing tooling.
 
 Use `gradlew.bat` on Windows. Generation runs before registry compilation; module
 `check` tasks run contract verification. See the [registry contract](docs/architecture/registry-contract.md)
-for exact coverage and manual requirements. CI, binary API checks, full schema
-validation, docs building, and publication are not configured yet; do not claim they ran.
+for exact coverage and manual requirements. Node 22+ is a build-time requirement
+(CI uses the version in `.node-version`). CI workflows, full schema validation,
+docs data builds, and local Maven staging are configured. Binary API baselines,
+web UI/Pages deployment, and signed remote publication remain deferred. Report local
+and hosted results separately; a workflow file is not proof of a hosted run.
+
+Only foundation, theme, and components are publishable. `frogui-testing` belongs on
+test dependencies only. See the [migration notes](docs/architecture/decisions/0005-layered-modules.md)
+for the pre-release theme import change and app-owned branding. Keep new package
+boundaries aligned with the [module graph](docs/architecture/system-overview.md).
 
 ## Pull requests
 

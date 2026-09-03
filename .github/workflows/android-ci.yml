@@ -1,0 +1,27 @@
+name: Android CI
+on:
+  pull_request:
+    paths: ['app/**', 'frogui-*/**', 'build-logic/**', 'gradle/**', 'gradlew*', '*.gradle.kts', 'gradle.properties', 'registry/**', 'tools/**', 'package*.json', '.node-version', '.github/workflows/android-ci.yml']
+  push:
+    branches: [main]
+    paths: ['app/**', 'frogui-*/**', 'build-logic/**', 'gradle/**', 'gradlew*', '*.gradle.kts', 'gradle.properties', 'registry/**', 'tools/**', 'package*.json', '.node-version', '.github/workflows/android-ci.yml']
+permissions:
+  contents: read
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '21' }
+      - uses: actions/setup-node@v4
+        with: { node-version-file: '.node-version', cache: npm }
+      - uses: gradle/actions/setup-gradle@v4
+      - run: npm ci --ignore-scripts
+      - run: sdkmanager 'platforms;android-36.1'
+      - run: bash gradlew verifyArchitecture testDebugUnitTest lintDebug assembleDebug :app:assembleDebugAndroidTest :frogui-theme:assembleDebugAndroidTest
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-reports
+          path: '**/build/reports/'
