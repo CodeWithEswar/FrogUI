@@ -40,4 +40,21 @@ class FrogComponentRegistryTest {
         assertNotNull(button)
         assertEquals("FrogButton", button?.name)
     }
+
+    @Test
+    fun testMachineReadableRegistryFiles() {
+        val candidates = listOf(
+            java.io.File("../registry/components/button.json"),
+            java.io.File("registry/components/button.json"),
+            java.io.File("../../registry/components/button.json")
+        )
+        val buttonFile = candidates.firstOrNull { it.exists() }
+        assertNotNull("registry/components/button.json must exist in the repository", buttonFile)
+
+        val jsonContent = buttonFile!!.readText()
+        assertTrue("button.json must declare id: button", jsonContent.contains("\"id\": \"button\""))
+        assertTrue("button.json must declare name: FrogButton", jsonContent.contains("\"name\": \"FrogButton\""))
+        assertTrue("button.json must declare category: actions", jsonContent.contains("\"category\": \"actions\""))
+        assertTrue("button.json must declare status: stable", jsonContent.contains("\"status\": \"stable\""))
+    }
 }
