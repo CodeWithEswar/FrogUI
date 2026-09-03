@@ -28,6 +28,9 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
     { id: 'design-tokens', title: 'Design Tokens & Anatomy', level: 2 }
   ];
 
+  const basicExample = component.examples.find(e => e.id === 'basic') || component.examples[0];
+  const variantExamples = component.examples.filter(e => e.id !== basicExample?.id);
+
   return (
     <div className="w-full xl:pr-72 flex justify-between gap-10">
       {/* Main Content Article */}
@@ -86,7 +89,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
             Overview &amp; Preview
           </h2>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Experiment with variants and sizes below. You can toggle the canvas between Light and Dark themes independently of the documentation website.
+            Experiment with variants and presentations below. You can toggle the canvas between Light and Dark themes independently of the documentation website.
           </p>
           <ComponentPreview
             componentId={component.id}
@@ -119,52 +122,44 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
             Call <code className="font-mono bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded text-xs">{component.name}</code> inside a <code className="font-mono text-xs">FrogTheme</code> scope. Application state remains with the caller:
           </p>
-          <CodeBlock
-            language="kotlin"
-            title="ActionExample.kt"
-            code={`import io.github.codewitheswar.frogui.components.button.FrogButton
-import io.github.codewitheswar.frogui.components.button.FrogButtonVariant
-import androidx.compose.material3.Text
-
-@Composable
-fun PrimaryAction(onClick: () -> Unit) {
-    FrogButton(
-        variant = FrogButtonVariant.Primary,
-        onClick = onClick
-    ) {
-        Text("Continue")
-    }
-}`}
-          />
+          {basicExample && (
+            <CodeBlock
+              language="kotlin"
+              title={`${component.name}BasicExample.kt`}
+              code={basicExample.codeSnippet}
+            />
+          )}
         </section>
 
         {/* Section 4: Examples */}
-        <section id="examples" className="space-y-6">
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
-            Examples
-          </h2>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Compiled and verified examples extracted from the native Android Showcase suite:
-          </p>
+        {variantExamples.length > 0 && (
+          <section id="examples" className="space-y-6">
+            <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+              Examples
+            </h2>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              Compiled and verified examples extracted from the native Android Showcase suite:
+            </p>
 
-          <div className="space-y-8">
-            {component.examples.map(example => (
-              <div key={example.id} className="space-y-2">
-                <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200">
-                  {example.title}
-                </h3>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                  {example.description}
-                </p>
-                <CodeBlock
-                  language="kotlin"
-                  title={`${example.id}.kt`}
-                  code={example.codeSnippet}
-                />
-              </div>
-            ))}
-          </div>
-        </section>
+            <div className="space-y-8">
+              {variantExamples.map(example => (
+                <div key={example.id} className="space-y-2">
+                  <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200">
+                    {example.title}
+                  </h3>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                    {example.description}
+                  </p>
+                  <CodeBlock
+                    language="kotlin"
+                    title={`${example.id}.kt`}
+                    code={example.codeSnippet}
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Section 5: API Reference */}
         <section id="api-reference" className="space-y-4">
