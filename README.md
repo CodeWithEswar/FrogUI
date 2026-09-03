@@ -46,17 +46,17 @@ FrogUI adopts a **restrained, modern monochrome visual philosophy** tailored spe
 
 ### 1. Theme Configuration
 
-Wrap your application in `FrogUITheme`:
+Wrap your application in `FrogTheme`:
 
 ```kotlin
-import io.github.codewitheswar.frogui.ui.theme.FrogUITheme
+import io.github.codewitheswar.frogui.foundation.theme.FrogTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            FrogUITheme {
+            FrogTheme(darkTheme = true) {
                 MainContent()
             }
         }
@@ -64,11 +64,37 @@ class MainActivity : ComponentActivity() {
 }
 ```
 
-### 2. Using the FrogUI Logo
+### 2. Using FrogButton
 
 ```kotlin
-import io.github.codewitheswar.frogui.ui.branding.FrogUiLogo
-import io.github.codewitheswar.frogui.ui.branding.FrogUiLogoVariant
+import io.github.codewitheswar.frogui.components.button.FrogButton
+import io.github.codewitheswar.frogui.components.button.FrogButtonSize
+import io.github.codewitheswar.frogui.components.button.FrogButtonVariant
+
+// Primary button
+FrogButton(
+    variant = FrogButtonVariant.Primary,
+    size = FrogButtonSize.Medium,
+    onClick = { /* Handle action */ }
+) {
+    Text("Continue")
+}
+
+// Loading state
+FrogButton(
+    variant = FrogButtonVariant.Secondary,
+    loading = true,
+    onClick = { }
+) {
+    Text("Saving...")
+}
+```
+
+### 3. Using the FrogUI Logo
+
+```kotlin
+import io.github.codewitheswar.frogui.foundation.branding.FrogUiLogo
+import io.github.codewitheswar.frogui.foundation.branding.FrogUiLogoVariant
 
 // Canonical brand badge
 FrogUiLogo(
@@ -80,7 +106,7 @@ FrogUiLogo(
 // Standalone geometric mark (toolbar / navigation)
 FrogUiMark(
     size = 24.dp,
-    tint = MaterialTheme.colorScheme.onSurface
+    tint = FrogTheme.colors.foreground
 )
 ```
 
@@ -88,19 +114,20 @@ FrogUiMark(
 
 ## Architecture
 
+FrogUI is structured into decoupled, production-grade Android modules:
+
 ```text
 FrogUI/
-├── app/                        # Interactive Android showcase application
-│   └── src/main/
-│       ├── java/.../frogui/
-│       │   ├── ui/branding/    # Reusable Compose brand components
-│       │   ├── ui/theme/       # Monochrome design tokens & Theme
-│       │   └── MainActivity.kt # Component showcase & launcher simulator
-│       └── res/
-│           ├── drawable/       # Production VectorDrawable assets
-│           ├── mipmap-anydpi-v26/ # Adaptive & themed icons
-│           └── values*/        # Colors, strings, and splash themes
-└── gradle/                     # Version catalog and Gradle wrapper
+├── frogui-foundation/          # Design tokens (Colors, Typography, Spacing, Shapes, Motion, Theme)
+├── frogui-components/          # Pure Compose UI components (FrogButton, FrogIconButton, etc.)
+├── frogui-registry/            # Metadata, documentation records, search, and categorization
+├── app/                        # Adaptive showcase application & interactive workbench
+│   └── src/main/java/.../
+│       ├── navigation/         # Adaptive phone/tablet navigation shell
+│       ├── showcase/canvas/    # ComponentPreviewCanvas with isolated theme switching
+│       ├── showcase/inspector/ # Real-time PropertyInspector & code snippet generator
+│       └── showcase/screens/   # Home, Components, Detail Workbench, Foundation, About
+└── gradle/                     # Version catalog and Gradle build configuration
 ```
 
 ---
@@ -108,14 +135,15 @@ FrogUI/
 ## Component Roadmap
 
 - [x] **Brand & Vector System** (`frogui_mark`, `frogui_logo`, adaptive & themed icons, splash)
-- [x] **Design Tokens** (Zinc monochrome color palette, semantic typography, elevation)
-- [x] **Compose Brand Components** (`FrogUiLogo`, `FrogUiMark`, `FrogUiLogoVariant`)
-- [ ] **Core Actions** (`FrogButton`, `FrogIconButton`, `FrogButtonGroup`, `FrogToggleButton`)
+- [x] **Design Tokens** (Zinc monochrome color palette, semantic typography, elevation, spacing, motion)
+- [x] **Modular Architecture** (`:frogui-foundation`, `:frogui-components`, `:frogui-registry`, `:app`)
+- [x] **Core Actions** (`FrogButton` with 5 variants & 3 sizes, `FrogIconButton`, tactile motion, accessible semantics)
+- [x] **Component Playground & Interactive Inspector** (Independent theme canvas, responsive width presets, live code generator)
+- [x] **Component Registry & Discovery** (Category filtering, search, metadata contracts)
 - [ ] **Inputs** (`FrogTextField`, `FrogCheckbox`, `FrogRadio`, `FrogSwitch`)
 - [ ] **Data Display** (`FrogCard`, `FrogBadge`, `FrogAvatar`, `FrogDivider`)
 - [ ] **Overlays & Feedback** (`FrogDialog`, `FrogBottomSheet`, `FrogAlert`, `FrogTooltip`)
-- [ ] **Navigation** (`FrogTopBar`, `FrogTabs`, `FrogSegmentedControl`, `FrogNavigationRail`)
-- [ ] **Component Playground & Interactive Inspector**
+- [ ] **Navigation Primitives** (`FrogTopBar`, `FrogTabs`, `FrogSegmentedControl`, `FrogNavigationRail`)
 - [ ] **GitHub Pages Documentation**
 
 ---
