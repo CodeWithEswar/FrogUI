@@ -6,7 +6,7 @@
   "description": "Triggers an action with semantic variants, sizes, loading feedback, and composable content slots.",
   "category": "actions",
   "status": "experimental",
-  "since": "1.0.0",
+  "since": "0.1.0-SNAPSHOT",
   "docs": "/components/button",
   "source": "frogui-components/src/main/java/io/github/codewitheswar/frogui/components/button/FrogButton.kt",
   "variants": [
@@ -61,7 +61,7 @@
       "name": "loading",
       "type": "Boolean",
       "defaultValue": "false",
-      "description": "When true, displays an inline circular progress indicator, sets TalkBack stateDescription to 'Loading', and suppresses clicks."
+      "description": "Replaces visible content with a centered progress indicator while preserving measured label and slot bounds. Exposes Loading state and suppresses activation."
     },
     {
       "name": "shape",
@@ -78,7 +78,7 @@
     {
       "name": "border",
       "type": "BorderStroke?",
-      "defaultValue": "FrogButtonDefaults.border(variant, enabled && !loading)",
+      "defaultValue": "FrogButtonDefaults.border(colors, enabled)",
       "description": "Optional stroke border applied to button boundary."
     },
     {
@@ -106,6 +106,12 @@
       "description": "Optional slot rendered after the button label."
     },
     {
+      "name": "fullWidth",
+      "type": "Boolean",
+      "defaultValue": "false",
+      "description": "Fills the available horizontal width of the button surface and touch target."
+    },
+    {
       "name": "content",
       "type": "@Composable RowScope.() -> Unit",
       "defaultValue": "required",
@@ -117,37 +123,82 @@
       "id": "primary",
       "title": "Primary Action",
       "description": "High-emphasis action for the primary task on the screen.",
-      "codeSnippet": "FrogButton(\n    variant = FrogButtonVariant.Primary,\n    onClick = { }\n) {\n    Text(\"Continue\")\n}"
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonExamples.kt",
+      "region": "primary"
     },
     {
       "id": "secondary",
       "title": "Secondary Action",
       "description": "Tonal zinc surface for alternative operations.",
-      "codeSnippet": "FrogButton(\n    variant = FrogButtonVariant.Secondary,\n    onClick = { }\n) {\n    Text(\"Cancel\")\n}"
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonExamples.kt",
+      "region": "secondary"
     },
     {
       "id": "outline",
       "title": "Outlined Action",
       "description": "Transparent surface with structural Zinc border.",
-      "codeSnippet": "FrogButton(\n    variant = FrogButtonVariant.Outline,\n    onClick = { }\n) {\n    Text(\"Documentation\")\n}"
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonExamples.kt",
+      "region": "outline"
     },
     {
       "id": "ghost",
       "title": "Ghost Action",
       "description": "Flat low-emphasis button for toolbars and compact surfaces.",
-      "codeSnippet": "FrogButton(\n    variant = FrogButtonVariant.Ghost,\n    onClick = { }\n) {\n    Text(\"Learn more\")\n}"
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonExamples.kt",
+      "region": "ghost"
     },
     {
       "id": "destructive",
       "title": "Destructive Action",
       "description": "Communicates permanent or dangerous operations.",
-      "codeSnippet": "FrogButton(\n    variant = FrogButtonVariant.Destructive,\n    onClick = { }\n) {\n    Text(\"Delete repository\")\n}"
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonExamples.kt",
+      "region": "destructive"
     },
     {
       "id": "loading",
       "title": "Loading State",
       "description": "Displays inline circular progress indicator and pauses user interaction.",
-      "codeSnippet": "FrogButton(\n    variant = FrogButtonVariant.Primary,\n    loading = true,\n    onClick = { }\n) {\n    Text(\"Saving...\")\n}"
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonExamples.kt",
+      "region": "loading"
+    },
+    {
+      "id": "leading",
+      "title": "Leading icon",
+      "description": "Run an action with a decorative leading icon.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonExamples.kt",
+      "region": "leading"
+    },
+    {
+      "id": "trailing",
+      "title": "Trailing icon",
+      "description": "Indicate progression with a decorative trailing icon.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonExamples.kt",
+      "region": "trailing"
+    },
+    {
+      "id": "disabled",
+      "title": "Disabled action",
+      "description": "An unavailable action exposes disabled semantics.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonExamples.kt",
+      "region": "disabled"
+    },
+    {
+      "id": "fullwidth",
+      "title": "Full width",
+      "description": "Fill the available horizontal space.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonExamples.kt",
+      "region": "fullwidth"
     }
-  ]
+  ],
+  "schemaVersion": 1,
+  "tags": [
+    "action",
+    "submit",
+    "loading"
+  ],
+  "showcase": {
+    "route": "components/button",
+    "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonScreen.kt",
+    "screen": "ButtonScreen"
+  }
 }

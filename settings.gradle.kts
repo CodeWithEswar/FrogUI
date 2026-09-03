@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -25,6 +26,7 @@ dependencyResolutionManagement {
 rootProject.name = "FrogUI"
 include(":app")
 include(":frogui-foundation")
+include(":frogui-theme")
 include(":frogui-components")
 include(":frogui-registry")
- 
+include(":frogui-testing")

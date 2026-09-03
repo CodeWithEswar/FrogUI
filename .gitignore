@@ -9,3 +9,11 @@ build/
 .externalNativeBuild
 .cxx
 local.properties
+node_modules/
+dist/
+/docs/generated/
+*.jks
+*.keystore
+*.apk
+*.aar
+*.tsbuildinfo

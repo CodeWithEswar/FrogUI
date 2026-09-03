@@ -1,5 +1,4 @@
 {
-  "version": "1.0.0",
   "name": "FrogUI Component Registry",
   "description": "Index of canonical FrogUI components for cross-platform consumption, documentation generation, and developer tooling.",
   "categories": [
@@ -44,5 +43,7 @@
       "id": "button",
       "file": "components/button.json"
     }
-  ]
+  ],
+  "$schema": "./schema/registry.schema.json",
+  "schemaVersion": 1
 }

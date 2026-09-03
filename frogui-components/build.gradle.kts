@@ -1,51 +1,16 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.compose)
+    id("frogui.android.library")
+    id("frogui.publishing")
 }
-
 android {
     namespace = "io.github.codewitheswar.frogui.components"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
-
-    defaultConfig {
-        minSdk = 24
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    buildFeatures {
-        compose = true
-    }
+    defaultConfig { consumerProguardFiles("consumer-rules.pro") }
 }
-
 dependencies {
-    api(project(":frogui-foundation"))
-
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
+    api(project(":frogui-theme"))
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.compose.ui.tooling.preview)
     testImplementation(libs.junit)
-    // Build-time contract verification only; the production library never imports registry.
     testImplementation(project(":frogui-registry"))
     debugImplementation(libs.androidx.compose.ui.tooling)
 }

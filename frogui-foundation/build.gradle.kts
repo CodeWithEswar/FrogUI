@@ -1,47 +1,14 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.compose)
+    id("frogui.android.library")
+    id("frogui.publishing")
 }
-
-android {
-    namespace = "io.github.codewitheswar.frogui.foundation"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
-
-    defaultConfig {
-        minSdk = 24
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    buildFeatures {
-        compose = true
-    }
-}
-
+android { namespace = "io.github.codewitheswar.frogui.foundation" }
 dependencies {
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.core.ktx)
+    api(platform(libs.androidx.compose.bom))
+    api(libs.androidx.compose.runtime)
+    api(libs.androidx.compose.ui.graphics)
+    api(libs.androidx.compose.ui.text)
+    api(libs.androidx.compose.foundation)
+    api(libs.androidx.compose.animation.core)
     testImplementation(libs.junit)
-    debugImplementation(libs.androidx.compose.ui.tooling)
 }

@@ -40,5 +40,6 @@ data class FrogComponentMetadata(
     val examples: List<ComponentExampleMetadata> = emptyList(),
     val displayName: String = name,
     val variants: List<String> = emptyList(),
-    val sizes: List<String> = emptyList()
+    val sizes: List<String> = emptyList(),
+    val showcaseRoute: String = docsPath
 )

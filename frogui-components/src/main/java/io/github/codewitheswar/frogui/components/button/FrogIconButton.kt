@@ -19,6 +19,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import io.github.codewitheswar.frogui.components.R
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -31,7 +33,7 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
-import io.github.codewitheswar.frogui.foundation.theme.FrogTheme
+import io.github.codewitheswar.frogui.theme.FrogTheme
 
 /**
  * Icon-only button component for FrogUI.
@@ -50,7 +52,7 @@ fun FrogIconButton(
     loading: Boolean = false,
     shape: Shape = FrogButtonDefaults.shape(size),
     colors: FrogButtonColors = FrogButtonDefaults.colors(variant),
-    border: BorderStroke? = FrogButtonDefaults.border(variant, enabled && !loading),
+    border: BorderStroke? = FrogButtonDefaults.border(colors, enabled),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable () -> Unit
 ) {
@@ -59,7 +61,7 @@ fun FrogIconButton(
     val isFocused by interactionSource.collectIsFocusedAsState()
 
     val scale by animateFloatAsState(
-        targetValue = if (isPressed && isInteractive) 0.95f else 1.0f,
+        targetValue = if (isPressed && isInteractive && FrogTheme.motion.fastDurationMillis > 0) 0.95f else 1.0f,
         animationSpec = FrogTheme.motion.fastSpec(),
         label = "frog_icon_button_scale"
     )
@@ -72,11 +74,12 @@ fun FrogIconButton(
 
     val currentContentColor = if (enabled) colors.contentColor else colors.disabledContentColor
 
-    val semanticsModifier = Modifier.semantics {
+    val loadingDescription = stringResource(R.string.frogui_loading)
+    val semanticsModifier = Modifier.semantics(mergeDescendants = true) {
         this.contentDescription = contentDescription
         role = Role.Button
         if (loading) {
-            stateDescription = "Loading"
+            stateDescription = loadingDescription
         }
         if (!isInteractive) {
             disabled()
@@ -87,7 +90,8 @@ fun FrogIconButton(
         modifier = modifier
             .defaultMinSize(minWidth = FrogButtonDefaults.MinTouchTarget, minHeight = FrogButtonDefaults.MinTouchTarget)
             .scale(scale)
-            .then(semanticsModifier),
+            .then(semanticsModifier)
+            .clickable(interactionSource, indication = null, enabled = isInteractive, role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Box(
@@ -101,12 +105,6 @@ fun FrogIconButton(
                     } else if (border != null) {
                         Modifier.border(border, shape)
                     } else Modifier
-                )
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null,
-                    enabled = isInteractive,
-                    onClick = onClick
                 ),
             contentAlignment = Alignment.Center
         ) {

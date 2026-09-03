@@ -7,7 +7,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import io.github.codewitheswar.frogui.foundation.theme.FrogTheme
+import io.github.codewitheswar.frogui.theme.FrogTheme
 
 /**
  * Default configurations, shapes, paddings, and colors for [FrogButton].
@@ -22,7 +22,29 @@ object FrogButtonDefaults {
      */
     @Composable
     @ReadOnlyComposable
-    fun colors(variant: FrogButtonVariant): FrogButtonColors {
+    fun colors(
+        variant: FrogButtonVariant = FrogButtonVariant.Primary,
+        containerColor: Color = Color.Unspecified,
+        contentColor: Color = Color.Unspecified,
+        borderColor: Color = Color.Unspecified,
+        disabledContainerColor: Color = Color.Unspecified,
+        disabledContentColor: Color = Color.Unspecified,
+        disabledBorderColor: Color = Color.Unspecified,
+    ): FrogButtonColors {
+        val defaults = variantColors(variant)
+        return defaults.copy(
+            containerColor = if (containerColor == Color.Unspecified) defaults.containerColor else containerColor,
+            contentColor = if (contentColor == Color.Unspecified) defaults.contentColor else contentColor,
+            borderColor = if (borderColor == Color.Unspecified) defaults.borderColor else borderColor,
+            disabledContainerColor = if (disabledContainerColor == Color.Unspecified) defaults.disabledContainerColor else disabledContainerColor,
+            disabledContentColor = if (disabledContentColor == Color.Unspecified) defaults.disabledContentColor else disabledContentColor,
+            disabledBorderColor = if (disabledBorderColor == Color.Unspecified) defaults.disabledBorderColor else disabledBorderColor,
+        )
+    }
+
+    @Composable
+    @ReadOnlyComposable
+    private fun variantColors(variant: FrogButtonVariant): FrogButtonColors {
         val colors = FrogTheme.colors
 
         return when (variant) {
@@ -103,7 +125,11 @@ object FrogButtonDefaults {
     @Composable
     @ReadOnlyComposable
     fun border(variant: FrogButtonVariant, enabled: Boolean): BorderStroke? {
-        val colors = colors(variant)
+        return border(colors(variant), enabled)
+    }
+
+    /** Resolves the stroke from the supplied colors, including custom overrides. */
+    fun border(colors: FrogButtonColors, enabled: Boolean): BorderStroke? {
         val strokeColor = if (enabled) colors.borderColor else colors.disabledBorderColor
         return if (strokeColor != Color.Transparent) {
             BorderStroke(BorderWidth, strokeColor)

@@ -1,6 +1,7 @@
 package io.github.codewitheswar.frogui.components.button
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -27,18 +29,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import io.github.codewitheswar.frogui.components.R
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.disabled
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
-import io.github.codewitheswar.frogui.foundation.theme.FrogTheme
+import io.github.codewitheswar.frogui.theme.FrogTheme
 
 /**
  * Standard FrogUI Button component.
@@ -70,11 +77,12 @@ fun FrogButton(
     loading: Boolean = false,
     shape: Shape = FrogButtonDefaults.shape(size),
     colors: FrogButtonColors = FrogButtonDefaults.colors(variant),
-    border: BorderStroke? = FrogButtonDefaults.border(variant, enabled && !loading),
+    border: BorderStroke? = FrogButtonDefaults.border(colors, enabled),
     contentPadding: PaddingValues = FrogButtonDefaults.contentPadding(size),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
+    fullWidth: Boolean = false,
     content: @Composable RowScope.() -> Unit
 ) {
     val isInteractive = enabled && !loading
@@ -83,16 +91,16 @@ fun FrogButton(
 
     // Tactile press spring animation (120ms)
     val scale by animateFloatAsState(
-        targetValue = if (isPressed && isInteractive) 0.97f else 1.0f,
+        targetValue = if (isPressed && isInteractive && FrogTheme.motion.fastDurationMillis > 0) 0.97f else 1.0f,
         animationSpec = FrogTheme.motion.fastSpec(),
         label = "frog_button_scale"
     )
 
-    val currentContainerColor = when {
+    val currentContainerColor by animateColorAsState(when {
         !enabled -> colors.disabledContainerColor
-        isPressed -> colors.containerColor
+        isPressed -> colors.pressedOverlayColor.compositeOver(colors.containerColor)
         else -> colors.containerColor
-    }
+    }, animationSpec = FrogTheme.motion.fastSpec(), label = "frog_button_container")
 
     val currentContentColor = if (enabled) colors.contentColor else colors.disabledContentColor
 
@@ -103,10 +111,11 @@ fun FrogButton(
     }
 
     // Compose accessibility semantics
-    val semanticsModifier = Modifier.semantics {
+    val loadingDescription = stringResource(R.string.frogui_loading)
+    val semanticsModifier = Modifier.semantics(mergeDescendants = true) {
         role = Role.Button
         if (loading) {
-            stateDescription = "Loading"
+            stateDescription = loadingDescription
         }
         if (!isInteractive) {
             disabled()
@@ -116,13 +125,16 @@ fun FrogButton(
     // Outer box ensures platform minimum touch target (48dp)
     Box(
         modifier = modifier
+            .then(if (fullWidth) Modifier.fillMaxWidth() else Modifier)
             .defaultMinSize(minHeight = FrogButtonDefaults.MinTouchTarget)
             .scale(scale)
-            .then(semanticsModifier),
+            .then(semanticsModifier)
+            .clickable(interactionSource, indication = null, enabled = isInteractive, role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Row(
             modifier = Modifier
+                .then(if (fullWidth) Modifier.fillMaxWidth() else Modifier)
                 .defaultMinSize(minHeight = size.minHeight)
                 .clip(shape)
                 .background(currentContainerColor)
@@ -133,12 +145,6 @@ fun FrogButton(
                         Modifier.border(border, shape)
                     } else Modifier
                 )
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null, // Custom tactile scale and overlay provide crisp feedback
-                    enabled = isInteractive,
-                    onClick = onClick
-                )
                 .padding(contentPadding),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
@@ -147,24 +153,18 @@ fun FrogButton(
                 LocalContentColor provides currentContentColor,
                 LocalTextStyle provides textStyle
             ) {
-                if (loading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(size.iconSize),
-                        color = currentContentColor,
-                        strokeWidth = 2.dp,
-                        strokeCap = StrokeCap.Round
+                // Keep the exact label and slot layout while showing a centered spinner.
+                // Alpha preserves the accessible action label without announcing spinner ticks.
+                Box(contentAlignment = Alignment.Center) {
+                    Row(Modifier.alpha(if (loading) 0f else 1f), verticalAlignment = Alignment.CenterVertically) {
+                        if (leadingIcon != null) { leadingIcon(); Spacer(Modifier.width(size.iconSpacing)) }
+                        content()
+                        if (trailingIcon != null) { Spacer(Modifier.width(size.iconSpacing)); trailingIcon() }
+                    }
+                    if (loading) CircularProgressIndicator(
+                        modifier = Modifier.size(size.iconSize).clearAndSetSemantics {},
+                        color = currentContentColor, strokeWidth = 2.dp, strokeCap = StrokeCap.Round,
                     )
-                    Spacer(modifier = Modifier.width(size.iconSpacing))
-                } else if (leadingIcon != null) {
-                    leadingIcon()
-                    Spacer(modifier = Modifier.width(size.iconSpacing))
-                }
-
-                content()
-
-                if (!loading && trailingIcon != null) {
-                    Spacer(modifier = Modifier.width(size.iconSpacing))
-                    trailingIcon()
                 }
             }
         }

@@ -1,10 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://frogui.dev/schema/component.schema.json",
-  "title": "FrogUI Component Metadata Schema",
-  "description": "Machine-readable contract defining a canonical FrogUI component across library, showcase, docs, and tooling.",
   "type": "object",
+  "additionalProperties": false,
   "required": [
+    "schemaVersion",
     "id",
     "name",
     "displayName",
@@ -14,48 +14,38 @@
     "since",
     "docs",
     "source",
+    "showcase",
     "variants",
     "sizes",
+    "tags",
     "properties",
     "examples"
   ],
-  "allOf": [
-    {
-      "if": { "properties": { "status": { "const": "stable" } } },
-      "then": {
-        "required": ["stabilityReview", "accessibility"],
-        "properties": {
-          "properties": { "minItems": 1 },
-          "examples": { "minItems": 1 }
-        }
-      }
-    }
-  ],
-  "additionalProperties": false,
   "properties": {
     "$schema": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
+    },
+    "schemaVersion": {
+      "const": 1
     },
     "id": {
       "type": "string",
-      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
-      "description": "Stable, lowercase, URL-safe, CLI-safe identifier (e.g. 'button')."
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
     },
     "name": {
       "type": "string",
-      "pattern": "^Frog[A-Z][a-zA-Z0-9]*$",
-      "description": "Public Kotlin Composable name (e.g. 'FrogButton')."
+      "pattern": "^Frog[A-Z][a-zA-Z0-9]*$"
     },
     "displayName": {
       "type": "string",
-      "description": "Human-friendly display name for showcase navigation and documentation headers."
+      "minLength": 1
     },
     "description": {
       "type": "string",
-      "description": "Concise, truthful technical summary of the component's purpose."
+      "minLength": 1
     },
     "category": {
-      "type": "string",
       "enum": [
         "actions",
         "inputs",
@@ -64,94 +54,124 @@
         "navigation",
         "overlays",
         "layout"
-      ],
-      "description": "Functional classification within the FrogUI component taxonomy."
+      ]
     },
     "status": {
-      "type": "string",
       "enum": [
         "experimental",
         "beta",
         "stable",
         "deprecated"
-      ],
-      "description": "Production maturity and API stability status."
+      ]
     },
     "since": {
       "type": "string",
-      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
-      "description": "Semantic version in which the component was introduced."
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?$"
     },
     "docs": {
       "type": "string",
-      "pattern": "^/components/[a-z0-9-]+$",
-      "description": "Canonical relative URL path in GitHub Pages documentation."
+      "pattern": "^/components/[a-z0-9-]+$"
     },
     "source": {
       "type": "string",
-      "description": "Relative repository path to the primary Composable implementation file."
+      "pattern": "^frogui-components/src/main/.*\\.kt$"
     },
-    "stabilityReview": {
-      "type": "string",
-      "pattern": "^docs/components/[a-z0-9-]+-review\\.md$",
-      "description": "Required for Stable: repository path to reviewed API, device, test, and documentation evidence."
+    "showcase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route",
+        "source",
+        "screen"
+      ],
+      "properties": {
+        "route": {
+          "type": "string",
+          "pattern": "^components/[a-z0-9-]+$"
+        },
+        "source": {
+          "type": "string",
+          "pattern": "^app/src/main/.*\\.kt$"
+        },
+        "screen": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Za-z0-9]*$"
+        }
+      }
     },
     "variants": {
       "type": "array",
+      "uniqueItems": true,
       "items": {
-        "type": "string"
-      },
-      "description": "Supported visual semantic variants (e.g. ['Primary', 'Secondary', 'Outline', 'Ghost', 'Destructive'])."
+        "type": "string",
+        "minLength": 1
+      }
     },
     "sizes": {
       "type": "array",
+      "uniqueItems": true,
       "items": {
-        "type": "string"
-      },
-      "description": "Supported dimensional scales (e.g. ['Small', 'Medium', 'Large'])."
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "tags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     },
     "accessibility": {
       "type": "object",
-      "properties": {
-        "role": {
-          "type": "string"
-        },
-        "minTouchTarget": {
-          "type": "string"
-        },
-        "talkBackNotes": {
-          "type": "string"
-        }
-      },
+      "additionalProperties": false,
       "required": [
         "role",
         "minTouchTarget"
       ],
-      "additionalProperties": false
+      "properties": {
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "minTouchTarget": {
+          "type": "string",
+          "minLength": 1
+        },
+        "talkBackNotes": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
     },
     "properties": {
       "type": "array",
       "items": {
         "type": "object",
+        "additionalProperties": false,
         "required": [
           "name",
           "type",
           "defaultValue",
           "description"
         ],
-        "additionalProperties": false,
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "defaultValue": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           }
         }
       }
@@ -159,29 +179,41 @@
     "examples": {
       "type": "array",
       "items": {
-        "type": "object",
-        "required": [
-          "id",
-          "title",
-          "description",
-          "codeSnippet"
-        ],
-        "additionalProperties": false,
+        "$ref": "https://frogui.dev/schema/example.schema.json"
+      }
+    },
+    "stabilityReview": {
+      "type": "string",
+      "pattern": "^docs/components/[a-z0-9-]+-review\\.md$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
         "properties": {
-          "id": {
-            "type": "string"
+          "status": {
+            "const": "stable"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "stabilityReview",
+          "accessibility"
+        ],
+        "properties": {
+          "stabilityReview": {},
+          "accessibility": {},
+          "properties": {
+            "type": "array",
+            "minItems": 1
           },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "codeSnippet": {
-            "type": "string"
+          "examples": {
+            "type": "array",
+            "minItems": 1
           }
         }
       }
     }
-  }
+  ]
 }

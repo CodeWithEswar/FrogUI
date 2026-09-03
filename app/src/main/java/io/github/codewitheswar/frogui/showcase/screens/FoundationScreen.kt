@@ -1,6 +1,23 @@
 package io.github.codewitheswar.frogui.showcase.screens
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
+import io.github.codewitheswar.frogui.showcase.style.ShowcaseMotion
+import io.github.codewitheswar.frogui.showcase.style.LocalFrogMotionEnabled
+import io.github.codewitheswar.frogui.showcase.style.showcaseFocus
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import android.content.ClipData
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -30,12 +47,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.codewitheswar.frogui.foundation.color.FrogPalette
-import io.github.codewitheswar.frogui.foundation.theme.FrogTheme
+import io.github.codewitheswar.frogui.theme.FrogTheme
 
 /**
  * Interactive visual token explorer for FrogUI design foundation.
@@ -174,7 +189,11 @@ private fun SectionHeader(title: String, subtitle: String) {
 
 @Composable
 private fun ColorSwatch(name: String, hex: String, color: Color) {
-    val clipboard = LocalClipboardManager.current
+    val clipboard = LocalClipboard.current
+    val scope = rememberCoroutineScope()
+    val source = remember { MutableInteractionSource() }
+    var copied by remember { mutableStateOf(false) }
+    LaunchedEffect(copied) { if (copied) { delay(1800); copied = false } }
     val shapes = FrogTheme.shapes
     val colors = FrogTheme.colors
 
@@ -184,7 +203,10 @@ private fun ColorSwatch(name: String, hex: String, color: Color) {
             .clip(shapes.md)
             .background(colors.surfaceElevated)
             .border(1.dp, colors.border, shapes.md)
-            .clickable { clipboard.setText(AnnotatedString(name)) }
+            .showcaseFocus(source)
+            .clickable(interactionSource = source, indication = null, role = Role.Button, onClickLabel = "Copy $name value") {
+                scope.launch { clipboard.setClipEntry(ClipEntry(ClipData.newPlainText(name, hex))); copied = true }
+            }
             .padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
@@ -194,10 +216,10 @@ private fun ColorSwatch(name: String, hex: String, color: Color) {
                 .height(48.dp)
                 .clip(shapes.sm)
                 .background(color)
-                .border(1.dp, Color(0x20FFFFFF), shapes.sm)
+                .border(1.dp, colors.borderStrong, shapes.sm)
         )
         Text(text = name, style = FrogTheme.typography.caption, color = colors.foreground)
-        Text(text = hex, style = FrogTheme.typography.caption, color = colors.mutedForeground)
+        Text(text = if (copied) "Copied" else hex, style = FrogTheme.typography.caption, color = colors.mutedForeground, modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
     }
 }
 
@@ -251,7 +273,7 @@ private fun ShapeCard(name: String, value: String, shape: androidx.compose.ui.gr
 
     Column(
         modifier = Modifier
-            .size(80.dp)
+            .width(90.dp).heightIn(min = 90.dp)
             .clip(FrogTheme.shapes.md)
             .background(colors.surfaceElevated)
             .border(1.dp, colors.border, FrogTheme.shapes.md)
@@ -276,10 +298,12 @@ private fun InteractiveMotionDemo() {
     val colors = FrogTheme.colors
     val shapes = FrogTheme.shapes
     var toggled by remember { mutableStateOf(false) }
+    val source = remember { MutableInteractionSource() }
+    val motionEnabled = LocalFrogMotionEnabled.current
 
     val fastScale by animateFloatAsState(
         targetValue = if (toggled) 1.15f else 1.0f,
-        animationSpec = FrogTheme.motion.fastSpec(),
+        animationSpec = tween(ShowcaseMotion.fast),
         label = "fast_motion"
     )
 
@@ -289,12 +313,13 @@ private fun InteractiveMotionDemo() {
             .clip(shapes.lg)
             .background(colors.surfaceElevated)
             .border(1.dp, colors.border, shapes.lg)
-            .clickable { toggled = !toggled }
+            .showcaseFocus(source)
+            .clickable(interactionSource = source, indication = null, role = Role.Button, onClickLabel = "Change motion sample state") { toggled = !toggled }
             .padding(FrogTheme.spacing.md),
         verticalArrangement = Arrangement.spacedBy(FrogTheme.spacing.sm)
     ) {
         Text(
-            text = "Tap to test tactile spring transition",
+            text = if (motionEnabled) "Tap to test the fast transition" else "Reduced motion: state changes immediately",
             style = FrogTheme.typography.bodySmall,
             color = colors.foreground
         )
