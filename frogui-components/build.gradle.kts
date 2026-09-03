@@ -45,5 +45,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
+    // Build-time contract verification only; the production library never imports registry.
+    testImplementation(project(":frogui-registry"))
     debugImplementation(libs.androidx.compose.ui.tooling)
 }
