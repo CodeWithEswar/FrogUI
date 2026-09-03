@@ -11,34 +11,23 @@ export const AppLogo: React.FC<AppLogoProps> = ({
   size,
   variant = 'auto'
 }) => {
-  const getContainerFill = () => {
-    if (variant === 'dark') return 'fill-[#09090b]';
-    if (variant === 'light') return 'fill-[#ffffff]';
-    return 'fill-zinc-900 dark:fill-zinc-100';
-  };
-
   const getFrogFill = () => {
     if (variant === 'dark') return 'fill-[#ffffff]';
     if (variant === 'light') return 'fill-[#09090b]';
-    return 'fill-white dark:fill-zinc-900';
+    return 'fill-zinc-900 dark:fill-zinc-100';
   };
 
   const style = size ? { width: size, height: size } : undefined;
 
   return (
     <svg
-      viewBox="0 0 1024 1024"
+      viewBox="250 260 524 515"
       className={`${className} shrink-0 transition-transform group-hover:scale-105`}
       style={style}
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
-      {/* Canonical Rounded Hexagonal Badge Container */}
-      <path
-        className={`${getContainerFill()} transition-colors`}
-        d="M 476.20,146.97 C 489.68,138.70 534.32,138.70 547.80,146.97 L 797.20,300.03 C 809.65,307.67 833.00,349.40 833.00,364.00 L 833.00,620.00 C 833.00,634.60 809.65,676.33 797.20,683.97 L 547.80,837.03 C 534.32,845.30 489.68,845.30 476.20,837.03 L 226.80,683.97 C 214.35,676.33 191.00,634.60 191.00,620.00 L 191.00,364.00 C 191.00,349.40 214.35,307.67 226.80,300.03 Z"
-      />
-      {/* Geometric Negative-Space Frog Mark */}
+      {/* Pure Canonical FrogUI Geometric Frog Mark */}
       <path
         className={`${getFrogFill()} transition-colors`}
         fillRule="evenodd"

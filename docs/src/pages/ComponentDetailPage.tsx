@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ComponentDocPage, release } from '../generated/catalog';
 import { ComponentPreview } from '../components/ui/ComponentPreview';
 import { CodeBlock } from '../components/ui/CodeBlock';
 import { ApiTable } from '../components/ui/ApiTable';
 import { Callout } from '../components/ui/Callout';
 import { TableOfContents, TocItem } from '../components/layout/TableOfContents';
+import { ShowcaseModal } from '../components/ui/ShowcaseModal';
+import { StatusBadge } from '../components/ui/StatusBadge';
 
 interface ComponentDetailPageProps {
   component: ComponentDocPage;
@@ -12,55 +14,45 @@ interface ComponentDetailPageProps {
 }
 
 export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ component }) => {
+  const [isShowcaseOpen, setIsShowcaseOpen] = useState(false);
+
   const sourceUrl = component.source
     ? `https://github.com/CodeWithEswar/FrogUI/blob/main/${component.source}`
     : 'https://github.com/CodeWithEswar/FrogUI';
 
-  const showcaseUrl = component.showcase?.route
-    ? `frogui://${component.showcase.route}`
-    : `frogui://components/${component.id}`;
-
   const tocItems: TocItem[] = [
     { id: 'overview', title: 'Overview & Preview', level: 2 },
     { id: 'installation', title: 'Installation', level: 2 },
-    { id: 'usage', title: 'Basic Usage', level: 2 },
-    { id: 'examples', title: 'Examples', level: 2 },
+    { id: 'usage', title: 'Usage Examples', level: 2 },
     { id: 'api-reference', title: 'API Reference', level: 2 },
-    { id: 'accessibility', title: 'Accessibility', level: 2 },
-    { id: 'guidance', title: 'Usage Guidance', level: 2 },
+    { id: 'design-tokens', title: 'Design Tokens & Anatomy', level: 2 }
   ];
 
   return (
-    <div className="w-full xl:pr-72">
-      {/* Article Content - Only middle content scrolls */}
-      <article className="w-full min-w-0 space-y-12 pb-16">
-        {/* Component Header */}
-        <header className="space-y-4 pb-6 border-b border-zinc-200 dark:border-zinc-800">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+    <div className="w-full xl:pr-72 flex justify-between gap-10">
+      {/* Main Content Article */}
+      <article className="min-w-0 flex-1 max-w-4xl">
+        {/* Page Header */}
+        <header className="pb-6 mb-8 border-b border-zinc-200 dark:border-zinc-800">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-3">
             <div className="flex items-center gap-3">
               <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
                 {component.displayName}
               </h1>
-              <span className={`text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded ${
-                component.status === 'stable'
-                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
-                  : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
-              }`}>
-                {component.status}
-              </span>
+              <StatusBadge status={component.status} size="md" />
             </div>
 
             {/* Header Action Buttons */}
             <div className="flex items-center gap-2">
-              <a
-                href={showcaseUrl}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-medium text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors shadow-xs"
+              <button
+                onClick={() => setIsShowcaseOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-medium text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors shadow-xs cursor-pointer"
               >
-                <svg className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
                 <span>Open in Showcase</span>
-              </a>
+              </button>
               <a
                 href={sourceUrl}
                 target="_blank"
@@ -250,6 +242,14 @@ fun PrimaryAction(onClick: () -> Unit) {
 
       {/* Right Table of Contents */}
       <TableOfContents items={tocItems} />
+
+      {/* Interactive Showcase Modal */}
+      <ShowcaseModal
+        isOpen={isShowcaseOpen}
+        onClose={() => setIsShowcaseOpen(false)}
+        componentName={component.displayName}
+        deepLinkRoute={component.showcase?.route || `components/${component.id}`}
+      />
     </div>
   );
 };
