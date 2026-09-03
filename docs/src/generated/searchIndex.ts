@@ -24,5 +24,22 @@ export const searchIndex: SearchItem[] = [
       "submit",
       "loading"
     ]
+  },
+  {
+    "id": "drawer",
+    "name": "FrogDrawer",
+    "displayName": "Drawer",
+    "description": "Adaptive contextual overlay presented as a modal bottom sheet or docked side panel without navigating away from the current screen destination.",
+    "category": "overlays",
+    "status": "experimental",
+    "path": "/FrogUI/components/drawer",
+    "tags": [
+      "overlay",
+      "sheet",
+      "side-panel",
+      "inspector",
+      "modal",
+      "dialog"
+    ]
   }
 ];

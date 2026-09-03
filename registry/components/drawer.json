@@ -1,0 +1,164 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "id": "drawer",
+  "name": "FrogDrawer",
+  "displayName": "Drawer",
+  "description": "Adaptive contextual overlay presented as a modal bottom sheet or docked side panel without navigating away from the current screen destination.",
+  "category": "overlays",
+  "status": "experimental",
+  "since": "0.1.0-SNAPSHOT",
+  "docs": "/components/drawer",
+  "source": "frogui-components/src/main/java/io/github/codewitheswar/frogui/components/overlays/drawer/FrogDrawer.kt",
+  "variants": [
+    "Auto",
+    "Bottom",
+    "Side"
+  ],
+  "sizes": [
+    "Compact",
+    "Expanded"
+  ],
+  "accessibility": {
+    "role": "Role.Dialog",
+    "minTouchTarget": "48dp",
+    "talkBackNotes": "Declares paneTitle semantics for window transition announcement, trapped focus, and provides accessible 48dp dismiss targets and back navigation."
+  },
+  "properties": [
+    {
+      "name": "state",
+      "type": "FrogDrawerState",
+      "defaultValue": "rememberFrogDrawerState()",
+      "description": "Controls drawer visibility, current value, target value, and programmatic open/close suspend operations."
+    },
+    {
+      "name": "onDismissRequest",
+      "type": "() -> Unit",
+      "defaultValue": "required",
+      "description": "Callback invoked when the drawer is dismissed via scrim tap, back press, or drag-to-dismiss gesture."
+    },
+    {
+      "name": "modifier",
+      "type": "Modifier",
+      "defaultValue": "Modifier",
+      "description": "Layout modifier applied to the drawer container."
+    },
+    {
+      "name": "presentation",
+      "type": "FrogDrawerPresentation",
+      "defaultValue": "FrogDrawerPresentation.Auto",
+      "description": "Presentation mode: Auto adapts to screen width (<620dp bottom, >=620dp side), Bottom presents as bottom sheet, Side presents as docked edge panel."
+    },
+    {
+      "name": "side",
+      "type": "FrogDrawerSide",
+      "defaultValue": "FrogDrawerSide.End",
+      "description": "Docking edge for side presentation mode (Start or End)."
+    },
+    {
+      "name": "title",
+      "type": "String?",
+      "defaultValue": "null",
+      "description": "Title text rendered in the header with heading accessibility semantics."
+    },
+    {
+      "name": "subtitle",
+      "type": "String?",
+      "defaultValue": "null",
+      "description": "Subtitle text rendered underneath the title."
+    },
+    {
+      "name": "navigationIcon",
+      "type": "(@Composable () -> Unit)?",
+      "defaultValue": "null",
+      "description": "Optional slot rendered at the start of the header, typically a back navigation action."
+    },
+    {
+      "name": "actions",
+      "type": "(@Composable RowScope.() -> Unit)?",
+      "defaultValue": "null",
+      "description": "Optional trailing actions slot rendered in the header before the close button."
+    },
+    {
+      "name": "preview",
+      "type": "(@Composable () -> Unit)?",
+      "defaultValue": "null",
+      "description": "Optional live preview slot rendered directly below the header divider."
+    },
+    {
+      "name": "footer",
+      "type": "(@Composable () -> Unit)?",
+      "defaultValue": "null",
+      "description": "Optional sticky footer slot anchored below the scrollable content area."
+    },
+    {
+      "name": "colors",
+      "type": "FrogDrawerColors",
+      "defaultValue": "FrogDrawerDefaults.colors()",
+      "description": "Resolved colors for container, content, border, handle, and scrim."
+    },
+    {
+      "name": "content",
+      "type": "@Composable ColumnScope.() -> Unit",
+      "defaultValue": "required",
+      "description": "The scrollable content body rendered within the drawer."
+    }
+  ],
+  "examples": [
+    {
+      "id": "basic",
+      "title": "Basic Drawer",
+      "description": "Simple open and close with hoisted state.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/drawer/DrawerExamples.kt",
+      "region": "basic"
+    },
+    {
+      "id": "bottom",
+      "title": "Bottom Presentation",
+      "description": "Compact modal bottom sheet with drag handle.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/drawer/DrawerExamples.kt",
+      "region": "bottom"
+    },
+    {
+      "id": "side",
+      "title": "Side Inspector",
+      "description": "Contextual end-docked tool panel.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/drawer/DrawerExamples.kt",
+      "region": "side"
+    },
+    {
+      "id": "header",
+      "title": "Custom Header Actions",
+      "description": "Header with navigation and secondary reset action.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/drawer/DrawerExamples.kt",
+      "region": "header"
+    },
+    {
+      "id": "footer",
+      "title": "Sticky Action Footer",
+      "description": "Sticky Cancel and Apply buttons below scroll body.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/drawer/DrawerExamples.kt",
+      "region": "footer"
+    },
+    {
+      "id": "scroll",
+      "title": "Scrollable Content Body",
+      "description": "Long form content testing scroll containment.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/drawer/DrawerExamples.kt",
+      "region": "scroll"
+    }
+  ],
+  "schemaVersion": 1,
+  "tags": [
+    "overlay",
+    "sheet",
+    "side-panel",
+    "inspector",
+    "modal",
+    "dialog"
+  ],
+  "showcase": {
+    "route": "components/drawer",
+    "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/drawer/DrawerScreen.kt",
+    "screen": "DrawerScreen"
+  }
+}

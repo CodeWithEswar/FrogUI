@@ -42,6 +42,10 @@
     {
       "id": "button",
       "file": "components/button.json"
+    },
+    {
+      "id": "drawer",
+      "file": "components/drawer.json"
     }
   ],
   "$schema": "./schema/registry.schema.json",

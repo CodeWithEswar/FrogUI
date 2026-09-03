@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import io.github.codewitheswar.frogui.theme.FrogTheme
 import io.github.codewitheswar.frogui.components.button.FrogButton
 import io.github.codewitheswar.frogui.showcase.components.button.ButtonScreen
+import io.github.codewitheswar.frogui.showcase.components.drawer.DrawerScreen
 import io.github.codewitheswar.frogui.showcase.registry.ComponentDemo
 import io.github.codewitheswar.frogui.showcase.registry.ShowcaseRegistry
 
@@ -24,5 +25,6 @@ internal fun ComponentDetailScreen(componentId: String, onBack: () -> Unit, modi
     }
     when (entry.demo) {
         ComponentDemo.Button -> ButtonScreen(entry.metadata.id, onBack, modifier)
+        ComponentDemo.Drawer -> DrawerScreen(entry.metadata.id, onBack, modifier)
     }
 }

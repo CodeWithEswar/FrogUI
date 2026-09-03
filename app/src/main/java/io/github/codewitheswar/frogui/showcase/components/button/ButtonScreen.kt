@@ -23,7 +23,7 @@ import io.github.codewitheswar.frogui.registry.FrogComponentRegistry
 import io.github.codewitheswar.frogui.showcase.canvas.*
 import io.github.codewitheswar.frogui.showcase.code.FrogCodeSnippet
 import io.github.codewitheswar.frogui.showcase.colorpicker.*
-import io.github.codewitheswar.frogui.showcase.drawer.FrogDrawer
+import io.github.codewitheswar.frogui.components.overlays.drawer.FrogDrawer
 import io.github.codewitheswar.frogui.showcase.icons.FrogIcons
 import io.github.codewitheswar.frogui.showcase.inspector.*
 import io.github.codewitheswar.frogui.showcase.markdown.*

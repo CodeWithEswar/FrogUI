@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.codewitheswar.frogui.registry.FrogComponentRegistry
 import io.github.codewitheswar.frogui.showcase.colorpicker.*
-import io.github.codewitheswar.frogui.showcase.drawer.FrogDrawer
+import io.github.codewitheswar.frogui.components.overlays.drawer.FrogDrawer
 import io.github.codewitheswar.frogui.showcase.style.LocalFrogMotionEnabled
 import io.github.codewitheswar.frogui.theme.FrogTheme
 

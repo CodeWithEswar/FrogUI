@@ -15,6 +15,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version-file: '.node-version', cache: npm }
       - run: npm ci --ignore-scripts
+      - run: npm --prefix docs ci --ignore-scripts
       - run: npm test
       - run: npm run docs:build
       - uses: actions/upload-artifact@v4

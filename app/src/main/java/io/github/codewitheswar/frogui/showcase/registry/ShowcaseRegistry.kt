@@ -5,7 +5,8 @@ import io.github.codewitheswar.frogui.registry.FrogComponentRegistry
 
 /** Explicit native destinations. No executable factories live in the shared registry. */
 internal enum class ComponentDemo(val componentId: String) {
-    Button("button")
+    Button("button"),
+    Drawer("drawer")
 }
 
 internal data class ShowcaseComponent(val metadata: FrogComponentMetadata, val demo: ComponentDemo) {
