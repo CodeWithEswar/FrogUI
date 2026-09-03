@@ -1,8 +1,11 @@
 package io.github.codewitheswar.frogui.navigation
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -44,12 +47,23 @@ internal val showcaseDestinations get() = listOf(
 @Composable
 internal fun AnimatedNavIcon(icon: ImageVector, selected: Boolean, modifier: Modifier = Modifier) {
     val motion = LocalFrogMotionEnabled.current
-    val progress by animateFloatAsState(if (selected) 1f else 0f, tween(ShowcaseMotion.fast), label = "navigation emphasis")
-    Icon(icon, null, modifier.size(22.dp).graphicsLayer {
-        scaleX = if (motion) .92f + .08f * progress else 1f
-        scaleY = scaleX
-        translationY = if (motion) (1f - progress) * density else 0f
-    }, tint = if (selected) FrogTheme.colors.foreground else FrogTheme.colors.mutedForeground)
+    val progress by animateFloatAsState(
+        targetValue = if (selected) 1f else 0f,
+        animationSpec = tween(durationMillis = if (motion) ShowcaseMotion.fast else 0),
+        label = "navigation icon emphasis"
+    )
+    Icon(
+        imageVector = icon,
+        contentDescription = null,
+        modifier = modifier
+            .size(22.dp)
+            .graphicsLayer {
+                scaleX = if (motion) 1f + 0.06f * progress else 1f
+                scaleY = scaleX
+                translationY = if (motion) -1f * progress * density else 0f
+            },
+        tint = if (selected) FrogTheme.colors.foreground else FrogTheme.colors.mutedForeground
+    )
 }
 
 @Composable
@@ -72,24 +86,87 @@ internal fun FrogShowcaseBottomBar(
 }
 
 @Composable
-private fun NavigationItem(destination: ShowcaseDestination, selected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier, horizontal: Boolean = false) {
+private fun NavigationItem(
+    destination: ShowcaseDestination,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    horizontal: Boolean = false
+) {
     val colors = FrogTheme.colors
+    val motion = LocalFrogMotionEnabled.current
     val source = remember { MutableInteractionSource() }
-    val itemModifier = modifier.heightIn(min = 56.dp).showcaseFocus(source)
+    val itemModifier = modifier
+        .heightIn(min = 56.dp)
+        .showcaseFocus(source)
         .selectable(selected, interactionSource = source, indication = null, role = Role.Tab, onClick = onClick)
         .padding(horizontal = 4.dp, vertical = 8.dp)
+
+    val labelColor by animateColorAsState(
+        targetValue = if (selected) colors.foreground else colors.mutedForeground,
+        animationSpec = tween(durationMillis = if (motion) ShowcaseMotion.fast else 0),
+        label = "nav label color"
+    )
+    val indicatorAlpha by animateFloatAsState(
+        targetValue = if (selected) 1f else 0f,
+        animationSpec = tween(durationMillis = if (motion) ShowcaseMotion.fast else 0),
+        label = "nav indicator alpha"
+    )
+
     if (horizontal) {
-        Row(itemModifier.background(if (selected) colors.subtleSurface else Color.Transparent).padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Box(Modifier.width(2.dp).height(20.dp).background(if (selected) colors.foreground else Color.Transparent))
+        val indicatorHeight by animateDpAsState(
+            targetValue = if (selected) 20.dp else 0.dp,
+            animationSpec = tween(durationMillis = if (motion) ShowcaseMotion.fast else 0),
+            label = "rail indicator height"
+        )
+        Row(
+            itemModifier
+                .background(if (selected) colors.subtleSurface else Color.Transparent)
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Box(
+                Modifier
+                    .width(2.dp)
+                    .height(indicatorHeight)
+                    .graphicsLayer { alpha = indicatorAlpha }
+                    .background(colors.foreground, RoundedCornerShape(1.dp))
+            )
             AnimatedNavIcon(destination.icon, selected)
-            Text(destination.label, color = if (selected) colors.foreground else colors.mutedForeground, style = FrogTheme.typography.bodySmall, fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal)
+            Text(
+                text = destination.label,
+                color = labelColor,
+                style = FrogTheme.typography.bodySmall,
+                fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
+            )
         }
     } else {
-        Column(itemModifier, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        val indicatorWidth by animateDpAsState(
+            targetValue = if (selected) 16.dp else 0.dp,
+            animationSpec = tween(durationMillis = if (motion) ShowcaseMotion.fast else 0),
+            label = "bottom indicator width"
+        )
+        Column(
+            itemModifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
             AnimatedNavIcon(destination.icon, selected)
-            Text(destination.label, color = if (selected) colors.foreground else colors.mutedForeground, style = FrogTheme.typography.label,
-                textAlign = TextAlign.Center, fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal)
-            Box(Modifier.width(16.dp).height(2.dp).background(if (selected) colors.foreground else Color.Transparent))
+            Text(
+                text = destination.label,
+                color = labelColor,
+                style = FrogTheme.typography.label,
+                textAlign = TextAlign.Center,
+                fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
+            )
+            Box(
+                Modifier
+                    .width(indicatorWidth)
+                    .height(2.dp)
+                    .graphicsLayer { alpha = indicatorAlpha }
+                    .background(colors.foreground, RoundedCornerShape(1.dp))
+            )
         }
     }
 }

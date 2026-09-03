@@ -14,7 +14,8 @@ import {
   AccessibilityIcon,
   CursorPointer01Icon,
   SidebarRight01Icon,
-  SlidersHorizontalIcon
+  SlidersHorizontalIcon,
+  CpuIcon
 } from '@hugeicons/core-free-icons';
 import { StatusBadge } from '../ui/StatusBadge';
 
@@ -30,6 +31,7 @@ const getNavIcon = (path: string): HugeIconData => {
   if (path.includes('introduction')) return BookOpen01Icon as unknown as HugeIconData;
   if (path.includes('installation')) return Download01Icon as unknown as HugeIconData;
   if (path.includes('quickstart')) return Rocket01Icon as unknown as HugeIconData;
+  if (path.includes('technology')) return CpuIcon as unknown as HugeIconData;
   if (path.includes('colors')) return PaletteIcon as unknown as HugeIconData;
   if (path.includes('typography')) return TextIcon as unknown as HugeIconData;
   if (path.includes('spacing')) return GridViewIcon as unknown as HugeIconData;

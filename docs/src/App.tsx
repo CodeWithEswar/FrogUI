@@ -5,6 +5,7 @@ import { ComponentDetailPage } from './pages/ComponentDetailPage';
 import { GettingStartedPage } from './pages/GettingStartedPage';
 import { FoundationPage } from './pages/FoundationPage';
 import { MarkdownGalleryPage } from './pages/MarkdownGalleryPage';
+import { TechnologyPage } from './pages/TechnologyPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { catalog, getComponentById } from './generated/catalog';
 
@@ -79,6 +80,10 @@ export const App: React.FC = () => {
 
     if (logicalRoute === '/docs/quick-start') {
       return <GettingStartedPage section="quick-start" onNavigate={navigate} />;
+    }
+
+    if (logicalRoute === '/docs/technology' || logicalRoute === '/architecture/technology') {
+      return <TechnologyPage onNavigate={navigate} />;
     }
 
     if (logicalRoute.startsWith('/foundation')) {

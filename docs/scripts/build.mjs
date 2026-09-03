@@ -156,6 +156,12 @@ export const navigationSections: NavSection[] = [
       { title: 'Accessibility', path: '/foundation/accessibility' },
     ]
   },
+  {
+    title: 'Architecture',
+    items: [
+      { title: 'Technology Foundation', path: '/docs/technology' },
+    ]
+  },
   ...categories.map(category => {
     const components = catalog.filter(c => c.category === category.id);
     return {
