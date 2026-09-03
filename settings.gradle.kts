@@ -24,4 +24,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "FrogUI"
 include(":app")
+include(":frogui-foundation")
+include(":frogui-components")
+include(":frogui-registry")
  
