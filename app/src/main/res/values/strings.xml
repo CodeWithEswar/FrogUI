@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FrogUI</string>
+    <string name="frogui_brand_description">FrogUI Component Ecosystem</string>
+    <string name="frogui_logo_cd">FrogUI</string>
+</resources>

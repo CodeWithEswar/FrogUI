@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- FrogUI Official Monochrome Palette -->
+    <color name="frogui_black">#FF09090B</color>
+    <color name="frogui_white">#FFFFFFFF</color>
+    <color name="frogui_zinc_950">#FF09090B</color>
+    <color name="frogui_zinc_900">#FF18181B</color>
+    <color name="frogui_zinc_800">#FF27272A</color>
+    <color name="frogui_zinc_700">#FF3F3F46</color>
+    <color name="frogui_zinc_500">#FF71717A</color>
+    <color name="frogui_zinc_400">#FFA1A1AA</color>
+    <color name="frogui_zinc_200">#FFE4E4E7</color>
+    <color name="frogui_zinc_100">#FFF4F4F5</color>
+
+    <!-- Launcher & Branding Resources -->
+    <color name="frogui_launcher_background">#FF09090B</color>
+    <color name="frogui_splash_background">#FF09090B</color>
+
+    <!-- System Legacy Colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.FrogUI" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Native Android 12+ (API 31+) SplashScreen attributes -->
+        <item name="android:windowSplashScreenBackground">@color/frogui_splash_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/frogui_splash_icon</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/frogui_splash_background</item>
+        <item name="android:statusBarColor">@color/frogui_black</item>
+        <item name="android:navigationBarColor">@color/frogui_black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+</resources>
