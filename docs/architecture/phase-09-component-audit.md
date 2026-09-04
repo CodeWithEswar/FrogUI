@@ -53,7 +53,26 @@ It remains Experimental because manual accessibility/device review is pending.
 
 ## Validation
 
-Validation results are recorded after the Phase 09 implementation run. Required gates:
+The Phase 09 implementation passed the required local gates on September 4, 2026:
+
+- `npm.cmd test`: 22 registry and icon-inventory tests passed.
+- `npm.cmd run registry:validate`: 2 components validated against schema v2.
+- `npm.cmd --prefix docs run typecheck`: passed.
+- `npm.cmd run docs:build`: passed; Vite retained its existing large-chunk advisory.
+- `apiCheck`, `verifyPublicApiBoundary`, and `verifyArchitecture`: passed. The reviewed
+  baseline change contains only the optional Drawer `Shape?` parameter on the canonical
+  state-owned and Boolean-owned overloads.
+- `testDebugUnitTest`: 50 tests passed across 15 result suites with no failures, errors,
+  or skips.
+- `lintDebug`: passed with no errors and 35 advisory warnings.
+- `assembleDebug` and `assembleDebugAndroidTest`: passed.
+- `git -c core.safecrlf=false diff --check`: passed.
+- Credential-pattern scan: no GitHub credential patterns found in tracked project
+  content outside generated build output.
+
+No Android device was connected, so the instrumentation APK was compiled but device
+execution, TalkBack speech/traversal, keyboard/tablet behavior, and physical adaptive
+layout checks remain manual evidence. The exact reproducible commands are:
 
 ```powershell
 npm.cmd test
