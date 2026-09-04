@@ -33,6 +33,12 @@ FrogButton as the reference before replicating its architecture. Stable requires
 reviewed API, device/test, theme, accessibility, adaptive, motion, Showcase, registry,
 and documentation evidence. Record inapplicable items with reasons.
 
+Create `docs/components/<id>-delivery.md` from the
+[delivery record template](docs/components/_delivery-template.md). Audit an existing
+component and continue at its first incomplete gate. Keep the record synchronized with
+registry status; registry validation rejects missing records, identity drift, and
+unsupported promotion.
+
 Use realistic examples and meaningful behavior tests. Size constants and enum
 counts do not prove touch bounds, TalkBack, focus, or interaction behavior.
 

@@ -1,9 +1,9 @@
 # Registry flow and schema contract
 
 `registry/components/<id>.json` is the canonical shared descriptive record.
-`registry/index.json` owns taxonomy and ordered ID/file references. Schema version 1
+`registry/index.json` owns taxonomy and ordered ID/file references. Schema version 2
 is explicitly declared and validated using pinned Ajv with the draft-07 component,
-example, and index schemas. Schema version 2 adds required lifecycle evidence for
+example, and index schemas. It requires lifecycle evidence for
 visual states, interactions, themes, adaptive classes, previews, and tests. Breaking
 field or meaning changes require another schema version and migration.
 
@@ -39,6 +39,13 @@ capabilities/properties/examples. It also verifies a KDoc'd Defaults object, Com
 preview coverage, unit/Android test sources, and a web preview that uses the shared
 preview contract. Stable entries also require nonempty properties/
 examples, accessibility metadata, and `docs/components/<id>-review.md`.
+
+Each component also has a validator-enforced delivery record at
+`docs/components/<id>-delivery.md`. It records specification, API, implementation,
+theme/state, accessibility, preview, test, registry, Showcase, web docs, compatibility,
+and visual-regression evidence. Identity and status must match the registry. Beta cannot
+contain a missing, outdated, or duplicated gate; Stable requires all gates complete and
+the separate stability review.
 
 `npm test` exercises rejection cases. `verifyArchitecture` additionally runs native
 destination coverage and Button enum parity tests. Source-name checks are limited

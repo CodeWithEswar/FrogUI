@@ -16,6 +16,57 @@ export function repositoryFile(root, relative) {
 const readJson = (root, file) => JSON.parse(fs.readFileSync(repositoryFile(root, file), 'utf8').replace(/^\uFEFF/, ''));
 const unique = (values, label) => assert.equal(new Set(values).size, values.length, `Duplicate ${label}`);
 
+const deliveryGates = [
+  'Specification',
+  'Public API',
+  'Implementation',
+  'Theme / states',
+  'Accessibility',
+  'Compose previews',
+  'Tests',
+  'Registry',
+  'Showcase',
+  'Web docs',
+  'API compatibility',
+  'Visual regression'
+];
+const deliveryStates = new Set(['COMPLETE', 'PARTIAL', 'MISSING', 'OUTDATED', 'DUPLICATED']);
+
+function deliveryValue(markdown, label) {
+  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = markdown.match(new RegExp('^- ' + escaped + ': `([^`]+)`\\r?$', 'm'));
+  assert(match, `Delivery record missing ${label}`);
+  return match[1];
+}
+
+function verifyDeliveryRecord(root, component) {
+  const relative = `docs/components/${component.id}-delivery.md`;
+  const markdown = fs.readFileSync(repositoryFile(root, relative), 'utf8');
+  assert.equal(deliveryValue(markdown, 'Component'), component.name, `Delivery component mismatch: ${component.id}`);
+  assert.equal(deliveryValue(markdown, 'Registry ID'), component.id, `Delivery registry ID mismatch: ${component.id}`);
+  assert.equal(deliveryValue(markdown, 'Category'), component.category, `Delivery category mismatch: ${component.id}`);
+  assert.equal(deliveryValue(markdown, 'Current status').toLowerCase(), component.status,
+    `Delivery status mismatch: ${component.id}`);
+
+  const rows = [...markdown.matchAll(/^\|\s*([^|]+?)\s*\|\s*([A-Z_]+)\s*\|\s*([^|]+?)\s*\|\r?$/gm)]
+    .map(match => ({ gate: match[1].trim(), state: match[2], evidence: match[3].trim() }))
+    .filter(row => row.gate !== 'Gate');
+  assert.deepEqual(rows.map(row => row.gate), deliveryGates,
+    `Delivery gates must use the canonical order: ${component.id}`);
+  for (const row of rows) {
+    assert(deliveryStates.has(row.state), `Invalid delivery state ${row.state}: ${component.id}/${row.gate}`);
+    assert(row.evidence && row.evidence !== '—', `Delivery gate requires evidence: ${component.id}/${row.gate}`);
+  }
+  if (component.status === 'beta') {
+    assert(rows.every(row => !['MISSING', 'OUTDATED', 'DUPLICATED'].includes(row.state)),
+      `Beta delivery record has a blocking gate: ${component.id}`);
+  }
+  if (component.status === 'stable') {
+    assert(rows.every(row => row.state === 'COMPLETE'),
+      `Stable delivery record has incomplete gates: ${component.id}`);
+  }
+}
+
 function verifyLifecycleArtifacts(root, component, source) {
   const quality = component.quality;
   const preview = fs.readFileSync(repositoryFile(root, quality.composePreviews), 'utf8');
@@ -100,6 +151,7 @@ export function loadRegistry(root) {
     assert(!new RegExp(`\\binternal\\s+fun\\s+${component.name}\\s*\\(`).test(source), 'Catalog requires public components');
     verifyPropertyMetadata(source, component);
     verifyLifecycleArtifacts(root, component, source);
+    verifyDeliveryRecord(root, component);
     assert(component.showcase.source.startsWith('app/src/main/') && component.showcase.source.endsWith('.kt'), 'Showcase route must reference app Kotlin');
     const demo = fs.readFileSync(repositoryFile(root, component.showcase.source), 'utf8');
     assert(new RegExp(`\\bfun\\s+${component.showcase.screen}\\s*\\(`).test(demo), `Missing Showcase screen: ${component.id}`);

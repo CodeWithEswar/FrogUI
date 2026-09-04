@@ -37,6 +37,50 @@ FrogTheme → Defaults → canonical component
 11. Run registry, API, architecture, unit, lint, compile, and documentation gates.
     Review device-only accessibility and window evidence separately.
 
+For a new component, expand that sequence into this delivery procedure. For an existing
+component, audit every step and resume at its first incomplete gate:
+
+1. Inspect existing implementation and supporting artifacts.
+2. Define purpose, use cases, exclusions, and caller-owned state.
+3. Define semantic variants, sizes, states, and meaningful invalid combinations.
+4. Design and review the public Kotlin API.
+5. Define immutable configuration and theme-aware Defaults where useful.
+6. Implement one canonical Compose component with internal helpers.
+7. Integrate FrogUI foundation tokens and component Defaults.
+8. Implement relevant state, interaction, motion, and adaptive behavior.
+9. Implement semantics, targets, focus, keyboard/D-pad, Back, IME, RTL, and font-scale
+   behavior where the component requires them.
+10. Add focused Compose preview matrices using `FrogComponentPreview`.
+11. Add meaningful unit, behavior, semantics, adaptive, and selective visual checks.
+12. Register canonical identity, API, examples, accessibility facts, and lifecycle
+    evidence.
+13. Add typed component-specific controls through shared inspector primitives.
+14. Supply the actual component, generated code, examples, API, and accessibility to a
+    `ComponentShowcaseDefinition` consumed by `ComponentDetailScreen`.
+15. Add explanatory Markdown and an isolated representative web preview through
+    `ComponentPreviewRegistry`.
+16. Review the API candidate, registry validation, Android tests/lint/build, docs
+    typecheck/build, and applicable visual evidence.
+17. Update the component delivery record and promote status only when its gates qualify.
+
+## Component delivery record
+
+Every registry component has `docs/components/<id>-delivery.md`, created from
+`docs/components/_delivery-template.md`. It records identity, the behavior specification,
+API decisions, the canonical delivery-gate table, evidence, and the promotion decision.
+This is a review artifact, not a runtime database or props system.
+
+Audit values are `COMPLETE`, `PARTIAL`, `MISSING`, `OUTDATED`, and `DUPLICATED`.
+Experimental components may retain truthful incomplete gates. Beta cannot retain a
+missing, outdated, or duplicated gate. Stable requires every gate to be complete plus
+the existing stability-review artifact. The registry validator verifies the record path,
+identity/status parity, canonical gate order, evidence text, and promotion constraints.
+
+The required gates are Specification, Public API, Implementation, Theme / states,
+Accessibility, Compose previews, Tests, Registry, Showcase, Web docs, API compatibility,
+and Visual regression. A workflow file or compiled test APK is not evidence that a hosted
+or device test ran; record those separately.
+
 ## Public component contract
 
 The common call should be short. Required state and callbacks stay explicit. Prefer

@@ -12,6 +12,7 @@ function fixture() {
   const target = fs.mkdtempSync(path.join(root, 'build/registry-test-'));
   // Fixtures stay in ignored build output. No repository files are mutated.
   for (const source of ['registry', 'gradle/release.properties', 'docs/content',
+    'docs/components',
     'frogui-components/src/main', 'frogui-components/src/test', 'app/src/main', 'app/src/androidTest',
     'docs/src/components/preview']) {
     fs.mkdirSync(path.dirname(path.join(target, source)), { recursive: true });
@@ -67,6 +68,42 @@ test('rejects a lifecycle artifact that does not exercise the component', () => 
   const file = path.join(target, 'docs/src/components/preview/previews/button/ButtonPreview.tsx');
   fs.writeFileSync(file, 'export const EmptyPreview = () => null;');
   assert.throws(() => loadRegistry(target), /shared preview contract/);
+});
+
+test('rejects a missing component delivery record', () => {
+  const target = fixture();
+  fs.rmSync(path.join(target, 'docs/components/button-delivery.md'));
+  assert.throws(() => loadRegistry(target), /button-delivery\.md/);
+});
+
+test('rejects delivery identity drift', () => {
+  const target = fixture();
+  const file = path.join(target, 'docs/components/button-delivery.md');
+  fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace('- Registry ID: `button`', '- Registry ID: `action`'));
+  assert.throws(() => loadRegistry(target), /Delivery registry ID mismatch/);
+});
+
+test('rejects promotion when the delivery record has a blocking gate', () => {
+  const target = fixture();
+  changeRecord(target, component => { component.status = 'beta'; });
+  const file = path.join(target, 'docs/components/button-delivery.md');
+  let record = fs.readFileSync(file, 'utf8').replace('- Current status: `Experimental`', '- Current status: `Beta`');
+  record = record.replace('| Accessibility | PARTIAL |', '| Accessibility | MISSING |');
+  fs.writeFileSync(file, record);
+  assert.throws(() => loadRegistry(target), /Beta delivery record has a blocking gate/);
+});
+
+test('rejects Stable while any delivery gate remains incomplete', () => {
+  const target = fixture();
+  changeRecord(target, component => {
+    component.status = 'stable';
+    component.stabilityReview = 'docs/components/button-review.md';
+  });
+  fs.writeFileSync(path.join(target, 'docs/components/button-review.md'), '# Reviewed stability evidence');
+  const file = path.join(target, 'docs/components/button-delivery.md');
+  const record = fs.readFileSync(file, 'utf8').replace('- Current status: `Experimental`', '- Current status: `Stable`');
+  fs.writeFileSync(file, record);
+  assert.throws(() => loadRegistry(target), /Stable delivery record has incomplete gates/);
 });
 
 test('rejects a missing docs destination', () => {

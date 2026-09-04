@@ -11,6 +11,17 @@ Describe the user scenario, component/module affected, and resulting behavior.
 - [ ] Reviewed API names/order/defaults and the candidate `.api` diff; classified source, binary and behavior impact. Linked migration guidance for deprecations or breaking changes.
 - [ ] Ran `apiCheck`; any baseline update was explicitly reviewed, with no automatic `apiDump` step in CI.
 
+## Component delivery
+
+- [ ] Audited the component from specification through visual regression and resumed at
+  the first incomplete gate instead of recreating healthy infrastructure.
+- [ ] Added or updated `docs/components/<id>-delivery.md` from the canonical template;
+  identity, status, gate classifications, evidence, and promotion decision are truthful.
+- [ ] Showcase renders the canonical component through `ComponentDetailScreen`; web docs
+  use the shared page and an isolated registered preview.
+- [ ] Playground controls are typed/shared, generated Kotlin uses only public API, and
+  demo-only state is not represented as a public property.
+
 ## Validation
 
 List commands/results and relevant device evidence. Explain any inapplicable checks.
