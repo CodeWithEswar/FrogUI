@@ -61,6 +61,17 @@ export interface ComponentShowcase {
   screen: string;
 }
 
+export interface ComponentQuality {
+  visualStates: string[];
+  interactions: string[];
+  themes: Array<'Light' | 'Dark' | 'Custom'>;
+  adaptiveClasses: Array<'Compact' | 'Medium' | 'Expanded'>;
+  composePreviews: string;
+  unitTests: string[];
+  androidTests: string[];
+  webPreview: string;
+}
+
 export interface ComponentDocPage {
   id: string;
   name: string;
@@ -76,6 +87,7 @@ export interface ComponentDocPage {
   examples: ComponentExample[];
   tags: string[];
   accessibility: ComponentAccessibility;
+  quality?: ComponentQuality;
   source?: string;
   showcase?: ComponentShowcase;
   prose: string;

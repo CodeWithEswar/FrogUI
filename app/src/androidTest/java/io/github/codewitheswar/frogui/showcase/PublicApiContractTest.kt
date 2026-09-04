@@ -3,6 +3,7 @@ package io.github.codewitheswar.frogui.showcase
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -67,7 +68,13 @@ class PublicApiContractTest {
         restoration.setContent { FrogTheme(motion = FrogMotion(0, 0, 0)) {
             state = rememberFrogDrawerState()
             FrogOverlayHost(Modifier.size(350.dp, 400.dp)) {
-                FrogDrawer(state, { if (acceptDismissal) state.snapTo(FrogDrawerValue.Closed) }, title = "Saved pane") { Text("Saved body") }
+                FrogDrawer(
+                    state,
+                    { if (acceptDismissal) state.snapTo(FrogDrawerValue.Closed) },
+                    title = "Saved pane",
+                    shape = RoundedCornerShape(24.dp),
+                    colors = FrogDrawerDefaults.colors(containerColor = Color.Red, contentColor = Color.White),
+                ) { Text("Saved body") }
             }
         } }
         compose.runOnIdle { state.snapTo(FrogDrawerValue.Open) }

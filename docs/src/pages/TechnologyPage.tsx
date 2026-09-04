@@ -214,6 +214,7 @@ fun FrogDrawer(
     colors: FrogDrawerColors = FrogDrawerDefaults.colors(),
     onBackRequest: (() -> Unit)? = null,
     closeIcon: (@Composable () -> Unit)? = null,
+    shape: Shape? = null,
     content: @Composable ColumnScope.() -> Unit
 )`}
         />

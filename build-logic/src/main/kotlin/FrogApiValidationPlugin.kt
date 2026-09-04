@@ -34,33 +34,50 @@ class FrogApiValidationPlugin : Plugin<Project> {
                 aar.set(variant.artifacts.get(SingleArtifact.AAR))
                 outputJar.set(layout.buildDirectory.file("api-input/classes.jar"))
             }
-            val candidate = tasks.register<KotlinApiBuildTask>("apiBuild") {
+            val rawCandidate = tasks.register<KotlinApiBuildTask>("apiBuild") {
                 group = "verification"
                 description = "Extracts a candidate Kotlin JVM ABI without changing the reviewed baseline."
                 inputJar.set(classes.flatMap { it.outputJar })
-                outputApiFile.set(layout.buildDirectory.file("api/$moduleName.api"))
+                outputApiFile.set(layout.buildDirectory.file("api-raw/$moduleName.api"))
                 runtimeClasspath.from(runtime)
+            }
+            val candidate = tasks.register<FrogNormalizeApiTask>("apiNormalize") {
+                inputFile.set(rawCandidate.flatMap { it.outputApiFile })
+                outputFile.set(layout.buildDirectory.file("api/$moduleName.api"))
             }
             val baseline = layout.projectDirectory.file("api/$moduleName.api")
             val boundary = tasks.register<FrogApiBoundaryTask>("verifyPublicApiBoundary") {
                 group = "verification"
-                apiFile.set(candidate.flatMap { it.outputApiFile })
+                apiFile.set(candidate.flatMap { it.outputFile })
             }
             val check = tasks.register<KotlinApiCompareTask>("apiCheck") {
                 group = "verification"
                 description = "Fails on any unreviewed public ABI change; never updates the baseline."
                 projectApiFile.set(baseline)
-                generatedApiFile.set(candidate.flatMap { it.outputApiFile })
+                generatedApiFile.set(candidate.flatMap { it.outputFile })
                 dependsOn(boundary)
             }
             tasks.register<FrogApiDumpTask>("apiDump") {
                 group = "api maintenance"
                 description = "Accepts the candidate ABI. Run explicitly only after reviewing the API diff."
-                candidateFile.set(candidate.flatMap { it.outputApiFile })
+                candidateFile.set(candidate.flatMap { it.outputFile })
                 baselineFile.set(baseline)
             }
             tasks.named("check").configure { dependsOn(check) }
         }
+    }
+}
+
+@CacheableTask
+abstract class FrogNormalizeApiTask : DefaultTask() {
+    @get:InputFile @get:PathSensitive(PathSensitivity.NONE)
+    abstract val inputFile: RegularFileProperty
+    @get:OutputFile abstract val outputFile: RegularFileProperty
+
+    @TaskAction fun normalize() {
+        val output = outputFile.get().asFile
+        output.parentFile.mkdirs()
+        output.writeText(inputFile.get().asFile.readText().trimEnd() + "\n")
     }
 }
 

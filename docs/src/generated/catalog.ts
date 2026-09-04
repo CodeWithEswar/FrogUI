@@ -25,6 +25,17 @@ export interface ComponentShowcase {
   screen: string;
 }
 
+export interface ComponentQuality {
+  visualStates: string[];
+  interactions: string[];
+  themes: Array<'Light' | 'Dark' | 'Custom'>;
+  adaptiveClasses: Array<'Compact' | 'Medium' | 'Expanded'>;
+  composePreviews: string;
+  unitTests: string[];
+  androidTests: string[];
+  webPreview: string;
+}
+
 export interface ComponentDocPage {
   id: string;
   name: string;
@@ -40,6 +51,7 @@ export interface ComponentDocPage {
   examples: ComponentExample[];
   tags: string[];
   accessibility: ComponentAccessibility;
+  quality?: ComponentQuality;
   source?: string;
   showcase?: ComponentShowcase;
   prose: string;
@@ -287,6 +299,35 @@ export const catalog: ComponentDocPage[] = [
       "minTouchTarget": "48dp",
       "talkBackNotes": "Intended to expose button role, loading state, and disabled behavior. TalkBack, label grouping, localization, and actual touch bounds require verification before stability."
     },
+    "quality": {
+      "visualStates": [
+        "Default",
+        "Pressed",
+        "Focused",
+        "Disabled",
+        "Loading"
+      ],
+      "interactions": [
+        "Click",
+        "Keyboard activation",
+        "Focus"
+      ],
+      "themes": [
+        "Light",
+        "Dark",
+        "Custom"
+      ],
+      "adaptiveClasses": [],
+      "composePreviews": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonComponentPreviews.kt",
+      "unitTests": [
+        "frogui-components/src/test/java/io/github/codewitheswar/frogui/components/button/FrogButtonTest.kt"
+      ],
+      "androidTests": [
+        "app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/PublicApiContractTest.kt",
+        "app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/ButtonDetailTest.kt"
+      ],
+      "webPreview": "docs/src/components/preview/previews/button/ButtonPreview.tsx"
+    },
     "source": "frogui-components/src/main/java/io/github/codewitheswar/frogui/components/button/FrogButton.kt",
     "showcase": {
       "route": "components/button",
@@ -396,6 +437,12 @@ export const catalog: ComponentDocPage[] = [
         "description": "Optional decorative glyph within the standard accessible close button."
       },
       {
+        "name": "shape",
+        "type": "Shape?",
+        "defaultValue": "null",
+        "description": "Optional surface shape override. Null resolves theme-aware corners after Auto chooses Bottom or Side presentation."
+      },
+      {
         "name": "content",
         "type": "@Composable ColumnScope.() -> Unit",
         "defaultValue": "required",
@@ -453,13 +500,49 @@ export const catalog: ComponentDocPage[] = [
       "minTouchTarget": "48dp",
       "talkBackNotes": "Pane title and dismiss action are implemented. Native modal windows contain focus; embedded hosts provide a bounded nonmodal region. Human TalkBack speech and traversal need release verification."
     },
+    "quality": {
+      "visualStates": [
+        "Closed",
+        "Open",
+        "Short content",
+        "Scrollable content"
+      ],
+      "interactions": [
+        "Open",
+        "Dismiss",
+        "System Back",
+        "Scrim",
+        "Focus",
+        "Drag",
+        "Scroll"
+      ],
+      "themes": [
+        "Light",
+        "Dark",
+        "Custom"
+      ],
+      "adaptiveClasses": [
+        "Compact",
+        "Medium",
+        "Expanded"
+      ],
+      "composePreviews": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/drawer/DrawerDetailPreviews.kt",
+      "unitTests": [
+        "frogui-components/src/test/java/io/github/codewitheswar/frogui/components/overlays/drawer/FrogDrawerTest.kt"
+      ],
+      "androidTests": [
+        "app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/PublicApiContractTest.kt",
+        "app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/SharedComponentDetailTest.kt"
+      ],
+      "webPreview": "docs/src/components/preview/previews/drawer/DrawerPreview.tsx"
+    },
     "source": "frogui-components/src/main/java/io/github/codewitheswar/frogui/components/overlays/drawer/FrogDrawer.kt",
     "showcase": {
       "route": "components/drawer",
       "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/drawer/DrawerShowcaseDefinition.kt",
       "screen": "drawerShowcaseDefinition"
     },
-    "prose": "# Usage guidance\n\nUse Drawer to present contextual content, secondary workflows, and property inspectors without navigating away from the current screen destination.\nThe caller owns the drawer state and supplies the dismiss callback. Dismiss gestures include modal backdrop taps, system back gestures, and downward drag gestures on compact bottom presentations.\n\n`rememberFrogDrawerState()` is optional: use the `visible` overload if the application already owns a Boolean. The helper saves requested visibility. Its suspend `open()` and `close()` functions update state immediately; they do not wait for visual animation to finish. `snapTo()` also changes requested visibility, and does not bypass rendering motion.\n\nWrap application content in `FrogTheme` from `io.github.codewitheswar.frogui.theme`.\nUse composable content, header, preview, and sticky footer slots, adaptive presentation modes, and `FrogDrawerColors` for customization. API signatures, examples, capabilities, and status come directly from the generated registry.\n\n## Compose a drawer\n\nHoisting state allows external triggers (such as toolbar buttons or menu items) to imperatively launch and dismiss the drawer.\n\n```kotlin\n@Composable\nfun SettingsDrawer() {\n    val drawerState = rememberFrogDrawerState()\n    val scope = rememberCoroutineScope()\n\n    FrogButton(\n        onClick = { scope.launch { drawerState.open() } }\n    ) {\n        Text(\"Configure Settings\")\n    }\n\n    FrogDrawer(\n        state = drawerState,\n        onDismissRequest = { scope.launch { drawerState.close() } },\n        title = \"Settings\",\n        subtitle = \"Manage application preferences\"\n    ) {\n        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {\n            Text(\"General Preferences\", style = FrogTheme.typography.heading)\n            Text(\"Notification and appearance settings.\")\n        }\n    }\n}\n```\n\n### Choose an adaptive presentation\n\n- **Auto** (default) resolves from `FrogTheme.adaptive`: Compact (below 600dp by default) presents as a bottom sheet; Medium/Expanded use a side panel. Both presentations use a native modal window by default.\n- **Bottom** forces bottom sheet presentation with top rounded corners and an interactive drag-to-dismiss handle indicator.\n- **Side** places the panel at a logical screen edge (`FrogDrawerSide.End` or `FrogDrawerSide.Start`). Its width is capped by the available space. Start and End mirror in RTL.\n\nOn bottom presentation, a downward handle drag exceeding 64dp requests dismissal. The owner closes the state in `onDismissRequest`.\n\n### Preview within a bounded workspace\n\nWrap content in `FrogOverlayHost(Modifier.width(360.dp).height(360.dp))` to render the same public drawer inside explicit bounds. Auto uses the host's width, and the panel and scrim stay inside those bounds. This is useful for component previews; it does not create a modal window or trap focus across the application. The host's caller handles Back and restores focus to its trigger.\n\nThe showcase uses this bounded host in the shared Preview workspace. Its compiled examples open native modal windows. Preview theme, width and background are independent from generated component code. The shared detail tabs are Preview, Code, API and Accessibility; usage guidance and examples live in Preview.\n\n## Customize slots and layout\n\nFrogDrawer provides dedicated structural slots:\n- **Header**: Includes title, subtitle, optional `navigationIcon` (e.g. back navigation), and optional trailing `actions`.\n- **Preview**: Rendered immediately below the header divider for live preview canvases or status badges.\n- **Content**: The main scrollable body. Internal scroll state is managed automatically so headers and footers remain pinned.\n- **Footer**: Sticky bottom bar rendered outside the scrollable body, typically housing primary and secondary action buttons.\n\nThe showcase's footer and long-content switches configure these slots; they are demonstration options, not extra public Drawer parameters.\n\n### Migrating the Boolean-side overload\n\nThe older overload with `side: Boolean` and `onBack` remains callable with a deprecation warning. In the canonical overload, pass `presentation = if (side) FrogDrawerPresentation.Side else FrogDrawerPresentation.Bottom` to preserve its placement. Move its old `actions` lambda into a `Row` in `footer`. Supply the back button through `navigationIcon` and the same callback through `onBackRequest`. The canonical `actions` slot is in the header, so moving old actions there changes behavior.\n\n`FrogDrawerDefaults.AnimationDurationMs` is also deprecated: it never controls the current renderer. Set `FrogTheme` motion tokens to configure transitions. Zero normal duration disables Drawer transitions; the configured normal duration and enter/exit easing otherwise apply directly. There is no mechanical `ReplaceWith` because these migrations require a behavior choice.\n\n```kotlin\nFrogDrawer(\n    state = drawerState,\n    onDismissRequest = { scope.launch { drawerState.close() } },\n    title = \"Edit Profile\",\n    footer = {\n        Row(\n            modifier = Modifier.fillMaxWidth(),\n            horizontalArrangement = Arrangement.spacedBy(8.dp)\n        ) {\n            FrogButton(\n                onClick = { scope.launch { drawerState.close() } },\n                modifier = Modifier.weight(1f),\n                variant = FrogButtonVariant.Secondary\n            ) {\n                Text(\"Cancel\")\n            }\n            FrogButton(\n                onClick = { scope.launch { drawerState.close() } },\n                modifier = Modifier.weight(1f),\n                variant = FrogButtonVariant.Primary\n            ) {\n                Text(\"Save\")\n            }\n        }\n    }\n) {\n    Text(\"User profile form fields and configurations.\")\n}\n```\n\n## Accessibility\n\n- **Pane Semantics**: Automatically declares `paneTitle = title ?: \"Drawer\"` so screen readers announce window transitions when opened.\n- **Semantic Dismissal**: Exposes the standard accessibility dismiss action to assistive tools.\n- **Focus management**: Native modal windows contain focus, and the close control receives initial keyboard focus. Embedded previews use the host's focus boundary; the showcase returns focus to the launch button after dismissal.\n- **Touch targets**: The built-in close and compatibility back buttons use `FrogIconButton` with `FrogTheme.sizing.minimumTouchTarget` (48dp by default). Caller-supplied navigation and action slots must preserve their own targets and accessible labels.\n- **Nested pages**: `onBackRequest` can return to a parent inspector while Close and outside dismissal discard the entire contextual flow. Without it, Back calls `onDismissRequest`.\n- **Motion and insets**: Zero-duration theme motion removes transitions. Native modal content respects safe-drawing and keyboard insets; the body scrolls beneath the header and above the footer.\n\nDrawer remains Experimental. Human TalkBack speech and traversal, physical keyboard/tablet behavior and hinge-aware placement still require release review. Automated semantics and layout checks do not replace those checks.\n"
+    "prose": "# Usage guidance\n\nUse Drawer to present contextual content, secondary workflows, and property inspectors without navigating away from the current screen destination.\nThe caller owns the drawer state and supplies the dismiss callback. Dismiss gestures include modal backdrop taps, system back gestures, and downward drag gestures on compact bottom presentations.\n\n`rememberFrogDrawerState()` is optional: use the `visible` overload if the application already owns a Boolean. The helper saves requested visibility. Its suspend `open()` and `close()` functions update state immediately; they do not wait for visual animation to finish. `snapTo()` also changes requested visibility, and does not bypass rendering motion.\n\nWrap application content in `FrogTheme` from `io.github.codewitheswar.frogui.theme`.\nUse composable content, header, preview, and sticky footer slots, adaptive presentation modes, and `FrogDrawerColors` for customization. API signatures, examples, capabilities, and status come directly from the generated registry.\n\n## Compose a drawer\n\nHoisting state allows external triggers (such as toolbar buttons or menu items) to imperatively launch and dismiss the drawer.\n\n```kotlin\n@Composable\nfun SettingsDrawer() {\n    val drawerState = rememberFrogDrawerState()\n    val scope = rememberCoroutineScope()\n\n    FrogButton(\n        onClick = { scope.launch { drawerState.open() } }\n    ) {\n        Text(\"Configure Settings\")\n    }\n\n    FrogDrawer(\n        state = drawerState,\n        onDismissRequest = { scope.launch { drawerState.close() } },\n        title = \"Settings\",\n        subtitle = \"Manage application preferences\"\n    ) {\n        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {\n            Text(\"General Preferences\", style = FrogTheme.typography.heading)\n            Text(\"Notification and appearance settings.\")\n        }\n    }\n}\n```\n\n### Choose an adaptive presentation\n\n- **Auto** (default) resolves from `FrogTheme.adaptive`: Compact (below 600dp by default) presents as a bottom sheet; Medium/Expanded use a side panel. Both presentations use a native modal window by default.\n- **Bottom** forces bottom sheet presentation with top rounded corners and an interactive drag-to-dismiss handle indicator.\n- **Side** places the panel at a logical screen edge (`FrogDrawerSide.End` or `FrogDrawerSide.Start`). Its width is capped by the available space. Start and End mirror in RTL.\n\nOn bottom presentation, a downward handle drag exceeding 64dp requests dismissal. The owner closes the state in `onDismissRequest`.\n\n### Preview within a bounded workspace\n\nWrap content in `FrogOverlayHost(Modifier.width(360.dp).height(360.dp))` to render the same public drawer inside explicit bounds. Auto uses the host's width, and the panel and scrim stay inside those bounds. This is useful for component previews; it does not create a modal window or trap focus across the application. The host's caller handles Back and restores focus to its trigger.\n\nThe showcase uses this bounded host in the shared Preview workspace. Its compiled examples open native modal windows. Preview theme, width and background are independent from generated component code. The shared detail tabs are Preview, Code, API and Accessibility; usage guidance and examples live in Preview.\n\n## Customize slots and layout\n\nFrogDrawer provides dedicated structural slots:\n- **Header**: Includes title, subtitle, optional `navigationIcon` (e.g. back navigation), and optional trailing `actions`.\n- **Preview**: Rendered immediately below the header divider for live preview canvases or status badges.\n- **Content**: The main scrollable body. Internal scroll state is managed automatically so headers and footers remain pinned.\n- **Footer**: Sticky bottom bar rendered outside the scrollable body, typically housing primary and secondary action buttons.\n\nThe showcase's footer and long-content switches configure these slots; they are demonstration options, not extra public Drawer parameters.\n\n### Customize the surface\n\nLeave `shape = null` to resolve theme-aware corners after Auto chooses Bottom or Side.\nPass a shape when the surrounding product surface needs a deliberate override. Use\n`FrogDrawerDefaults.colors()` for selected color overrides so omitted fields continue\nto follow `FrogTheme`.\n\n```kotlin\nFrogDrawer(\n    state = drawerState,\n    onDismissRequest = { scope.launch { drawerState.close() } },\n    shape = RoundedCornerShape(28.dp),\n    colors = FrogDrawerDefaults.colors(\n        containerColor = FrogTheme.colors.surfaceElevated,\n        borderColor = FrogTheme.colors.primary\n    )\n) {\n    Text(\"Customized contextual content\")\n}\n```\n\nThe Showcase Appearance inspector uses the shared `FrogColorPicker`. Draft colors\nupdate the actual Drawer preview; Apply commits the draft, while Cancel, Back, and\noutside dismissal leave the previous value intact. Shape and color controls generate\nonly real public parameters.\n\n### Migrating the Boolean-side overload\n\nThe older overload with `side: Boolean` and `onBack` remains callable with a deprecation warning. In the canonical overload, pass `presentation = if (side) FrogDrawerPresentation.Side else FrogDrawerPresentation.Bottom` to preserve its placement. Move its old `actions` lambda into a `Row` in `footer`. Supply the back button through `navigationIcon` and the same callback through `onBackRequest`. The canonical `actions` slot is in the header, so moving old actions there changes behavior.\n\n`FrogDrawerDefaults.AnimationDurationMs` is also deprecated: it never controls the current renderer. Set `FrogTheme` motion tokens to configure transitions. Zero normal duration disables Drawer transitions; the configured normal duration and enter/exit easing otherwise apply directly. There is no mechanical `ReplaceWith` because these migrations require a behavior choice.\n\n```kotlin\nFrogDrawer(\n    state = drawerState,\n    onDismissRequest = { scope.launch { drawerState.close() } },\n    title = \"Edit Profile\",\n    footer = {\n        Row(\n            modifier = Modifier.fillMaxWidth(),\n            horizontalArrangement = Arrangement.spacedBy(8.dp)\n        ) {\n            FrogButton(\n                onClick = { scope.launch { drawerState.close() } },\n                modifier = Modifier.weight(1f),\n                variant = FrogButtonVariant.Secondary\n            ) {\n                Text(\"Cancel\")\n            }\n            FrogButton(\n                onClick = { scope.launch { drawerState.close() } },\n                modifier = Modifier.weight(1f),\n                variant = FrogButtonVariant.Primary\n            ) {\n                Text(\"Save\")\n            }\n        }\n    }\n) {\n    Text(\"User profile form fields and configurations.\")\n}\n```\n\n## Accessibility\n\n- **Pane Semantics**: Automatically declares `paneTitle = title ?: \"Drawer\"` so screen readers announce window transitions when opened.\n- **Semantic Dismissal**: Exposes the standard accessibility dismiss action to assistive tools.\n- **Focus management**: Native modal windows contain focus, and the close control receives initial keyboard focus. Embedded previews use the host's focus boundary; the showcase returns focus to the launch button after dismissal.\n- **Touch targets**: The built-in close and compatibility back buttons use `FrogIconButton` with `FrogTheme.sizing.minimumTouchTarget` (48dp by default). Caller-supplied navigation and action slots must preserve their own targets and accessible labels.\n- **Nested pages**: `onBackRequest` can return to a parent inspector while Close and outside dismissal discard the entire contextual flow. Without it, Back calls `onDismissRequest`.\n- **Motion and insets**: Zero-duration theme motion removes transitions. Native modal content respects safe-drawing and keyboard insets; the body scrolls beneath the header and above the footer.\n\nDrawer remains Experimental. Human TalkBack speech and traversal, physical keyboard/tablet behavior and hinge-aware placement still require release review. Automated semantics and layout checks do not replace those checks.\n"
   }
 ];
 

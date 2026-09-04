@@ -3,12 +3,13 @@
 `registry/components/<id>.json` is the canonical shared descriptive record.
 `registry/index.json` owns taxonomy and ordered ID/file references. Schema version 1
 is explicitly declared and validated using pinned Ajv with the draft-07 component,
-example, and index schemas. Breaking field/meaning changes require a schema version
-change and migration; this first version replaces Phase 02's unversioned format.
+example, and index schemas. Schema version 2 adds required lifecycle evidence for
+visual states, interactions, themes, adaptive classes, previews, and tests. Breaking
+field or meaning changes require another schema version and migration.
 
 Records own identity, short description, category/status, introduction version,
 variants/sizes/tags, property metadata, docs path, native route/screen reference,
-accessibility notes, and example descriptors. Kotlin owns API/behavior. Long prose
+accessibility notes, example descriptors, and concise lifecycle evidence paths. Kotlin owns API/behavior. Long prose
 and review evidence stay in Markdown. Examples reference marked regions of real
 compiled Showcase Kotlin; generated snippets are never the only implementation.
 
@@ -32,9 +33,11 @@ Generated outputs are ignored; author JSON and native examples, never generated 
 ## Verification
 
 `npm run registry:validate` checks complete schemas, IDs, categories, index coverage,
-version agreement, repository-contained source paths, named public Kotlin functions,
+version agreement, repository-contained source paths, named public Kotlin functions and KDoc,
 named Showcase screens/routes, docs content destinations, example regions, and unique
-capabilities/properties/examples. Stable entries also require nonempty properties/
+capabilities/properties/examples. It also verifies a KDoc'd Defaults object, Compose
+preview coverage, unit/Android test sources, and a web preview that uses the shared
+preview contract. Stable entries also require nonempty properties/
 examples, accessibility metadata, and `docs/components/<id>-review.md`.
 
 `npm test` exercises rejection cases. `verifyArchitecture` additionally runs native

@@ -106,6 +106,12 @@
       "description": "Optional decorative glyph within the standard accessible close button."
     },
     {
+      "name": "shape",
+      "type": "Shape?",
+      "defaultValue": "null",
+      "description": "Optional surface shape override. Null resolves theme-aware corners after Auto chooses Bottom or Side presentation."
+    },
+    {
       "name": "content",
       "type": "@Composable ColumnScope.() -> Unit",
       "defaultValue": "required",
@@ -156,7 +162,17 @@
       "region": "scroll"
     }
   ],
-  "schemaVersion": 1,
+  "quality": {
+    "visualStates": ["Closed", "Open", "Short content", "Scrollable content"],
+    "interactions": ["Open", "Dismiss", "System Back", "Scrim", "Focus", "Drag", "Scroll"],
+    "themes": ["Light", "Dark", "Custom"],
+    "adaptiveClasses": ["Compact", "Medium", "Expanded"],
+    "composePreviews": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/drawer/DrawerDetailPreviews.kt",
+    "unitTests": ["frogui-components/src/test/java/io/github/codewitheswar/frogui/components/overlays/drawer/FrogDrawerTest.kt"],
+    "androidTests": ["app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/PublicApiContractTest.kt", "app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/SharedComponentDetailTest.kt"],
+    "webPreview": "docs/src/components/preview/previews/drawer/DrawerPreview.tsx"
+  },
+  "schemaVersion": 2,
   "tags": [
     "overlay",
     "sheet",

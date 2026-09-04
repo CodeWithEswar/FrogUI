@@ -397,6 +397,27 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
         <section id="verification" className="space-y-4 pt-6 border-t border-[var(--frog-border)]">
           <h2 className="text-xl font-bold text-[var(--frog-foreground)]">Verification Checklist</h2>
           <p className="text-sm text-[var(--frog-muted-foreground)]">Before shipping {component.displayName} in a product flow, verify the states that depend on your content and host:</p>
+          {component.quality && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {[
+                ['Visual states', component.quality.visualStates ?? []],
+                ['Interactions', component.quality.interactions?.length ? component.quality.interactions : ['No component interaction']],
+                ['Themes', component.quality.themes ?? []],
+                ['Adaptive classes', component.quality.adaptiveClasses?.length ? component.quality.adaptiveClasses : ['Not window-adaptive']]
+              ].map(([label, values]) => (
+                <div key={label as string} className="p-4 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)]">
+                  <div className="text-xs font-semibold text-[var(--frog-foreground)] mb-2">{label as string}</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {(values as string[]).map(value => (
+                      <span key={value} className="px-2 py-1 rounded-md bg-[var(--frog-muted)] text-[11px] text-[var(--frog-muted-foreground)] font-mono">
+                        {value}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           <ul className="list-disc pl-5 space-y-2 text-sm text-[var(--frog-muted-foreground)]">
             {component.id === 'drawer' ? (
               <>

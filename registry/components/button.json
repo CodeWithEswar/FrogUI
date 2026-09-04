@@ -190,7 +190,17 @@
       "region": "fullwidth"
     }
   ],
-  "schemaVersion": 1,
+  "quality": {
+    "visualStates": ["Default", "Pressed", "Focused", "Disabled", "Loading"],
+    "interactions": ["Click", "Keyboard activation", "Focus"],
+    "themes": ["Light", "Dark", "Custom"],
+    "adaptiveClasses": [],
+    "composePreviews": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonComponentPreviews.kt",
+    "unitTests": ["frogui-components/src/test/java/io/github/codewitheswar/frogui/components/button/FrogButtonTest.kt"],
+    "androidTests": ["app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/PublicApiContractTest.kt", "app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/ButtonDetailTest.kt"],
+    "webPreview": "docs/src/components/preview/previews/button/ButtonPreview.tsx"
+  },
+  "schemaVersion": 2,
   "tags": [
     "action",
     "submit",

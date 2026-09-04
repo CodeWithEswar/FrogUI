@@ -16,6 +16,31 @@ export function repositoryFile(root, relative) {
 const readJson = (root, file) => JSON.parse(fs.readFileSync(repositoryFile(root, file), 'utf8').replace(/^\uFEFF/, ''));
 const unique = (values, label) => assert.equal(new Set(values).size, values.length, `Duplicate ${label}`);
 
+function verifyLifecycleArtifacts(root, component, source) {
+  const quality = component.quality;
+  const preview = fs.readFileSync(repositoryFile(root, quality.composePreviews), 'utf8');
+  assert(preview.includes('@Preview'), `Compose preview file has no @Preview: ${component.id}`);
+  assert(preview.includes(component.name), `Compose previews must render ${component.name}`);
+
+  for (const file of [...quality.unitTests, ...quality.androidTests]) {
+    const test = fs.readFileSync(repositoryFile(root, file), 'utf8');
+    assert(test.includes(component.name), `Lifecycle test must exercise ${component.name}: ${file}`);
+  }
+
+  const webPreview = fs.readFileSync(repositoryFile(root, quality.webPreview), 'utf8');
+  assert(webPreview.includes('ComponentPreviewProps'), `Web preview must use the shared preview contract: ${component.id}`);
+  assert.match(webPreview, /export\s+(?:const|function)\s+\w+Preview\b/, `Web preview must export a component preview: ${component.id}`);
+
+  const escapedName = component.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  assert(new RegExp(`/\\*\\*[\\s\\S]*?\\*/\\s*@Composable\\s+(?:public\\s+)?fun\\s+${escapedName}\\s*\\(`).test(source),
+    `Canonical component requires useful KDoc immediately before ${component.name}`);
+  const sourceDirectory = path.dirname(component.source);
+  const defaultsName = `${component.name}Defaults`;
+  const defaults = fs.readFileSync(repositoryFile(root, `${sourceDirectory}/${defaultsName}.kt`), 'utf8');
+  assert(new RegExp(`/\\*\\*[\\s\\S]*?\\*/\\s*(?:public\\s+)?object\\s+${defaultsName}\\b`).test(defaults),
+    `Defaults require KDoc: ${defaultsName}`);
+}
+
 export function readRelease(root) {
   const text = fs.readFileSync(repositoryFile(root, 'gradle/release.properties'), 'utf8');
   const values = Object.fromEntries(text.split(/\r?\n/).filter(line => line && !line.startsWith('#')).map(line => {
@@ -64,6 +89,7 @@ export function loadRegistry(root) {
     assert.equal(entry.file, `components/${entry.id}.json`, 'Non-canonical registry file');
     const component = readJson(root, `registry/${entry.file}`);
     validate('component', component);
+    assert.equal(component.schemaVersion, index.schemaVersion, 'Index/component schema version mismatch');
     assert.equal(component.id, entry.id, 'Index/component ID mismatch');
     assert(index.categories.some(category => category.id === component.category), 'Unknown category');
     assert.equal(component.docs, `/components/${component.id}`, 'Non-canonical docs route');
@@ -73,6 +99,7 @@ export function loadRegistry(root) {
     assert(new RegExp(`\\bfun\\s+${component.name}\\s*\\(`).test(source), `Missing Kotlin function: ${component.name}`);
     assert(!new RegExp(`\\binternal\\s+fun\\s+${component.name}\\s*\\(`).test(source), 'Catalog requires public components');
     verifyPropertyMetadata(source, component);
+    verifyLifecycleArtifacts(root, component, source);
     assert(component.showcase.source.startsWith('app/src/main/') && component.showcase.source.endsWith('.kt'), 'Showcase route must reference app Kotlin');
     const demo = fs.readFileSync(repositoryFile(root, component.showcase.source), 'utf8');
     assert(new RegExp(`\\bfun\\s+${component.showcase.screen}\\s*\\(`).test(demo), `Missing Showcase screen: ${component.id}`);

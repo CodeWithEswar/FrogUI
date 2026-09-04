@@ -62,6 +62,32 @@ FrogDrawer provides dedicated structural slots:
 
 The showcase's footer and long-content switches configure these slots; they are demonstration options, not extra public Drawer parameters.
 
+### Customize the surface
+
+Leave `shape = null` to resolve theme-aware corners after Auto chooses Bottom or Side.
+Pass a shape when the surrounding product surface needs a deliberate override. Use
+`FrogDrawerDefaults.colors()` for selected color overrides so omitted fields continue
+to follow `FrogTheme`.
+
+```kotlin
+FrogDrawer(
+    state = drawerState,
+    onDismissRequest = { scope.launch { drawerState.close() } },
+    shape = RoundedCornerShape(28.dp),
+    colors = FrogDrawerDefaults.colors(
+        containerColor = FrogTheme.colors.surfaceElevated,
+        borderColor = FrogTheme.colors.primary
+    )
+) {
+    Text("Customized contextual content")
+}
+```
+
+The Showcase Appearance inspector uses the shared `FrogColorPicker`. Draft colors
+update the actual Drawer preview; Apply commits the draft, while Cancel, Back, and
+outside dismissal leave the previous value intact. Shape and color controls generate
+only real public parameters.
+
 ### Migrating the Boolean-side overload
 
 The older overload with `side: Boolean` and `onBack` remains callable with a deprecation warning. In the canonical overload, pass `presentation = if (side) FrogDrawerPresentation.Side else FrogDrawerPresentation.Bottom` to preserve its placement. Move its old `actions` lambda into a `Row` in `footer`. Supply the back button through `navigationIcon` and the same callback through `onBackRequest`. The canonical `actions` slot is in the header, so moving old actions there changes behavior.

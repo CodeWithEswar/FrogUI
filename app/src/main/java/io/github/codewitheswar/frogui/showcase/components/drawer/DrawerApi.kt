@@ -8,7 +8,7 @@ internal fun drawerApiProperty(property: ComponentPropertyMetadata): ComponentAp
         "state", "onDismissRequest" -> ApiCategory.Core
         "presentation", "side", "modifier" -> ApiCategory.Layout
         "title", "subtitle", "navigationIcon", "actions", "preview", "footer", "content", "closeIcon" -> ApiCategory.Content
-        "colors" -> ApiCategory.Style
+        "shape", "colors" -> ApiCategory.Style
         else -> ApiCategory.Behavior
     }
     val values = when (property.name) {
@@ -26,6 +26,7 @@ internal fun drawerApiProperty(property: ComponentPropertyMetadata): ComponentAp
         "footer" -> "Footer content remains outside the scrolling body. Use this slot for action buttons. Let actions wrap or grow when text scales; avoid an oversized fixed footer."
         "preview" -> "A fixed region below the header, useful for contextual feedback. Keep it compact enough to leave room for the scrollable body and keyboard."
         "colors" -> "Defaults follow FrogTheme. Override selected fields through FrogDrawerDefaults.colors rather than copying an unrelated theme."
+        "shape" -> "Leave null to resolve theme-aware corners after Auto selects Bottom or Side. Supply a Shape only when the surrounding product surface needs an explicit override."
         "onBackRequest" -> "Optionally handle system Back separately from Close and outside dismissal, such as returning to a parent inspector. Without an override, Back uses onDismissRequest."
         "closeIcon" -> "Optional decorative glyph slot inside the standard accessible FrogIconButton close action. The surrounding button owns its label and focus behavior."
         "title" -> "The title is a heading and names the accessibility pane. Supply concise contextual text. A title-free drawer still retains its close action."

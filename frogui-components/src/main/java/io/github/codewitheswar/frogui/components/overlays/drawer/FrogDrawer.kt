@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
@@ -69,6 +70,7 @@ import androidx.compose.ui.unit.LayoutDirection
  * @param colors Resolved colors for container, content, border, handle, and scrim.
  * @param onBackRequest Optional native-window Back callback for nested pages; defaults to [onDismissRequest].
  * @param closeIcon Optional decorative icon inside the standard accessible close button.
+ * @param shape Optional surface shape override. Null follows the resolved presentation and [FrogTheme.shapes].
  * @param content Scrollable ColumnScope body inheriting [FrogDrawerColors.contentColor].
  */
 @Composable
@@ -87,6 +89,7 @@ fun FrogDrawer(
     colors: FrogDrawerColors = FrogDrawerDefaults.colors(),
     onBackRequest: (() -> Unit)? = null,
     closeIcon: (@Composable () -> Unit)? = null,
+    shape: Shape? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     FrogDrawerInternal(
@@ -101,6 +104,7 @@ fun FrogDrawer(
         actions = actions,
         preview = preview,
         footer = footer,
+        shape = shape,
         colors = colors,
         onBackRequest = onBackRequest,
         closeIcon = closeIcon,
@@ -133,6 +137,7 @@ fun FrogDrawer(
     colors: FrogDrawerColors = FrogDrawerDefaults.colors(),
     onBackRequest: (() -> Unit)? = null,
     closeIcon: (@Composable () -> Unit)? = null,
+    shape: Shape? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     FrogDrawerInternal(
@@ -147,6 +152,7 @@ fun FrogDrawer(
         actions = actions,
         preview = preview,
         footer = footer,
+        shape = shape,
         colors = colors,
         onBackRequest = onBackRequest,
         closeIcon = closeIcon,
@@ -188,6 +194,7 @@ fun FrogDrawer(
         actions = null,
         preview = preview,
         footer = actions?.let { footerActions -> ({ Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), content = footerActions) }) },
+        shape = null,
         colors = FrogDrawerDefaults.colors(),
         onBackRequest = onBack,
         content = content
@@ -207,6 +214,7 @@ private fun FrogDrawerInternal(
     actions: (@Composable RowScope.() -> Unit)? = null,
     preview: (@Composable () -> Unit)? = null,
     footer: (@Composable () -> Unit)? = null,
+    shape: Shape? = null,
     colors: FrogDrawerColors = FrogDrawerDefaults.colors(),
     onBackRequest: (() -> Unit)? = null,
     closeIcon: (@Composable () -> Unit)? = null,
@@ -278,7 +286,7 @@ private fun FrogDrawerInternal(
                         slideOutVertically(tween(duration, easing = motion.exitEasing)) { it }
                     }
                 ) {
-                    val shape = FrogDrawerDefaults.shape(
+                    val resolvedShape = shape ?: FrogDrawerDefaults.shape(
                         if (isSidePresentation) FrogDrawerPresentation.Side else FrogDrawerPresentation.Bottom, side)
 
                     val layoutModifier = if (isSidePresentation) {
@@ -296,9 +304,9 @@ private fun FrogDrawerInternal(
                     Column(
                         modifier
                             .then(layoutModifier)
-                            .clip(shape)
+                            .clip(resolvedShape)
                             .background(colors.containerColor)
-                            .border(1.dp, colors.borderColor, shape)
+                            .border(1.dp, colors.borderColor, resolvedShape)
                             .semantics {
                                 paneTitle = title ?: "Drawer"
                                 dismiss {

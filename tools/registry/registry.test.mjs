@@ -12,7 +12,8 @@ function fixture() {
   const target = fs.mkdtempSync(path.join(root, 'build/registry-test-'));
   // Fixtures stay in ignored build output. No repository files are mutated.
   for (const source of ['registry', 'gradle/release.properties', 'docs/content',
-    'frogui-components/src/main', 'app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button']) {
+    'frogui-components/src/main', 'frogui-components/src/test', 'app/src/main', 'app/src/androidTest',
+    'docs/src/components/preview']) {
     fs.mkdirSync(path.dirname(path.join(target, source)), { recursive: true });
     fs.cpSync(path.join(root, source), path.join(target, source), { recursive: true });
   }
@@ -41,7 +42,9 @@ for (const [name, mutate, expected] of [
   ['invented release version', c => { c.since = '9.9.9'; }, /version must match/],
   ['stable without evidence', c => { c.status = 'stable'; }, /stabilityReview/],
   ['duplicate capabilities', c => { c.variants.push(c.variants[0]); }, /duplicate items/],
-  ['unsupported schema version', c => { c.schemaVersion = 2; }, /constant/]
+  ['missing lifecycle evidence', c => { delete c.quality; }, /required property.*quality/],
+  ['invalid lifecycle theme matrix', c => { c.quality.themes = ['Light', 'Dark']; }, /must NOT have fewer than 3 items/],
+  ['unsupported schema version', c => { c.schemaVersion = 99; }, /constant/]
 ]) {
   test(`rejects ${name}`, () => {
     const target = fixture();
@@ -57,6 +60,13 @@ test('rejects duplicate registry IDs', () => {
   index.components.push(index.components[0]);
   fs.writeFileSync(file, JSON.stringify(index));
   assert.throws(() => loadRegistry(target), /Duplicate registry ID/);
+});
+
+test('rejects a lifecycle artifact that does not exercise the component', () => {
+  const target = fixture();
+  const file = path.join(target, 'docs/src/components/preview/previews/button/ButtonPreview.tsx');
+  fs.writeFileSync(file, 'export const EmptyPreview = () => null;');
+  assert.throws(() => loadRegistry(target), /shared preview contract/);
 });
 
 test('rejects a missing docs destination', () => {

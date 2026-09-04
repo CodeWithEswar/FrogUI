@@ -197,8 +197,8 @@ export const DrawerPreview: React.FC<ComponentPreviewProps> = ({ isDark }) => {
         <div
           onClick={() => { setIsOpen(false); setDragOffset(0); }}
           style={{ opacity: scrimOpacity }}
-          className={`absolute inset-0 bg-black/60 z-20 cursor-pointer ${
-            isDragging ? 'transition-none' : 'transition-opacity duration-300'
+          className={`absolute inset-0 bg-black/[0.48] z-20 cursor-pointer ${
+            isDragging ? 'transition-none' : 'transition-opacity duration-200'
           } ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
         />
 
@@ -208,7 +208,7 @@ export const DrawerPreview: React.FC<ComponentPreviewProps> = ({ isDark }) => {
           <div
             style={{ transform: bottomTransform }}
             className={`absolute bottom-0 inset-x-0 mx-auto max-w-lg z-30 flex flex-col ${
-              isDragging ? 'transition-none' : 'transition-transform duration-300 ease-out'
+              isDragging ? 'transition-none' : 'transition-transform duration-200 ease-out'
             } ${drawerContainer} border-t border-x rounded-t-2xl max-h-[85%] ${
               isOpen ? 'pointer-events-auto' : 'pointer-events-none'
             }`}
@@ -222,7 +222,7 @@ export const DrawerPreview: React.FC<ComponentPreviewProps> = ({ isDark }) => {
               className="pt-3 pb-2 flex justify-center cursor-grab active:cursor-grabbing touch-none select-none group"
               title="Drag down to dismiss"
             >
-              <div className={`w-12 h-1.5 rounded-full transition-transform group-hover:scale-x-110 ${dragHandleBg}`} />
+              <div className={`w-8 h-[3px] rounded-full transition-transform group-hover:scale-x-110 ${dragHandleBg}`} />
             </div>
 
             {/* Header Slot (Also draggable) */}
@@ -239,6 +239,7 @@ export const DrawerPreview: React.FC<ComponentPreviewProps> = ({ isDark }) => {
                   <p className={`text-[11px] ${subtitleColor}`}>Drag down handle or header to dismiss</p>
                 </div>
                 <button
+                  aria-label="Close drawer"
                   onClick={(e) => { e.stopPropagation(); setIsOpen(false); setDragOffset(0); }}
                   className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors cursor-pointer ${closeBtn}`}
                 >
@@ -295,7 +296,7 @@ export const DrawerPreview: React.FC<ComponentPreviewProps> = ({ isDark }) => {
             className={`absolute top-0 bottom-0 ${
               presentation === 'side-end' ? 'right-0 rounded-l-2xl border-l' : 'left-0 rounded-r-2xl border-r'
             } w-72 sm:w-80 z-30 flex flex-col ${
-              isDragging ? 'transition-none' : 'transition-transform duration-300 ease-out'
+              isDragging ? 'transition-none' : 'transition-transform duration-200 ease-out'
             } ${drawerContainer} border-y ${
               isOpen ? 'pointer-events-auto' : 'pointer-events-none'
             }`}
@@ -314,6 +315,7 @@ export const DrawerPreview: React.FC<ComponentPreviewProps> = ({ isDark }) => {
                   <p className={`text-[11px] ${subtitleColor}`}>Drag {presentation === 'side-end' ? 'right' : 'left'} to dismiss</p>
                 </div>
                 <button
+                  aria-label="Close drawer"
                   onClick={(e) => { e.stopPropagation(); setIsOpen(false); setDragOffset(0); }}
                   className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors cursor-pointer ${closeBtn}`}
                 >
@@ -357,7 +359,7 @@ export const DrawerPreview: React.FC<ComponentPreviewProps> = ({ isDark }) => {
             {/* Footer */}
             {hasFooter && (
               <div className={`p-4 border-t flex items-center justify-between text-xs ${footerStyle}`}>
-                <span className={`text-[11px] font-mono ${subtitleColor}`}>FrogUI v0.1.0</span>
+                <span className={`text-[11px] font-mono ${subtitleColor}`}>FrogUI v0.1.0-SNAPSHOT</span>
                 <button
                   onClick={() => { setIsOpen(false); setDragOffset(0); }}
                   className={`px-3 py-1 rounded text-[11px] font-medium transition-colors cursor-pointer ${

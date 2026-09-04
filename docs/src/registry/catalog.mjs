@@ -15,7 +15,8 @@ export function docsCatalog(generated, basePath = '/FrogUI/') {
     properties: component.properties,
     examples: component.examples,
     tags: component.tags,
-    accessibility: component.accessibility
+    accessibility: component.accessibility,
+    quality: component.quality
   }));
 }
 
