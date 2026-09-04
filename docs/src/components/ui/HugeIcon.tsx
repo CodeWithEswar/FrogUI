@@ -2,27 +2,45 @@ import React from 'react';
 
 export type HugeIconData = Array<[string, Record<string, string | number>]>;
 
-interface HugeIconProps {
+interface HugeIconProps extends React.SVGAttributes<SVGSVGElement> {
   icon: HugeIconData;
   className?: string;
   size?: number;
+  strokeWidth?: number;
 }
 
 export const HugeIcon: React.FC<HugeIconProps> = ({
   icon,
-  className = 'w-4 h-4',
-  size = 24
+  className = '',
+  size = 20,
+  strokeWidth = 1.5,
+  style,
+  ...rest
 }) => {
+  if (!icon || !Array.isArray(icon)) {
+    return null;
+  }
+
   return (
     <svg
-      viewBox={`0 0 ${size} ${size}`}
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={className}
+      className={`shrink-0 inline-block align-middle ${className}`}
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+        minWidth: `${size}px`,
+        minHeight: `${size}px`,
+        ...style
+      }}
       aria-hidden="true"
+      {...rest}
     >
       {icon.map(([type, attrs], idx) => {
         if (type === 'path') {

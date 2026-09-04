@@ -1,0 +1,260 @@
+public final class io/github/codewitheswar/frogui/foundation/adaptive/FrogAdaptive {
+	public static final field $stable I
+	public synthetic fun <init> (FFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FFLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-D9Ej5fM ()F
+	public final fun component2-D9Ej5fM ()F
+	public final fun copy-YgX7TsA (FF)Lio/github/codewitheswar/frogui/foundation/adaptive/FrogAdaptive;
+	public static synthetic fun copy-YgX7TsA$default (Lio/github/codewitheswar/frogui/foundation/adaptive/FrogAdaptive;FFILjava/lang/Object;)Lio/github/codewitheswar/frogui/foundation/adaptive/FrogAdaptive;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getExpandedMinWidth-D9Ej5fM ()F
+	public final fun getMediumMinWidth-D9Ej5fM ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+	public final fun windowSizeClass-0680j_4 (F)Lio/github/codewitheswar/frogui/foundation/adaptive/FrogWindowSizeClass;
+}
+
+public final class io/github/codewitheswar/frogui/foundation/adaptive/FrogWindowSizeClass : java/lang/Enum {
+	public static final field Compact Lio/github/codewitheswar/frogui/foundation/adaptive/FrogWindowSizeClass;
+	public static final field Expanded Lio/github/codewitheswar/frogui/foundation/adaptive/FrogWindowSizeClass;
+	public static final field Medium Lio/github/codewitheswar/frogui/foundation/adaptive/FrogWindowSizeClass;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/codewitheswar/frogui/foundation/adaptive/FrogWindowSizeClass;
+	public static fun values ()[Lio/github/codewitheswar/frogui/foundation/adaptive/FrogWindowSizeClass;
+}
+
+public final class io/github/codewitheswar/frogui/foundation/color/FrogColors {
+	public static final field $stable I
+	public synthetic fun <init> (JJJJJJJJJJJJJJJJZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component10-0d7_KjU ()J
+	public final fun component11-0d7_KjU ()J
+	public final fun component12-0d7_KjU ()J
+	public final fun component13-0d7_KjU ()J
+	public final fun component14-0d7_KjU ()J
+	public final fun component15-0d7_KjU ()J
+	public final fun component16-0d7_KjU ()J
+	public final fun component17 ()Z
+	public final fun component2-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun component4-0d7_KjU ()J
+	public final fun component5-0d7_KjU ()J
+	public final fun component6-0d7_KjU ()J
+	public final fun component7-0d7_KjU ()J
+	public final fun component8-0d7_KjU ()J
+	public final fun component9-0d7_KjU ()J
+	public final fun copy-64gwKD8 (JJJJJJJJJJJJJJJJZ)Lio/github/codewitheswar/frogui/foundation/color/FrogColors;
+	public static synthetic fun copy-64gwKD8$default (Lio/github/codewitheswar/frogui/foundation/color/FrogColors;JJJJJJJJJJJJJJJJZILjava/lang/Object;)Lio/github/codewitheswar/frogui/foundation/color/FrogColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBackground-0d7_KjU ()J
+	public final fun getBorder-0d7_KjU ()J
+	public final fun getBorderStrong-0d7_KjU ()J
+	public final fun getDestructive-0d7_KjU ()J
+	public final fun getDestructiveForeground-0d7_KjU ()J
+	public final fun getFocusRing-0d7_KjU ()J
+	public final fun getForeground-0d7_KjU ()J
+	public final fun getMuted-0d7_KjU ()J
+	public final fun getMutedForeground-0d7_KjU ()J
+	public final fun getPrimary-0d7_KjU ()J
+	public final fun getPrimaryForeground-0d7_KjU ()J
+	public final fun getSecondary-0d7_KjU ()J
+	public final fun getSecondaryForeground-0d7_KjU ()J
+	public final fun getSubtleSurface-0d7_KjU ()J
+	public final fun getSurface-0d7_KjU ()J
+	public final fun getSurfaceElevated-0d7_KjU ()J
+	public fun hashCode ()I
+	public final fun isDark ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/codewitheswar/frogui/foundation/color/FrogPalette {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/codewitheswar/frogui/foundation/color/FrogPalette;
+	public final fun getBlack-0d7_KjU ()J
+	public final fun getDestructive-0d7_KjU ()J
+	public final fun getDestructiveDark-0d7_KjU ()J
+	public final fun getSuccess-0d7_KjU ()J
+	public final fun getWarning-0d7_KjU ()J
+	public final fun getWhite-0d7_KjU ()J
+	public final fun getZinc100-0d7_KjU ()J
+	public final fun getZinc200-0d7_KjU ()J
+	public final fun getZinc300-0d7_KjU ()J
+	public final fun getZinc400-0d7_KjU ()J
+	public final fun getZinc50-0d7_KjU ()J
+	public final fun getZinc500-0d7_KjU ()J
+	public final fun getZinc600-0d7_KjU ()J
+	public final fun getZinc700-0d7_KjU ()J
+	public final fun getZinc800-0d7_KjU ()J
+	public final fun getZinc900-0d7_KjU ()J
+	public final fun getZinc950-0d7_KjU ()J
+}
+
+public final class io/github/codewitheswar/frogui/foundation/elevation/FrogElevation {
+	public static final field $stable I
+	public static final field Companion Lio/github/codewitheswar/frogui/foundation/elevation/FrogElevation$Companion;
+	public synthetic fun <init> (FFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FFFFLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-D9Ej5fM ()F
+	public final fun component2-D9Ej5fM ()F
+	public final fun component3-D9Ej5fM ()F
+	public final fun component4-D9Ej5fM ()F
+	public final fun copy-a9UjIt4 (FFFF)Lio/github/codewitheswar/frogui/foundation/elevation/FrogElevation;
+	public static synthetic fun copy-a9UjIt4$default (Lio/github/codewitheswar/frogui/foundation/elevation/FrogElevation;FFFFILjava/lang/Object;)Lio/github/codewitheswar/frogui/foundation/elevation/FrogElevation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHigh-D9Ej5fM ()F
+	public final fun getLow-D9Ej5fM ()F
+	public final fun getMedium-D9Ej5fM ()F
+	public final fun getNone-D9Ej5fM ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/codewitheswar/frogui/foundation/elevation/FrogElevation$Companion {
+	public final fun getDefault ()Lio/github/codewitheswar/frogui/foundation/elevation/FrogElevation;
+}
+
+public final class io/github/codewitheswar/frogui/foundation/motion/FrogMotion {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (IIILandroidx/compose/animation/core/Easing;Landroidx/compose/animation/core/Easing;Landroidx/compose/animation/core/Easing;)V
+	public synthetic fun <init> (IIILandroidx/compose/animation/core/Easing;Landroidx/compose/animation/core/Easing;Landroidx/compose/animation/core/Easing;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()Landroidx/compose/animation/core/Easing;
+	public final fun component5 ()Landroidx/compose/animation/core/Easing;
+	public final fun component6 ()Landroidx/compose/animation/core/Easing;
+	public final fun copy (IIILandroidx/compose/animation/core/Easing;Landroidx/compose/animation/core/Easing;Landroidx/compose/animation/core/Easing;)Lio/github/codewitheswar/frogui/foundation/motion/FrogMotion;
+	public static synthetic fun copy$default (Lio/github/codewitheswar/frogui/foundation/motion/FrogMotion;IIILandroidx/compose/animation/core/Easing;Landroidx/compose/animation/core/Easing;Landroidx/compose/animation/core/Easing;ILjava/lang/Object;)Lio/github/codewitheswar/frogui/foundation/motion/FrogMotion;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun fastSpec ()Landroidx/compose/animation/core/AnimationSpec;
+	public final fun getEnterEasing ()Landroidx/compose/animation/core/Easing;
+	public final fun getExitEasing ()Landroidx/compose/animation/core/Easing;
+	public final fun getFastDurationMillis ()I
+	public final fun getLargeDurationMillis ()I
+	public final fun getNormalDurationMillis ()I
+	public final fun getStandardEasing ()Landroidx/compose/animation/core/Easing;
+	public fun hashCode ()I
+	public final fun isReduced ()Z
+	public final fun largeSpec ()Landroidx/compose/animation/core/AnimationSpec;
+	public final fun normalSpec ()Landroidx/compose/animation/core/AnimationSpec;
+	public final fun reduced ()Lio/github/codewitheswar/frogui/foundation/motion/FrogMotion;
+	public final fun responsiveSpring ()Landroidx/compose/animation/core/AnimationSpec;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/codewitheswar/frogui/foundation/shape/FrogShapes {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/ui/graphics/Shape;)V
+	public synthetic fun <init> (Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/ui/graphics/Shape;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Landroidx/compose/foundation/shape/CornerBasedShape;
+	public final fun component2 ()Landroidx/compose/foundation/shape/CornerBasedShape;
+	public final fun component3 ()Landroidx/compose/foundation/shape/CornerBasedShape;
+	public final fun component4 ()Landroidx/compose/foundation/shape/CornerBasedShape;
+	public final fun component5 ()Landroidx/compose/foundation/shape/CornerBasedShape;
+	public final fun component6 ()Landroidx/compose/ui/graphics/Shape;
+	public final fun copy (Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/ui/graphics/Shape;)Lio/github/codewitheswar/frogui/foundation/shape/FrogShapes;
+	public static synthetic fun copy$default (Lio/github/codewitheswar/frogui/foundation/shape/FrogShapes;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/foundation/shape/CornerBasedShape;Landroidx/compose/ui/graphics/Shape;ILjava/lang/Object;)Lio/github/codewitheswar/frogui/foundation/shape/FrogShapes;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFull ()Landroidx/compose/ui/graphics/Shape;
+	public final fun getLg ()Landroidx/compose/foundation/shape/CornerBasedShape;
+	public final fun getMd ()Landroidx/compose/foundation/shape/CornerBasedShape;
+	public final fun getSm ()Landroidx/compose/foundation/shape/CornerBasedShape;
+	public final fun getXl ()Landroidx/compose/foundation/shape/CornerBasedShape;
+	public final fun getXs ()Landroidx/compose/foundation/shape/CornerBasedShape;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/codewitheswar/frogui/foundation/sizing/FrogSizing {
+	public static final field $stable I
+	public synthetic fun <init> (FFFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FFFFFFFLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-D9Ej5fM ()F
+	public final fun component2-D9Ej5fM ()F
+	public final fun component3-D9Ej5fM ()F
+	public final fun component4-D9Ej5fM ()F
+	public final fun component5-D9Ej5fM ()F
+	public final fun component6-D9Ej5fM ()F
+	public final fun component7-D9Ej5fM ()F
+	public final fun copy-oRJhP44 (FFFFFFF)Lio/github/codewitheswar/frogui/foundation/sizing/FrogSizing;
+	public static synthetic fun copy-oRJhP44$default (Lio/github/codewitheswar/frogui/foundation/sizing/FrogSizing;FFFFFFFILjava/lang/Object;)Lio/github/codewitheswar/frogui/foundation/sizing/FrogSizing;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getControlLarge-D9Ej5fM ()F
+	public final fun getControlMedium-D9Ej5fM ()F
+	public final fun getControlSmall-D9Ej5fM ()F
+	public final fun getIconLarge-D9Ej5fM ()F
+	public final fun getIconMedium-D9Ej5fM ()F
+	public final fun getIconSmall-D9Ej5fM ()F
+	public final fun getMinimumTouchTarget-D9Ej5fM ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/codewitheswar/frogui/foundation/spacing/FrogSpacing {
+	public static final field $stable I
+	public synthetic fun <init> (FFFFFFFFFFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FFFFFFFFFFFFLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-D9Ej5fM ()F
+	public final fun component10-D9Ej5fM ()F
+	public final fun component11-D9Ej5fM ()F
+	public final fun component12-D9Ej5fM ()F
+	public final fun component2-D9Ej5fM ()F
+	public final fun component3-D9Ej5fM ()F
+	public final fun component4-D9Ej5fM ()F
+	public final fun component5-D9Ej5fM ()F
+	public final fun component6-D9Ej5fM ()F
+	public final fun component7-D9Ej5fM ()F
+	public final fun component8-D9Ej5fM ()F
+	public final fun component9-D9Ej5fM ()F
+	public final fun copy-CaHt2TY (FFFFFFFFFFFF)Lio/github/codewitheswar/frogui/foundation/spacing/FrogSpacing;
+	public static synthetic fun copy-CaHt2TY$default (Lio/github/codewitheswar/frogui/foundation/spacing/FrogSpacing;FFFFFFFFFFFFILjava/lang/Object;)Lio/github/codewitheswar/frogui/foundation/spacing/FrogSpacing;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLg-D9Ej5fM ()F
+	public final fun getMd-D9Ej5fM ()F
+	public final fun getSm-D9Ej5fM ()F
+	public final fun getX4l-D9Ej5fM ()F
+	public final fun getX5l-D9Ej5fM ()F
+	public final fun getX6l-D9Ej5fM ()F
+	public final fun getX7l-D9Ej5fM ()F
+	public final fun getXl-D9Ej5fM ()F
+	public final fun getXs-D9Ej5fM ()F
+	public final fun getXxl-D9Ej5fM ()F
+	public final fun getXxs-D9Ej5fM ()F
+	public final fun getXxxl-D9Ej5fM ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/codewitheswar/frogui/foundation/typography/FrogTypography {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;)V
+	public synthetic fun <init> (Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component10 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component2 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component3 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component4 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component5 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component6 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component7 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component8 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun component9 ()Landroidx/compose/ui/text/TextStyle;
+	public final fun copy (Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;)Lio/github/codewitheswar/frogui/foundation/typography/FrogTypography;
+	public static synthetic fun copy$default (Lio/github/codewitheswar/frogui/foundation/typography/FrogTypography;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;Landroidx/compose/ui/text/TextStyle;ILjava/lang/Object;)Lio/github/codewitheswar/frogui/foundation/typography/FrogTypography;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBody ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getBodySmall ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getCaption ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getCode ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getDisplay ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getHeading ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getLabel ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getSubheading ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getTitle ()Landroidx/compose/ui/text/TextStyle;
+	public final fun getTitleLarge ()Landroidx/compose/ui/text/TextStyle;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}

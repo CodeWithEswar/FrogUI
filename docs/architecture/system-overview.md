@@ -58,11 +58,13 @@ flows into a published release runtime. Foundation has no Material dependency.
 - [Showcase flow](showcase-flow.md): metadata → explicit native destination → public component.
 - [Docs flow](docs-flow.md): generated JSON + prose → catalog/search data; web shell deferred.
 - [Testing strategy](testing-strategy.md) and [release flow](release-flow.md).
+- [Public API design](api-design.md) and [Phase 07 audit](phase-07-api-review.md).
 - [Phase 03 local verification](phase-03-verification.md).
 - [0001: Compose](decisions/0001-compose-only-v1.md), [0002: metadata](decisions/0002-registry-metadata.md),
   [0003: native truth](decisions/0003-native-showcase.md), [0004: Maven first](decisions/0004-maven-first-distribution.md),
   [0005: layered modules](decisions/0005-layered-modules.md), [0006: generated adapters](decisions/0006-generated-adapters.md),
   [0007: publication boundary](decisions/0007-publication-boundary.md).
 
-Category modules, patterns, benchmarks, samples, binary API baselines, and visual
+Category modules, patterns, benchmarks, samples, and visual
 golden infrastructure need demonstrated responsibilities before being added.
+Release-AAR binary API baselines are now established for foundation, theme and components.

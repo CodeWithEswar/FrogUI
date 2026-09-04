@@ -118,7 +118,7 @@ private fun CustomColorControls(color: Color, allowAlpha: Boolean, onChange: (Co
 @OptIn(ExperimentalMaterial3Api::class)
 private fun ColorSlider(label: String, value: Float, range: ClosedFloatingPointRange<Float>, description: String, onChange: (Float) -> Unit,
     gradient: List<Color>? = null, checker: Boolean = false) {
-    Row(Modifier.fillMaxWidth().heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+    Row(Modifier.fillMaxWidth().heightIn(min = FrogTheme.sizing.minimumTouchTarget), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         Text(label, Modifier.width(78.dp), style = FrogTheme.typography.bodySmall, color = FrogTheme.colors.foreground)
         Slider(value, onChange, Modifier.weight(1f).semantics { contentDescription = label; stateDescription = description }, valueRange = range,
             thumb = { Box(Modifier.size(16.dp).background(FrogTheme.colors.foreground, CircleShape).border(2.dp, FrogTheme.colors.surfaceElevated, CircleShape)) },

@@ -4,11 +4,15 @@ The Button detail and Playground share one native Compose workspace. This phase
 adds a contextual drawer, token-aware colors, structured API exploration, and a
 live inspector using the published `FrogButton` implementation.
 
+The subsequent [shared detail system](shared-component-detail-system.md) extracts
+this workspace for both Button and Drawer. This document retains the Button color
+and interaction contract; the shared-system report describes the current shell.
+
 ## Ownership and data flow
 
 - `ButtonDemoState` owns committed variant, size, content, state, shape and color
   overrides. Its saver preserves these values across configuration changes.
-- `ButtonDrawerState` is a typed page stack. Properties, preview settings, a color
+- `ComponentDetailState` owns the shared typed page stack. Properties, preview settings, a color
   property, and an API property all use one `FrogDrawer` window. Back pops the page;
   Close/outside dismissal clears it. Color drafts are saved separately from commits.
 - `FrogColorValue.Token` retains semantic identity (and optional alpha), while
@@ -26,7 +30,7 @@ live inspector using the published `FrogButton` implementation.
 ## Layout and interactions
 
 Phones retain compact horizontally scrolling variant/size controls and a Customize
-action. At 620dp of available detail width (and normal text scale), a 264dp persistent
+action. At Medium available detail width (600dp by default, and normal text scale), a 264dp persistent
 inspector appears beside the preview. This threshold uses content width after app
 navigation, so it also works in a split window. Larger font scales use the drawer.
 

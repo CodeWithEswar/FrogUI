@@ -1,6 +1,9 @@
 package io.github.codewitheswar.frogui
 
 import android.os.Bundle
+import android.content.Intent
+import io.github.codewitheswar.frogui.navigation.ComponentDeepLink
+import io.github.codewitheswar.frogui.navigation.componentIdFromDeepLink
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -21,8 +24,21 @@ import io.github.codewitheswar.frogui.navigation.FrogUiShell
  * Main application entry point hosting the FrogUI Showcase and Component Workbench.
  */
 class MainActivity : ComponentActivity() {
+    private var componentLink by mutableStateOf<ComponentDeepLink?>(null)
+    private var linkSequence = 0L
+    private fun receiveComponentLink(intent: Intent?) {
+        componentIdFromDeepLink(intent?.dataString)?.let { componentLink = ComponentDeepLink(it, ++linkSequence) }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        receiveComponentLink(intent)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (savedInstanceState == null) receiveComponentLink(intent)
         enableEdgeToEdge()
         setContent {
             val preferences = remember { getSharedPreferences("showcase", MODE_PRIVATE) }
@@ -36,7 +52,7 @@ class MainActivity : ComponentActivity() {
             FrogTheme(darkTheme = darkTheme) {
                 ProvideShowcaseMotion(reduceMotion) {
                     FrogUiShell(appearance, { appearance = it; preferences.edit { putString("appearance", it.name) } },
-                        reduceMotion, { reduceMotion = it; preferences.edit { putBoolean("reduceMotion", it) } })
+                        reduceMotion, { reduceMotion = it; preferences.edit { putBoolean("reduceMotion", it) } }, incomingLink = componentLink)
                 }
             }
         }

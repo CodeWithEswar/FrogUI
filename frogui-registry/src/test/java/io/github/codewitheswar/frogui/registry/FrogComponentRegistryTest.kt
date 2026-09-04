@@ -43,7 +43,7 @@ class FrogComponentRegistryTest {
 
     @Test
     fun testCatalogDoesNotAdvertiseRoadmapPlaceholders() {
-        assertEquals(listOf("button"), FrogComponentRegistry.allComponents.map { it.id })
+        assertEquals(listOf("button", "drawer"), FrogComponentRegistry.allComponents.map { it.id })
         assertTrue(FrogComponentRegistry.search("card").isEmpty())
         assertTrue(FrogComponentRegistry.findById("not-a-component") == null)
     }

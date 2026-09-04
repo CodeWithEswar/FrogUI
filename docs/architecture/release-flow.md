@@ -23,11 +23,11 @@ No signing keys, tokens, remote publishing repository, or source-install CLI is 
 
 ## CI workflows
 
-- `android-ci.yml`: library/build changes → schema/route checks, JVM tests, Lint,
+- `android-ci.yml`: library/build changes → schema/route checks, public ABI checks, JVM tests, Lint,
   debug assembly, Android test APK compilation. Device execution is a separate gate.
 - `registry-docs.yml`: relevant metadata/docs/source changes → Node tests and docs
   catalog/search build, without Gradle or Android binaries.
-- `release.yml`: manual local Maven staging and artifact upload; no signing or
+- `release.yml`: reviewed public ABI checks, manual local Maven staging and artifact upload; no signing or
   remote release. This does not publish a version to consumers.
 
 These workflow files are configured; local execution does not imply a successful
@@ -43,3 +43,8 @@ baseline, actual device/assistive-tech tests, consumer installation/POM checks,
 signed artifacts, matching release notes/tag/version, and an honest documentation
 surface. Pre-1.0 breaking changes need migration notes. After 1.0, removing stable
 APIs requires a major release and at least one minor release of deprecation guidance.
+
+Phase 07 establishes release-AAR `.api` baselines for all three published artifacts.
+`apiBuild` produces candidates and `apiCheck` fails on unreviewed differences.
+Only an explicit reviewed `apiDump` accepts a new baseline; CI never accepts one.
+See [API design](api-design.md) for binary, source, behavior and deprecation review.

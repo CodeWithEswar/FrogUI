@@ -15,7 +15,7 @@ class ComponentRouteTest {
         compose.setFrogContent {
             ComponentDetailScreen("not-registered", onBack = {})
         }
-        compose.onNodeWithText("Component not found").assertIsDisplayed()
+        compose.onNodeWithText("Component unavailable").assertIsDisplayed()
         compose.onNodeWithText("Continue").assertDoesNotExist()
     }
 }

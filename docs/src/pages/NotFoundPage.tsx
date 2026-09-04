@@ -7,16 +7,16 @@ interface NotFoundPageProps {
 export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
   return (
     <div className="py-20 text-center space-y-4 max-w-md mx-auto">
-      <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-mono font-bold text-lg">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[var(--frog-muted)] text-[var(--frog-muted-foreground)] font-mono font-bold text-lg">
         404
       </div>
-      <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+      <h1 className="text-2xl font-bold tracking-tight text-[var(--frog-foreground)]">
         Page not found
       </h1>
-      <p className="text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="text-sm text-[var(--frog-muted-foreground)]">
         The documentation page you requested does not exist or has been relocated.
       </p>
-      <div className="pt-4 flex items-center justify-center gap-3">
+      <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
         <button
           onClick={() => onNavigate('/')}
           className="px-4 py-2 rounded-lg bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 text-xs font-medium hover:bg-zinc-800 dark:hover:bg-white transition-colors"
@@ -25,9 +25,15 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
         </button>
         <button
           onClick={() => onNavigate('/components/button')}
-          className="px-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+          className="px-4 py-2 rounded-lg border border-[var(--frog-border)] text-xs font-medium text-[var(--frog-foreground)] hover:bg-[var(--frog-muted)] transition-colors"
         >
           Browse Components
+        </button>
+        <button
+          onClick={() => onNavigate('/foundation')}
+          className="px-4 py-2 rounded-lg border border-[var(--frog-border)] text-xs font-medium text-[var(--frog-foreground)] hover:bg-[var(--frog-muted)] transition-colors"
+        >
+          Theme &amp; Foundation
         </button>
       </div>
     </div>

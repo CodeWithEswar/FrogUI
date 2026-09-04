@@ -15,7 +15,8 @@ internal enum class FrogColorToken(val label: String, val member: String) {
     Foreground("Foreground", "foreground"), Primary("Primary", "primary"), PrimaryForeground("Primary Foreground", "primaryForeground"),
     Secondary("Secondary", "secondary"), SecondaryForeground("Secondary Foreground", "secondaryForeground"), Muted("Muted", "muted"),
     MutedForeground("Muted Foreground", "mutedForeground"), Border("Border", "border"), BorderStrong("Border Strong", "borderStrong"),
-    Destructive("Destructive", "destructive"), DestructiveForeground("Destructive Foreground", "destructiveForeground");
+    Destructive("Destructive", "destructive"), DestructiveForeground("Destructive Foreground", "destructiveForeground"),
+    SubtleSurface("Subtle Surface", "subtleSurface"), FocusRing("Focus Ring", "focusRing");
 
     fun resolve(colors: FrogColors): Color = when (this) {
         Background -> colors.background; Surface -> colors.surface; SurfaceElevated -> colors.surfaceElevated
@@ -23,6 +24,26 @@ internal enum class FrogColorToken(val label: String, val member: String) {
         Secondary -> colors.secondary; SecondaryForeground -> colors.secondaryForeground; Muted -> colors.muted
         MutedForeground -> colors.mutedForeground; Border -> colors.border; BorderStrong -> colors.borderStrong
         Destructive -> colors.destructive; DestructiveForeground -> colors.destructiveForeground
+        SubtleSurface -> colors.subtleSurface; FocusRing -> colors.focusRing
+    }
+
+    val purpose: String get() = when (this) {
+        Background -> "Root canvas behind content."
+        Surface -> "Base cards and content regions."
+        SurfaceElevated -> "Raised panels, menus and overlays."
+        SubtleSurface -> "Quiet separation within a surface."
+        Foreground -> "Primary text and icons on surfaces."
+        Primary -> "High-emphasis actions."
+        PrimaryForeground -> "Text and icons on primary actions."
+        Secondary -> "Lower-emphasis action containers."
+        SecondaryForeground -> "Text and icons on secondary actions."
+        Muted -> "Quiet controls and supporting regions."
+        MutedForeground -> "Supporting text on neutral surfaces."
+        Border -> "Subtle structural separators, not focus indicators."
+        BorderStrong -> "Stronger outlines between adjacent regions."
+        Destructive -> "Actions that remove or destroy content."
+        DestructiveForeground -> "Text and icons on destructive actions."
+        FocusRing -> "Visible keyboard and accessibility focus."
     }
 }
 

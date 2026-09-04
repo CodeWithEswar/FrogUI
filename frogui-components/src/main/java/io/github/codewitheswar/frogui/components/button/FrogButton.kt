@@ -48,23 +48,28 @@ import androidx.compose.ui.unit.dp
 import io.github.codewitheswar.frogui.theme.FrogTheme
 
 /**
- * Standard FrogUI Button component.
+ * Performs a caller-owned action using FrogUI semantic variants and composable row content.
  *
- * Designed with strict monochrome aesthetic, slot-based architecture, tactile pressed motion,
- * accessibility semantics, and platform touch target compliance.
+ * The common case only needs [onClick] and [content]. Loading keeps the measured label/slots
+ * and accessible action label while showing a centered spinner and suppressing activation.
+ * Disabled buttons also suppress activation. The whole minimum 48dp target owns one button
+ * action; restrictive parent constraints or consumer semantics can override these defaults.
+ * Place in FrogTheme. This component remains Experimental in the current development snapshot.
  *
  * @param onClick Action invoked when the button is clicked.
  * @param modifier Modifier applied to the button layout.
  * @param variant Visual semantic style (Primary, Secondary, Outline, Ghost, Destructive).
  * @param size Button dimension scale (Small 32dp, Medium 40dp, Large 48dp).
  * @param enabled Controls whether interaction is enabled.
- * @param loading When true, shows an inline progress indicator and suppresses click events.
+ * @param loading Shows centered progress with a Loading state description; the caller ends loading.
  * @param shape Corner radius shape applied to the button background and border.
  * @param colors Color configuration across states.
  * @param border Optional border stroke around the button.
  * @param contentPadding Inner padding between the boundary and content.
- * @param leadingIcon Optional leading slot (icons, badges).
- * @param trailingIcon Optional trailing slot (chevrons, icons).
+ * @param interactionSource Remembered stream used for press/focus feedback; hoist to observe it.
+ * @param leadingIcon Optional decorative content before the label; use null icon descriptions.
+ * @param trailingIcon Optional decorative content after the label; no icon-library dependency.
+ * @param fullWidth Fills both the visible surface and outer target within bounded parent width.
  * @param content The text or content row of the button.
  */
 @Composable
@@ -89,7 +94,7 @@ fun FrogButton(
     val isPressed by interactionSource.collectIsPressedAsState()
     val isFocused by interactionSource.collectIsFocusedAsState()
 
-    // Tactile press spring animation (120ms)
+    // Local fast feedback; reduced motion retains the color/state change without scale.
     val scale by animateFloatAsState(
         targetValue = if (isPressed && isInteractive && FrogTheme.motion.fastDurationMillis > 0) 0.97f else 1.0f,
         animationSpec = FrogTheme.motion.fastSpec(),
@@ -126,7 +131,7 @@ fun FrogButton(
     Box(
         modifier = modifier
             .then(if (fullWidth) Modifier.fillMaxWidth() else Modifier)
-            .defaultMinSize(minHeight = FrogButtonDefaults.MinTouchTarget)
+            .defaultMinSize(minWidth = FrogTheme.sizing.minimumTouchTarget, minHeight = FrogTheme.sizing.minimumTouchTarget)
             .scale(scale)
             .then(semanticsModifier)
             .clickable(interactionSource, indication = null, enabled = isInteractive, role = Role.Button, onClick = onClick),
@@ -135,7 +140,7 @@ fun FrogButton(
         Row(
             modifier = Modifier
                 .then(if (fullWidth) Modifier.fillMaxWidth() else Modifier)
-                .defaultMinSize(minHeight = size.minHeight)
+                .defaultMinSize(minHeight = FrogButtonDefaults.controlHeight(size))
                 .clip(shape)
                 .background(currentContainerColor)
                 .then(
@@ -161,10 +166,7 @@ fun FrogButton(
                         content()
                         if (trailingIcon != null) { Spacer(Modifier.width(size.iconSpacing)); trailingIcon() }
                     }
-                    if (loading) CircularProgressIndicator(
-                        modifier = Modifier.size(size.iconSize).clearAndSetSemantics {},
-                        color = currentContentColor, strokeWidth = 2.dp, strokeCap = StrokeCap.Round,
-                    )
+                    if (loading) FrogButtonProgress(currentContentColor, Modifier.size(FrogButtonDefaults.iconSize(size)))
                 }
             }
         }

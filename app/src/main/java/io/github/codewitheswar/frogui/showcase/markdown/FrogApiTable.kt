@@ -25,7 +25,7 @@ internal fun FrogApiTable(properties: List<ComponentPropertyMetadata>, modifier:
             }
             properties.forEach { property ->
                 val action = if (onPropertyClick != null) Modifier.clickable(role = Role.Button, onClickLabel = "Inspect ${property.name}") { onPropertyClick(property) } else Modifier
-                if (table) Row(Modifier.fillMaxWidth().then(action).padding(12.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                if (table) Row(Modifier.fillMaxWidth().heightIn(min = FrogTheme.sizing.minimumTouchTarget).then(action).padding(12.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text(property.name, Modifier.weight(1f), style = FrogTheme.typography.code, color = colors.foreground)
                     Text(property.type, Modifier.weight(1f), style = FrogTheme.typography.code, color = colors.mutedForeground)
                     Text(property.defaultValue, Modifier.weight(1f), style = FrogTheme.typography.code, color = colors.mutedForeground)

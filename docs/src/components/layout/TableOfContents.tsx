@@ -44,7 +44,7 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
           On this page
         </h4>
         <nav aria-label="Table of contents">
-          <ul className="relative border-l border-zinc-200 dark:border-zinc-800 space-y-1">
+          <ul className="relative border-l border-[var(--frog-border)] space-y-1">
             {items.map(item => {
               const isActive = activeId === item.id;
               return (
@@ -62,8 +62,8 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
                       item.level === 3 ? 'pl-6 text-[11px]' : 'pl-4 text-xs'
                     } ${
                       isActive
-                        ? 'text-zinc-900 dark:text-zinc-100 font-semibold'
-                        : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'
+                        ? 'text-[var(--frog-foreground)] font-semibold'
+                        : 'text-[var(--frog-muted-foreground)] hover:text-[var(--frog-foreground)]'
                     }`}
                   >
                     {item.title}

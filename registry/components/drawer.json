@@ -14,27 +14,24 @@
     "Bottom",
     "Side"
   ],
-  "sizes": [
-    "Compact",
-    "Expanded"
-  ],
+  "sizes": [],
   "accessibility": {
-    "role": "Role.Dialog",
+    "role": "Pane",
     "minTouchTarget": "48dp",
-    "talkBackNotes": "Declares paneTitle semantics for window transition announcement, trapped focus, and provides accessible 48dp dismiss targets and back navigation."
+    "talkBackNotes": "Pane title and dismiss action are implemented. Native modal windows contain focus; embedded hosts provide a bounded nonmodal region. Human TalkBack speech and traversal need release verification."
   },
   "properties": [
     {
       "name": "state",
       "type": "FrogDrawerState",
-      "defaultValue": "rememberFrogDrawerState()",
-      "description": "Controls drawer visibility, current value, target value, and programmatic open/close suspend operations."
+      "defaultValue": "required",
+      "description": "Hoisted requested visibility with a Saver and immediate open/close operations; values do not represent animation progress."
     },
     {
       "name": "onDismissRequest",
       "type": "() -> Unit",
       "defaultValue": "required",
-      "description": "Callback invoked when the drawer is dismissed via scrim tap, back press, or drag-to-dismiss gesture."
+      "description": "Requests closure on close, scrim tap, Back or drag. The caller must update state to dismiss."
     },
     {
       "name": "modifier",
@@ -46,7 +43,7 @@
       "name": "presentation",
       "type": "FrogDrawerPresentation",
       "defaultValue": "FrogDrawerPresentation.Auto",
-      "description": "Presentation mode: Auto adapts to screen width (<620dp bottom, >=620dp side), Bottom presents as bottom sheet, Side presents as docked edge panel."
+      "description": "Auto uses FrogTheme.adaptive and available host width: Bottom for Compact (below 600dp by default) and Side otherwise. Both are modal outside FrogOverlayHost."
     },
     {
       "name": "side",
@@ -95,6 +92,18 @@
       "type": "FrogDrawerColors",
       "defaultValue": "FrogDrawerDefaults.colors()",
       "description": "Resolved colors for container, content, border, handle, and scrim."
+    },
+    {
+      "name": "onBackRequest",
+      "type": "(() -> Unit)?",
+      "defaultValue": "null",
+      "description": "Optional handler for system Back, such as returning to a parent inspector. Defaults to onDismissRequest when absent."
+    },
+    {
+      "name": "closeIcon",
+      "type": "(@Composable () -> Unit)?",
+      "defaultValue": "null",
+      "description": "Optional decorative glyph within the standard accessible close button."
     },
     {
       "name": "content",
@@ -158,7 +167,7 @@
   ],
   "showcase": {
     "route": "components/drawer",
-    "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/drawer/DrawerScreen.kt",
-    "screen": "DrawerScreen"
+    "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/drawer/DrawerShowcaseDefinition.kt",
+    "screen": "drawerShowcaseDefinition"
   }
 }

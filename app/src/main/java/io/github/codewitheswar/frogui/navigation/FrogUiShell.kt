@@ -17,7 +17,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import io.github.codewitheswar.frogui.registry.FrogComponentRegistry
 import io.github.codewitheswar.frogui.showcase.branding.FrogUiLogo
-import io.github.codewitheswar.frogui.showcase.components.button.ButtonScreen
 import io.github.codewitheswar.frogui.showcase.icons.FrogIcons
 import io.github.codewitheswar.frogui.showcase.screens.*
 import io.github.codewitheswar.frogui.showcase.style.*
@@ -28,8 +27,9 @@ internal enum class ShowcaseAppearance { System, Light, Dark }
 /** Window-based layout with persistent top-level state and a separate detail workspace. */
 @Composable
 internal fun FrogUiShell(appearance: ShowcaseAppearance, onAppearanceChange: (ShowcaseAppearance) -> Unit,
-    reduceMotion: Boolean, onReduceMotionChange: (Boolean) -> Unit, modifier: Modifier = Modifier) {
+    reduceMotion: Boolean, onReduceMotionChange: (Boolean) -> Unit, modifier: Modifier = Modifier, incomingLink: ComponentDeepLink? = null) {
     var backStack by rememberSaveable { mutableStateOf(listOf("home")) }
+    LaunchedEffect(incomingLink) { incomingLink?.let { backStack = listOf("components", "components/${it.componentId}") } }
     val route = backStack.last()
     var appearanceMenu by remember { mutableStateOf(false) }
     val destination = FrogUiDestination.fromRoute(route)
@@ -46,7 +46,7 @@ internal fun FrogUiShell(appearance: ShowcaseAppearance, onAppearanceChange: (Sh
     val imeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
     BoxWithConstraints(modifier.fillMaxSize().background(colors.background)
         .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)).imePadding()) {
-        val window = showcaseWindow(maxWidth)
+        val window = showcaseWindow(maxWidth, FrogTheme.adaptive)
         val compact = window == ShowcaseWindow.Compact
         Row(Modifier.fillMaxSize()) {
             if (!compact) {
@@ -80,7 +80,7 @@ internal fun FrogUiShell(appearance: ShowcaseAppearance, onAppearanceChange: (Sh
                             when (val page = FrogUiDestination.fromRoute(contentRoute)) {
                                 FrogUiDestination.Home -> HomeScreen({ navigate("components") }, { navigate("foundation") }, { navigate("components/button") })
                                 FrogUiDestination.Components -> ComponentsScreen({ navigate("components/$it") })
-                                FrogUiDestination.Playground -> ButtonScreen("button", back)
+                                FrogUiDestination.Playground -> ComponentDetailScreen("button", back)
                                 FrogUiDestination.Foundation -> FoundationScreen()
                                 FrogUiDestination.Settings -> SettingsScreen(appearance, onAppearanceChange, reduceMotion, onReduceMotionChange, { navigate("about") })
                                 FrogUiDestination.About -> AboutScreen()

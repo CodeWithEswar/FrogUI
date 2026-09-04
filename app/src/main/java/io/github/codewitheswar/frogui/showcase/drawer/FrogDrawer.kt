@@ -2,6 +2,15 @@ package io.github.codewitheswar.frogui.showcase.drawer
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.ui.unit.dp
+import io.github.codewitheswar.frogui.components.overlays.drawer.FrogDrawerPresentation
+import io.github.codewitheswar.frogui.showcase.style.ShowcaseBackButton
+import io.github.codewitheswar.frogui.showcase.icons.FrogIcons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import io.github.codewitheswar.frogui.components.overlays.drawer.FrogDrawer as CanonicalFrogDrawer
@@ -31,10 +40,12 @@ internal fun FrogDrawer(
         title = title,
         modifier = modifier,
         subtitle = subtitle,
-        side = side,
-        onBack = onBack,
+        presentation = if (side) FrogDrawerPresentation.Side else FrogDrawerPresentation.Bottom,
+        navigationIcon = if (onBack != null) ({ ShowcaseBackButton(onClick = onBack, label = "Back within drawer") }) else null,
+        onBackRequest = onBack,
+        closeIcon = { Icon(FrogIcons.Close, null, Modifier.size(18.dp)) },
         preview = preview,
-        actions = actions,
+        footer = actions?.let { slot -> ({ Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), content = slot) }) },
         content = content
     )
 }

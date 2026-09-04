@@ -31,7 +31,8 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
     { id: 'api-reference', title: 'API Reference', level: 2 },
     { id: 'accessibility', title: 'Accessibility', level: 2 },
     { id: 'guidance', title: 'Usage Guidance', level: 2 },
-    { id: 'design-tokens', title: 'Design Tokens & Anatomy', level: 2 }
+    { id: 'design-tokens', title: 'Design Tokens & Anatomy', level: 2 },
+    { id: 'verification', title: 'Verification Checklist', level: 2 }
   ];
 
   return (
@@ -39,10 +40,10 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
       {/* Main Content Article */}
       <article className="min-w-0 flex-1 max-w-4xl">
         {/* Page Header */}
-        <header className="pb-6 mb-8 border-b border-zinc-200 dark:border-zinc-800">
+        <header className="pb-6 mb-8 border-b border-[var(--frog-border)]">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-3">
             <div className="flex items-center gap-3">
-              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--frog-foreground)]">
                 {component.displayName}
               </h1>
               <StatusBadge status={component.status} size="md" />
@@ -52,9 +53,9 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsShowcaseOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-medium text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] text-xs font-medium text-[var(--frog-foreground)] hover:bg-[var(--frog-muted)] transition-colors shadow-xs cursor-pointer"
               >
-                <svg className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg className="w-3.5 h-3.5 text-[var(--frog-foreground)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
                 <span>Open in Showcase</span>
@@ -63,7 +64,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
                 href={sourceUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-[var(--frog-border)] text-xs font-medium text-[var(--frog-muted-foreground)] hover:text-[var(--frog-foreground)] transition-colors"
               >
                 <span>Source</span>
                 <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -73,7 +74,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
             </div>
           </div>
 
-          <p className="text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          <p className="text-base text-[var(--frog-muted-foreground)] leading-relaxed">
             {component.description}
           </p>
 
@@ -88,10 +89,10 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
 
         {/* Section 1: Overview & Interactive Preview */}
         <section id="overview" className="space-y-4">
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-xl font-bold text-[var(--frog-foreground)]">
             Overview &amp; Preview
           </h2>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-[var(--frog-muted-foreground)]">
             Experiment with variants and presentations below. You can toggle the canvas between Light and Dark themes independently of the documentation website.
           </p>
           <ComponentPreview
@@ -102,10 +103,10 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
 
         {/* Section 2: Installation */}
         <section id="installation" className="space-y-4">
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-xl font-bold text-[var(--frog-foreground)]">
             Installation
           </h2>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-[var(--frog-muted-foreground)]">
             Add the components module to your Gradle dependencies:
           </p>
           <CodeBlock
@@ -119,11 +120,11 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
 
         {/* Section 3: Basic Usage */}
         <section id="usage" className="space-y-4">
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-xl font-bold text-[var(--frog-foreground)]">
             Basic Usage
           </h2>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Call <code className="font-mono bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded text-xs">{component.name}</code> inside a <code className="font-mono text-xs">FrogTheme</code> scope. Application state remains with the caller:
+          <p className="text-sm text-[var(--frog-muted-foreground)]">
+            Call <code className="font-mono bg-[var(--frog-muted)] px-1 py-0.5 rounded text-xs">{component.name}</code> inside a <code className="font-mono text-xs">FrogTheme</code> scope. Application state remains with the caller:
           </p>
           {basicExample && (
             <CodeBlock
@@ -137,20 +138,20 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
         {/* Section 4: Examples */}
         {variantExamples.length > 0 && (
           <section id="examples" className="space-y-6">
-            <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+            <h2 className="text-xl font-bold text-[var(--frog-foreground)]">
               Examples
             </h2>
-            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            <p className="text-sm text-[var(--frog-muted-foreground)]">
               Compiled and verified examples extracted from the native Android Showcase suite:
             </p>
 
             <div className="space-y-8">
               {variantExamples.map(example => (
                 <div key={example.id} className="space-y-2">
-                  <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200">
+                  <h3 className="text-base font-semibold text-[var(--frog-foreground)]">
                     {example.title}
                   </h3>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="text-xs text-[var(--frog-muted-foreground)]">
                     {example.description}
                   </p>
                   <CodeBlock
@@ -166,10 +167,10 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
 
         {/* Section 5: API Reference */}
         <section id="api-reference" className="space-y-4">
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-xl font-bold text-[var(--frog-foreground)]">
             API Reference
           </h2>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-[var(--frog-muted-foreground)]">
             All parameters exposed by <code className="font-mono text-xs">{component.name}</code>:
           </p>
           <ApiTable properties={component.properties} />
@@ -177,23 +178,23 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
 
         {/* Section 6: Accessibility */}
         <section id="accessibility" className="space-y-4">
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-xl font-bold text-[var(--frog-foreground)]">
             Accessibility
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
-            <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
+            <div className="p-4 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)]">
               <span className="text-xs text-zinc-400 uppercase tracking-wider font-semibold block mb-1">
                 Semantic Role
               </span>
-              <code className="text-sm font-mono text-zinc-900 dark:text-zinc-100 font-bold">
+              <code className="text-sm font-mono text-[var(--frog-foreground)] font-bold">
                 {component.accessibility.role}
               </code>
             </div>
-            <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60">
+            <div className="p-4 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)]">
               <span className="text-xs text-zinc-400 uppercase tracking-wider font-semibold block mb-1">
                 Min Touch Target
               </span>
-              <code className="text-sm font-mono text-zinc-900 dark:text-zinc-100 font-bold">
+              <code className="text-sm font-mono text-[var(--frog-foreground)] font-bold">
                 {component.accessibility.minTouchTarget}
               </code>
             </div>
@@ -213,27 +214,29 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
         </section>
 
         {/* Section 7: Usage Guidance */}
-        <section id="guidance" className="space-y-4 pt-6 border-t border-zinc-200 dark:border-zinc-800">
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+        <section id="guidance" className="space-y-4 pt-6 border-t border-[var(--frog-border)]">
+          <h2 className="text-xl font-bold text-[var(--frog-foreground)]">
             Usage Guidance
           </h2>
-          <div className="prose prose-zinc dark:prose-invert max-w-none text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 space-y-4">
+          <div className="prose prose-zinc dark:prose-invert max-w-none text-sm leading-relaxed text-[var(--frog-muted-foreground)] space-y-4">
             {component.id === 'drawer' ? (
               <>
                 <p>
                   Use <code className="font-mono text-xs">FrogDrawer</code> to present contextual secondary flows, settings panels, filter sheets, or multi-level navigation drawers without navigating away from the active screen.
                 </p>
                 <p>
-                  Application state remains with the caller via <code className="font-mono text-xs">rememberFrogDrawerState()</code>. Call <code className="font-mono text-xs">state.open()</code> and <code className="font-mono text-xs">state.close()</code> inside a coroutine scope to trigger smooth spring animations.
+                  Application state remains with the caller via <code className="font-mono text-xs">rememberFrogDrawerState()</code>. <code className="font-mono text-xs">state.open()</code>, <code className="font-mono text-xs">state.close()</code>, and <code className="font-mono text-xs">state.snapTo()</code> update requested visibility immediately. The renderer owns the visual transition, so state values never represent animation progress.
                 </p>
-                <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 pt-2">
+                <h3 className="text-base font-semibold text-[var(--frog-foreground)] pt-2">
                   Presentation Modes
                 </h3>
                 <ul className="list-disc pl-5 space-y-1.5">
-                  <li><strong className="text-zinc-800 dark:text-zinc-200">Auto (Default):</strong> Responsive layout adapting automatically based on available width. Renders as a modal bottom sheet on compact screens (&lt; 620dp) and docks as a contextual side panel on tablet/desktop screens (&ge; 620dp).</li>
-                  <li><strong className="text-zinc-800 dark:text-zinc-200">Bottom:</strong> Always presents as a bottom sheet with a central drag handle, supporting pointer drag-down dismissal and hardware back press.</li>
-                  <li><strong className="text-zinc-800 dark:text-zinc-200">Side:</strong> Always docks as an edge sheet at <code className="font-mono text-xs">Start</code> or <code className="font-mono text-xs">End</code> edge, suitable for persistent desktop side inspectors.</li>
+                  <li><strong className="text-[var(--frog-foreground)]">Auto (Default):</strong> Resolves through <code className="font-mono text-xs">FrogTheme.adaptive</code> and the overlay host width. The default policy uses Bottom for Compact space below 600dp and Side for Medium or Expanded space.</li>
+                  <li><strong className="text-[var(--frog-foreground)]">Bottom:</strong> Always presents as a bottom sheet with a central drag handle, supporting pointer drag-down dismissal and hardware back press.</li>
+                  <li><strong className="text-[var(--frog-foreground)]">Side:</strong> Presents a modal edge sheet at <code className="font-mono text-xs">Start</code> or <code className="font-mono text-xs">End</code>. Use <code className="font-mono text-xs">FrogOverlayHost</code> when the overlay must stay within an embedded preview or bounded pane.</li>
                 </ul>
+                <h3 className="text-base font-semibold text-[var(--frog-foreground)] pt-2">Dismissal and Back</h3>
+                <p>Close buttons, scrim taps, system Back, and a completed drag call <code className="font-mono text-xs">onDismissRequest</code>; the caller must close its state. Supply <code className="font-mono text-xs">onBackRequest</code> when Back should navigate within drawer content before dismissing it.</p>
               </>
             ) : (
               <>
@@ -243,61 +246,63 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
                 <p>
                   Wrap application content in <code className="font-mono text-xs">FrogTheme</code>. Use composable content and icon slots, native Modifier, semantic variant/size values, and FrogButtonColors for customization.
                 </p>
-                <h3 className="text-base font-semibold text-zinc-800 dark:text-zinc-200 pt-2">
+                <h3 className="text-base font-semibold text-[var(--frog-foreground)] pt-2">
                   Choosing a Variant
                 </h3>
                 <ul className="list-disc pl-5 space-y-1.5">
-                  <li><strong className="text-zinc-800 dark:text-zinc-200">Primary:</strong> Gives the main action the most visual emphasis. Recommended once per visual screen.</li>
-                  <li><strong className="text-zinc-800 dark:text-zinc-200">Secondary:</strong> Tonal Zinc surface for secondary operations (e.g. &ldquo;Cancel&rdquo;, &ldquo;Back&rdquo;).</li>
-                  <li><strong className="text-zinc-800 dark:text-zinc-200">Outline:</strong> Transparent surface with structural border for lower emphasis.</li>
-                  <li><strong className="text-zinc-800 dark:text-zinc-200">Ghost:</strong> Borderless button for toolbars and compact surfaces.</li>
-                  <li><strong className="text-zinc-800 dark:text-zinc-200">Destructive:</strong> High-warning action communicating permanent operations (e.g. &ldquo;Delete repository&rdquo;).</li>
+                  <li><strong className="text-[var(--frog-foreground)]">Primary:</strong> Gives the main action the most visual emphasis. Recommended once per visual screen.</li>
+                  <li><strong className="text-[var(--frog-foreground)]">Secondary:</strong> Tonal Zinc surface for secondary operations (e.g. &ldquo;Cancel&rdquo;, &ldquo;Back&rdquo;).</li>
+                  <li><strong className="text-[var(--frog-foreground)]">Outline:</strong> Transparent surface with structural border for lower emphasis.</li>
+                  <li><strong className="text-[var(--frog-foreground)]">Ghost:</strong> Borderless button for toolbars and compact surfaces.</li>
+                  <li><strong className="text-[var(--frog-foreground)]">Destructive:</strong> High-warning action communicating permanent operations (e.g. &ldquo;Delete repository&rdquo;).</li>
                 </ul>
+                <h3 className="text-base font-semibold text-[var(--frog-foreground)] pt-2">State and customization</h3>
+                <p><code className="font-mono text-xs">enabled</code> and <code className="font-mono text-xs">loading</code> both suppress activation when interaction is unavailable. Variant changes select new semantic defaults; explicit <code className="font-mono text-xs">FrogButtonColors</code>, shape, border, and padding values are applied to the rendered control.</p>
               </>
             )}
           </div>
         </section>
 
         {/* Section 8: Design Tokens & Anatomy */}
-        <section id="design-tokens" className="space-y-4 pt-6 border-t border-zinc-200 dark:border-zinc-800">
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+        <section id="design-tokens" className="space-y-4 pt-6 border-t border-[var(--frog-border)]">
+          <h2 className="text-xl font-bold text-[var(--frog-foreground)]">
             Design Tokens &amp; Anatomy
           </h2>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-[var(--frog-muted-foreground)]">
             Structural anatomy and design token specifications governing {component.name}:
           </p>
 
           {component.id === 'drawer' ? (
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                <div className="p-3.5 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] space-y-1">
                   <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">1. Drag Handle</div>
-                  <div className="text-xs text-zinc-700 dark:text-zinc-300">48dp &times; 4dp centered pill with 2dp corner radius. Serves as visual affordance for touch swipe dismiss.</div>
+                  <div className="text-xs text-[var(--frog-foreground)]">32dp &times; 3dp centered pill inside a 24dp handle area. It is the visual affordance for drag-down dismissal.</div>
                 </div>
-                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                <div className="p-3.5 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] space-y-1">
                   <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">2. Header Slot</div>
-                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Contains title text with heading semantics, subtitle, and dismiss icon button.</div>
+                  <div className="text-xs text-[var(--frog-foreground)]">Contains title text with heading semantics, subtitle, and dismiss icon button.</div>
                 </div>
-                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                <div className="p-3.5 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] space-y-1">
                   <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">3. Content Body</div>
-                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Scrollable container with nested scroll interop between drag gestures and inner list scrolling.</div>
+                  <div className="text-xs text-[var(--frog-foreground)]">Scrollable container with nested scroll interop between drag gestures and inner list scrolling.</div>
                 </div>
-                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                <div className="p-3.5 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] space-y-1">
                   <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">4. Footer Slot</div>
-                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Sticky action container with primary action and dismiss buttons docked to the bottom.</div>
+                  <div className="text-xs text-[var(--frog-foreground)]">Sticky action container with primary action and dismiss buttons docked to the bottom.</div>
                 </div>
-                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                <div className="p-3.5 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] space-y-1">
                   <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">5. Modal Scrim</div>
-                  <div className="text-xs text-zinc-700 dark:text-zinc-300">60% black backdrop (<code className="font-mono text-[10px]">scrimColor</code>) that dims background content and handles tap-to-dismiss.</div>
+                  <div className="text-xs text-[var(--frog-foreground)]">48% black backdrop (<code className="font-mono text-[10px]">scrimColor</code>) that dims background content and handles tap-to-dismiss.</div>
                 </div>
-                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                <div className="p-3.5 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] space-y-1">
                   <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">6. Surface Container</div>
-                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Elevated surface with 16dp corner radius and 1dp border separating sheet from background.</div>
+                  <div className="text-xs text-[var(--frog-foreground)]">Elevated surface using theme-aware xl corners for Bottom and lg corners for Side, with square corners along the attached edge.</div>
                 </div>
               </div>
 
               {/* Token Table */}
-              <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+              <div className="overflow-x-auto rounded-lg border border-[var(--frog-border)]">
                 <table className="min-w-full divide-y divide-zinc-200 dark:divide-zinc-800 text-xs">
                   <thead className="bg-zinc-50 dark:bg-zinc-900/80 text-zinc-500 font-semibold">
                     <tr>
@@ -308,23 +313,23 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
                   </thead>
                   <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800 font-mono text-[11px]">
                     <tr>
-                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold">AutoBreakpoint</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">620.dp</td>
-                      <td className="px-4 py-2 text-zinc-500 font-sans">Threshold between Bottom Sheet and Side Drawer modes</td>
+                      <td className="px-4 py-2 text-[var(--frog-foreground)] font-semibold">CompactBreakpoint</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">600.dp default</td>
+                      <td className="px-4 py-2 text-zinc-500 font-sans">Theme adaptive threshold between Compact and Medium width classes</td>
                     </tr>
                     <tr>
-                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold">CornerRadius</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">16.dp</td>
-                      <td className="px-4 py-2 text-zinc-500 font-sans">Top corners (bottom sheet) or side corners (docked panel)</td>
+                      <td className="px-4 py-2 text-[var(--frog-foreground)] font-semibold">MaximumWidth</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">600.dp Bottom / 400.dp Side</td>
+                      <td className="px-4 py-2 text-zinc-500 font-sans">Component-specific sheet width limits</td>
                     </tr>
                     <tr>
-                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold">AnimationSpec</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">spring(StiffnessMediumLow)</td>
-                      <td className="px-4 py-2 text-zinc-500 font-sans">Natural physics spring curve for open, close, and drag release</td>
+                      <td className="px-4 py-2 text-[var(--frog-foreground)] font-semibold">Motion</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">FrogTheme.motion.normal</td>
+                      <td className="px-4 py-2 text-zinc-500 font-sans">Theme duration and easing; completes immediately when reduced motion is active</td>
                     </tr>
                     <tr>
-                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold">ScrimColor</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">Black.copy(alpha = 0.6f)</td>
+                      <td className="px-4 py-2 text-[var(--frog-foreground)] font-semibold">ScrimColor</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">Black.copy(alpha = 0.48f)</td>
                       <td className="px-4 py-2 text-zinc-500 font-sans">Backdrop overlay opacity in modal presentation</td>
                     </tr>
                   </tbody>
@@ -334,22 +339,22 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
           ) : (
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                <div className="p-3.5 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] space-y-1">
                   <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">1. Touch Target</div>
-                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Minimum 48dp bounding box ensured across all sizes for accessible touch interaction.</div>
+                  <div className="text-xs text-[var(--frog-foreground)]">Minimum 48dp bounding box ensured across all sizes for accessible touch interaction.</div>
                 </div>
-                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                <div className="p-3.5 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] space-y-1">
                   <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">2. Container Surface</div>
-                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Rounded pill container with variant-specific surface fill, stroke, and pressed elevation.</div>
+                  <div className="text-xs text-[var(--frog-foreground)]">Rounded pill container with variant-specific surface fill, stroke, and pressed elevation.</div>
                 </div>
-                <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 space-y-1">
+                <div className="p-3.5 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] space-y-1">
                   <div className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">3. Content Row</div>
-                  <div className="text-xs text-zinc-700 dark:text-zinc-300">Horizontal arrangement containing leading icon slot, text label, and trailing icon slot.</div>
+                  <div className="text-xs text-[var(--frog-foreground)]">Horizontal arrangement containing leading icon slot, text label, and trailing icon slot.</div>
                 </div>
               </div>
 
               {/* Token Table */}
-              <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+              <div className="overflow-x-auto rounded-lg border border-[var(--frog-border)]">
                 <table className="min-w-full divide-y divide-zinc-200 dark:divide-zinc-800 text-xs">
                   <thead className="bg-zinc-50 dark:bg-zinc-900/80 text-zinc-500 font-semibold">
                     <tr>
@@ -362,24 +367,24 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
                   </thead>
                   <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800 font-mono text-[11px]">
                     <tr>
-                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold font-sans">Small</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">32.dp</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">8.dp</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">12.dp horizontal</td>
+                      <td className="px-4 py-2 text-[var(--frog-foreground)] font-semibold font-sans">Small</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">32.dp</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">8.dp</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">12.dp horizontal</td>
                       <td className="px-4 py-2 text-zinc-500 font-sans">labelMedium (12sp)</td>
                     </tr>
                     <tr>
-                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold font-sans">Medium</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">40.dp</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">10.dp</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">16.dp horizontal</td>
+                      <td className="px-4 py-2 text-[var(--frog-foreground)] font-semibold font-sans">Medium</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">40.dp</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">10.dp</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">16.dp horizontal</td>
                       <td className="px-4 py-2 text-zinc-500 font-sans">labelLarge (14sp)</td>
                     </tr>
                     <tr>
-                      <td className="px-4 py-2 text-zinc-900 dark:text-zinc-100 font-semibold font-sans">Large</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">48.dp</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">12.dp</td>
-                      <td className="px-4 py-2 text-zinc-600 dark:text-zinc-400">20.dp horizontal</td>
+                      <td className="px-4 py-2 text-[var(--frog-foreground)] font-semibold font-sans">Large</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">48.dp</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">12.dp</td>
+                      <td className="px-4 py-2 text-[var(--frog-muted-foreground)]">20.dp horizontal</td>
                       <td className="px-4 py-2 text-zinc-500 font-sans">titleSmall (16sp)</td>
                     </tr>
                   </tbody>
@@ -387,6 +392,28 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
               </div>
             </div>
           )}
+        </section>
+
+        <section id="verification" className="space-y-4 pt-6 border-t border-[var(--frog-border)]">
+          <h2 className="text-xl font-bold text-[var(--frog-foreground)]">Verification Checklist</h2>
+          <p className="text-sm text-[var(--frog-muted-foreground)]">Before shipping {component.displayName} in a product flow, verify the states that depend on your content and host:</p>
+          <ul className="list-disc pl-5 space-y-2 text-sm text-[var(--frog-muted-foreground)]">
+            {component.id === 'drawer' ? (
+              <>
+                <li>Open, close, scrim, system Back, custom Back, and drag dismissal all update caller-owned state once.</li>
+                <li>Auto presentation is checked below and above the configured Compact breakpoint, including narrow embedded hosts.</li>
+                <li>Long content scrolls without escaping its host, while the footer remains reachable and fixed.</li>
+                <li>TalkBack focus stays within a native modal window, and reduced motion closes without a lingering transition.</li>
+              </>
+            ) : (
+              <>
+                <li>Enabled, disabled, loading, focused, pressed, and every semantic variant remain legible in light and dark themes.</li>
+                <li>Small, Medium, and Large retain at least a 48dp interactive target at normal and 2x font scale.</li>
+                <li>Loading suppresses activation, preserves the accessible label, and uses static feedback under reduced motion.</li>
+                <li>Custom colors affect the surface, content, border, pressed overlay, disabled state, and focus ring as intended.</li>
+              </>
+            )}
+          </ul>
         </section>
       </article>
 

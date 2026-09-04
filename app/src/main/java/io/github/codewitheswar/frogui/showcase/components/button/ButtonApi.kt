@@ -1,24 +1,10 @@
 package io.github.codewitheswar.frogui.showcase.components.button
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.dp
 import io.github.codewitheswar.frogui.registry.ComponentPropertyMetadata
-import io.github.codewitheswar.frogui.showcase.code.FrogCodeBlock
-import io.github.codewitheswar.frogui.showcase.markdown.FrogApiTable
-import io.github.codewitheswar.frogui.showcase.markdown.FrogMarkdown
-import io.github.codewitheswar.frogui.theme.FrogTheme
-
-internal enum class ApiCategory { Core, Appearance, State, Layout, Content, Advanced }
-internal data class ButtonApiProperty(val metadata: ComponentPropertyMetadata, val category: ApiCategory, val guidance: String, val example: String) {
-    val required get() = metadata.defaultValue == "required"
-}
+import io.github.codewitheswar.frogui.showcase.detail.*
 
 /** Registry owns names, signatures, defaults and descriptions. Showcase adds teaching material. */
-internal fun buttonApiProperty(property: ComponentPropertyMetadata): ButtonApiProperty {
+internal fun buttonApiProperty(property: ComponentPropertyMetadata): ComponentApiProperty {
     val category = when (property.name) {
         "onClick" -> ApiCategory.Core
         "variant", "size", "colors", "shape", "border" -> ApiCategory.Appearance
@@ -39,7 +25,7 @@ internal fun buttonApiProperty(property: ComponentPropertyMetadata): ButtonApiPr
         "border" -> "The default stroke uses the supplied colors, including disabledBorderColor when enabled is false. Pass null to remove it or a BorderStroke for explicit width and color. Keyboard focus draws a separate focus ring."
         "modifier" -> "Applied to the outer touch target. Use padding, semantics, test tags, and width constraints here. Prefer fullWidth when both the button surface and target should expand."
         "contentPadding" -> "Defaults come from the chosen size. Overrides may increase the measured surface; preserve sufficient room for the label and minimum touch target."
-        "leadingIcon", "trailingIcon" -> "A composable slot, with no dependency on an icon vendor. Use size.iconSize for icon dimensions. Decorative icons use a null contentDescription so they do not duplicate the action label. The slot remains measured during loading."
+        "leadingIcon", "trailingIcon" -> "A composable slot, with no dependency on an icon vendor. Use FrogButtonDefaults.iconSize(size) for theme-aware icon dimensions. Decorative icons use a null contentDescription so they do not duplicate the action label. The slot remains measured during loading."
         "interactionSource" -> "Hoist a remembered MutableInteractionSource to observe presses and focus. The component uses it for pressed feedback and its focus ring. The state gallery uses synthetic interactions only for comparison and labels them as simulated."
         "content" -> "Required RowScope content, normally Text with a clear action label. It inherits the button's content color and typography. Avoid placing independently clickable controls inside a button."
         else -> property.description
@@ -55,34 +41,18 @@ internal fun buttonApiProperty(property: ComponentPropertyMetadata): ButtonApiPr
         "border" -> "border = BorderStroke(1.dp, FrogTheme.colors.borderStrong)"
         "contentPadding" -> "contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp)"
         "modifier" -> "modifier = Modifier.padding(16.dp)"
-        "leadingIcon" -> "leadingIcon = { Icon(FrogIcons.Play, contentDescription = null) }"
-        "trailingIcon" -> "trailingIcon = { Icon(FrogIcons.Forward, contentDescription = null) }"
         "interactionSource" -> "interactionSource = remember { MutableInteractionSource() }"
         else -> null
     }
-    val code = "FrogButton(\n" + (argument?.let { "    $it,\n" } ?: "") + "    onClick = { /* Handle action */ }\n) {\n    Text(\"Continue\")\n}"
-    return ButtonApiProperty(property, category, guidance, code)
-}
-
-@Composable
-internal fun ButtonApiReference(properties: List<ComponentPropertyMetadata>, onProperty: (String) -> Unit) {
-    FrogCodeBlock("@Composable\nfun FrogButton(\n" + properties.joinToString(",\n") { "    ${it.name}: ${it.type}" + if (it.defaultValue == "required") "" else " = ${it.defaultValue}" } + "\n)")
-    BoxWithConstraints(Modifier.fillMaxWidth()) {
-        Column(Modifier.testTag(if (maxWidth >= 680.dp) "api-table" else "api-stacked"), verticalArrangement = Arrangement.spacedBy(18.dp)) {
-            properties.map(::buttonApiProperty).groupBy { it.category }.toSortedMap().forEach { (category, entries) ->
-                Text(category.name, style = FrogTheme.typography.heading, color = FrogTheme.colors.foreground)
-                FrogApiTable(entries.map { it.metadata }, onPropertyClick = { onProperty(it.name) }, tagged = false)
-            }
-        }
+    val code = when (property.name) {
+        "leadingIcon" -> ButtonDemoState(hasLeadingIcon = true).toCodeSnippet()
+        "trailingIcon" -> ButtonDemoState(hasTrailingIcon = true).toCodeSnippet()
+        else -> "FrogButton(\n" + (argument?.let { "    $it,\n" } ?: "") + "    onClick = { /* Handle action */ }\n) {\n    Text(\"Continue\")\n}"
     }
-}
-
-@Composable
-internal fun ButtonApiPropertyContent(property: ButtonApiProperty) {
-    Text(property.metadata.type, style = FrogTheme.typography.code, color = FrogTheme.colors.foreground)
-    Text(if (property.required) "Required" else "Default: ${property.metadata.defaultValue}", style = FrogTheme.typography.code, color = FrogTheme.colors.mutedForeground)
-    Text(property.metadata.description, style = FrogTheme.typography.body, color = FrogTheme.colors.foreground)
-    FrogMarkdown(property.guidance)
-    Text("Example", style = FrogTheme.typography.heading, color = FrogTheme.colors.foreground)
-    FrogCodeBlock(property.example)
+    val values = when (property.name) {
+        "variant" -> listOf("Primary" to "Main action in a region.", "Secondary" to "Supporting action.", "Outline" to "Lower emphasis with a visible boundary.", "Ghost" to "Quiet toolbar or inline action.", "Destructive" to "Destructive consequences.")
+        "size" -> listOf("Small" to "Dense controls; minimum 32dp surface.", "Medium" to "General actions; minimum 40dp surface.", "Large" to "Prominent actions; minimum 48dp surface.")
+        else -> emptyList()
+    }
+    return ComponentApiProperty(property, category, guidance, code, values.map { ComponentApiValue(it.first, it.second) })
 }

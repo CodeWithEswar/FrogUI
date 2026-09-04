@@ -13,7 +13,7 @@
     "docs:build": "node tools/registry/generate.mjs --docs && node docs/scripts/build.mjs && npm --prefix docs run build",
     "icons:generate": "node tools/icons/generate.mjs",
     "icons:check": "node tools/icons/generate.mjs --check",
-    "test": "node tools/icons/generate.mjs --check && node --test tools/registry/*.test.mjs docs/scripts/*.test.mjs"
+    "test": "node tools/icons/generate.mjs --check && node --test tools/registry/*.test.mjs tools/theme/*.test.mjs docs/scripts/*.test.mjs"
   },
   "devDependencies": {
     "@hugeicons/core-free-icons": "4.3.0",

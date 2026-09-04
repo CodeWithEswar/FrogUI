@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import io.github.codewitheswar.frogui.foundation.adaptive.FrogWindowSizeClass
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,26 +34,42 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import io.github.codewitheswar.frogui.theme.FrogTheme
+import io.github.codewitheswar.frogui.components.overlays.LocalFrogOverlayHost
+import io.github.codewitheswar.frogui.components.button.*
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 
 /**
- * Standard FrogUI Drawer component.
+ * Shows contextual content in a native modal bottom sheet or side panel.
  *
  * Presents contextual content in an adaptive modal sheet or side panel surface without
- * navigating away from the current screen destination.
+ * navigating away from the current screen destination. The caller owns [state] and must close
+ * it in [onDismissRequest]; a request alone does not change visibility. Auto uses Bottom for
+ * Compact available width; Medium/Expanded use Side through the local
+ * [io.github.codewitheswar.frogui.foundation.adaptive.FrogAdaptive] policy.
+ * Side is modal too, not a persistent pane.
  *
- * @param state The [FrogDrawerState] controlling the drawer's visibility.
+ * The header and optional preview/footer stay fixed around a scrolling body. The title names
+ * the accessibility pane; close and dismiss semantics are supplied. Native windows receive
+ * focus at the close action and respect system/IME insets. Within FrogOverlayHost, rendering
+ * is bounded/nonmodal: its caller handles Back and focus restoration outside that region.
+ * Theme motion controls transitions. This API remains Experimental in the current snapshot.
+ *
+ * @param state Hoisted requested visibility; create with [rememberFrogDrawerState] for restoration.
  * @param onDismissRequest Called when the user initiates a dismiss gesture, outside tap, or system back.
  * @param modifier Layout modifier applied to the drawer container.
  * @param presentation Presentation mode: [FrogDrawerPresentation.Auto], [FrogDrawerPresentation.Bottom], or [FrogDrawerPresentation.Side].
  * @param side Side placement edge when in side presentation mode: [FrogDrawerSide.End] or [FrogDrawerSide.Start].
  * @param title Optional title text displayed in the drawer header.
  * @param subtitle Optional subtitle text displayed underneath the title.
- * @param navigationIcon Optional slot rendered at the leading edge of the header (e.g., back action).
+ * @param navigationIcon Optional leading navigation action; supply its label and 48dp target.
  * @param actions Optional slot rendered at the trailing edge of the header.
  * @param preview Optional slot rendered immediately below the header divider.
  * @param footer Optional sticky footer rendered at the bottom of the drawer, outside the scrollable body.
  * @param colors Resolved colors for container, content, border, handle, and scrim.
- * @param content The scrollable content rendered inside the drawer body.
+ * @param onBackRequest Optional native-window Back callback for nested pages; defaults to [onDismissRequest].
+ * @param closeIcon Optional decorative icon inside the standard accessible close button.
+ * @param content Scrollable ColumnScope body inheriting [FrogDrawerColors.contentColor].
  */
 @Composable
 fun FrogDrawer(
@@ -67,6 +85,8 @@ fun FrogDrawer(
     preview: (@Composable () -> Unit)? = null,
     footer: (@Composable () -> Unit)? = null,
     colors: FrogDrawerColors = FrogDrawerDefaults.colors(),
+    onBackRequest: (() -> Unit)? = null,
+    closeIcon: (@Composable () -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     FrogDrawerInternal(
@@ -82,12 +102,20 @@ fun FrogDrawer(
         preview = preview,
         footer = footer,
         colors = colors,
+        onBackRequest = onBackRequest,
+        closeIcon = closeIcon,
         content = content
     )
 }
 
 /**
- * Overload of [FrogDrawer] driven directly by a [visible] Boolean flag.
+ * Caller-controlled alternative to the state overload of [FrogDrawer]. No state helper is required.
+ * Update [visible] in [onDismissRequest] to close; keep it true to leave the drawer open.
+ * Presentation, slots, defaults, insets and accessibility follow the state overload's contract.
+ *
+ * @param visible Requested visibility; rendering may finish a closing transition after it is false.
+ * @param onDismissRequest Requests closure without changing [visible] automatically.
+ * @param onBackRequest Optional native-window Back override; otherwise requests dismissal.
  */
 @Composable
 fun FrogDrawer(
@@ -103,6 +131,8 @@ fun FrogDrawer(
     preview: (@Composable () -> Unit)? = null,
     footer: (@Composable () -> Unit)? = null,
     colors: FrogDrawerColors = FrogDrawerDefaults.colors(),
+    onBackRequest: (() -> Unit)? = null,
+    closeIcon: (@Composable () -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     FrogDrawerInternal(
@@ -118,13 +148,19 @@ fun FrogDrawer(
         preview = preview,
         footer = footer,
         colors = colors,
+        onBackRequest = onBackRequest,
+        closeIcon = closeIcon,
         content = content
     )
 }
 
 /**
- * Legacy-compatible overload supporting existing Showcase call-sites with `side: Boolean` and `onBack`.
+ * Compatibility adapter for older Boolean-side calls. Prefer the presentation-based overload.
+ * Unlike the canonical overload, false [side] explicitly means Bottom and [actions] is a footer.
+ * Migrate [onBack] to both a navigation control and `onBackRequest`, and move [actions] into a
+ * Row in `footer`. This overload remains callable while consumers migrate.
  */
+@Deprecated("Use the presentation-based FrogDrawer overload. Map side to Bottom/Side, actions to footer, and onBack to navigationIcon/onBackRequest. See api-design.md migration guidance.")
 @Composable
 fun FrogDrawer(
     visible: Boolean,
@@ -149,10 +185,11 @@ fun FrogDrawer(
         navigationIcon = if (onBack != null) ({
             DrawerBackButton(onClick = onBack)
         }) else null,
-        actions = actions,
+        actions = null,
         preview = preview,
-        footer = null,
+        footer = actions?.let { footerActions -> ({ Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), content = footerActions) }) },
         colors = FrogDrawerDefaults.colors(),
+        onBackRequest = onBack,
         content = content
     )
 }
@@ -171,6 +208,8 @@ private fun FrogDrawerInternal(
     preview: (@Composable () -> Unit)? = null,
     footer: (@Composable () -> Unit)? = null,
     colors: FrogDrawerColors = FrogDrawerDefaults.colors(),
+    onBackRequest: (() -> Unit)? = null,
+    closeIcon: (@Composable () -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val inspection = LocalInspectionMode.current
@@ -178,7 +217,12 @@ private fun FrogDrawerInternal(
     transition.targetState = visible
     if (!transition.currentState && !transition.targetState) return
 
-    val duration = FrogDrawerDefaults.AnimationDurationMs
+    val motion = FrogTheme.motion
+    val duration = motion.normalDurationMillis
+    val spacing = FrogTheme.spacing
+    val embedded = LocalFrogOverlayHost.current
+    val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+    val fromLeft = (side == FrogDrawerSide.Start) != rtl
     val entryFocus = remember { FocusRequester() }
 
     val windowContent: @Composable () -> Unit = {
@@ -188,7 +232,7 @@ private fun FrogDrawerInternal(
                 .testTag("drawer-window")
         ) {
             val isSidePresentation = when (presentation) {
-                FrogDrawerPresentation.Auto -> maxWidth >= 620.dp
+                FrogDrawerPresentation.Auto -> FrogTheme.adaptive.windowSizeClass(maxWidth) != FrogWindowSizeClass.Compact
                 FrogDrawerPresentation.Side -> true
                 FrogDrawerPresentation.Bottom -> false
             }
@@ -216,30 +260,26 @@ private fun FrogDrawerInternal(
             BoxWithConstraints(
                 Modifier
                     .fillMaxSize()
-                    .safeDrawingPadding()
-                    .imePadding(),
+                    .then(if (embedded) Modifier else Modifier.safeDrawingPadding().imePadding()),
                 contentAlignment = contentAlignment
             ) {
                 val drawerMaxHeight = maxHeight * 0.9f
 
                 AnimatedVisibility(
                     transition,
-                    enter = fadeIn(tween(duration)) + if (isSidePresentation) {
-                        slideInHorizontally(tween(duration)) { if (side == FrogDrawerSide.Start) -it / 3 else it / 3 }
+                    enter = fadeIn(tween(duration, easing = motion.enterEasing)) + if (isSidePresentation) {
+                        slideInHorizontally(tween(duration, easing = motion.enterEasing)) { if (fromLeft) -it / 3 else it / 3 }
                     } else {
-                        slideInVertically(tween(duration)) { it }
+                        slideInVertically(tween(duration, easing = motion.enterEasing)) { it }
                     },
-                    exit = fadeOut(tween(duration)) + if (isSidePresentation) {
-                        slideOutHorizontally(tween(duration)) { if (side == FrogDrawerSide.Start) -it / 3 else it / 3 }
+                    exit = fadeOut(tween(duration, easing = motion.exitEasing)) + if (isSidePresentation) {
+                        slideOutHorizontally(tween(duration, easing = motion.exitEasing)) { if (fromLeft) -it / 3 else it / 3 }
                     } else {
-                        slideOutVertically(tween(duration)) { it }
+                        slideOutVertically(tween(duration, easing = motion.exitEasing)) { it }
                     }
                 ) {
-                    val shape = if (isSidePresentation) {
-                        FrogDrawerDefaults.sideShape(side)
-                    } else {
-                        FrogDrawerDefaults.bottomShape
-                    }
+                    val shape = FrogDrawerDefaults.shape(
+                        if (isSidePresentation) FrogDrawerPresentation.Side else FrogDrawerPresentation.Bottom, side)
 
                     val layoutModifier = if (isSidePresentation) {
                         Modifier
@@ -275,7 +315,7 @@ private fun FrogDrawerInternal(
                             Box(
                                 Modifier
                                     .fillMaxWidth()
-                                    .height(24.dp)
+                                    .height(FrogDrawerDefaults.HandleAreaHeight)
                                     .draggable(
                                         rememberDraggableState { drag += it },
                                         Orientation.Vertical,
@@ -286,23 +326,22 @@ private fun FrogDrawerInternal(
                             ) {
                                 Box(
                                     Modifier
-                                        .size(32.dp, 3.dp)
-                                        .clip(RoundedCornerShape(2.dp))
+                                        .size(FrogDrawerDefaults.HandleWidth, FrogDrawerDefaults.HandleHeight)
+                                        .clip(FrogTheme.shapes.full)
                                         .background(colors.handleColor)
                                 )
                             }
                         }
 
                         // Header
-                        if (title != null || subtitle != null || navigationIcon != null || actions != null) {
                             Row(
                                 Modifier
                                     .fillMaxWidth()
                                     .padding(
-                                        start = 12.dp,
-                                        end = 6.dp,
-                                        top = if (isSidePresentation) 12.dp else 0.dp,
-                                        bottom = 8.dp
+                                        start = spacing.lg,
+                                        end = spacing.sm,
+                                        top = if (isSidePresentation) spacing.lg else 0.dp,
+                                        bottom = spacing.md
                                     ),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -311,8 +350,8 @@ private fun FrogDrawerInternal(
                                 Column(
                                     Modifier
                                         .weight(1f)
-                                        .padding(start = if (navigationIcon != null) 6.dp else 4.dp),
-                                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                                        .padding(start = if (navigationIcon != null) spacing.sm else spacing.xs),
+                                    verticalArrangement = Arrangement.spacedBy(spacing.xs)
                                 ) {
                                     if (title != null) {
                                         Text(
@@ -336,11 +375,11 @@ private fun FrogDrawerInternal(
                                 // Standard Accessible Close button
                                 DrawerCloseButton(
                                     onClick = onDismissRequest,
-                                    modifier = Modifier.focusRequester(entryFocus)
+                                    modifier = Modifier.focusRequester(entryFocus),
+                                    icon = closeIcon,
                                 )
                             }
                             HorizontalDivider(color = FrogTheme.colors.border)
-                        }
 
                         // Optional Preview slot
                         if (preview != null) {
@@ -354,8 +393,8 @@ private fun FrogDrawerInternal(
                             Modifier
                                 .weight(1f, fill = false)
                                 .verticalScroll(bodyScroll)
-                                .padding(18.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                                .padding(FrogDrawerDefaults.ContentInset),
+                            verticalArrangement = Arrangement.spacedBy(spacing.xl),
                             content = content
                         )
 
@@ -365,7 +404,7 @@ private fun FrogDrawerInternal(
                             Box(
                                 Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 18.dp, vertical = 10.dp)
+                                    .padding(horizontal = FrogDrawerDefaults.ContentInset, vertical = FrogDrawerDefaults.FooterVerticalInset)
                             ) {
                                 footer()
                             }
@@ -380,17 +419,20 @@ private fun FrogDrawerInternal(
         }
     }
 
-    if (inspection) {
-        windowContent()
+    val themedContent: @Composable () -> Unit = {
+        CompositionLocalProvider(LocalContentColor provides colors.contentColor) { windowContent() }
+    }
+    if (inspection || embedded) {
+        themedContent()
     } else {
         Dialog(
-            onDismissRequest = onDismissRequest,
+            onDismissRequest = onBackRequest ?: onDismissRequest,
             properties = DialogProperties(
                 usePlatformDefaultWidth = false,
                 dismissOnClickOutside = false,
                 decorFitsSystemWindows = false
             ),
-            content = windowContent
+            content = themedContent
         )
     }
 }
@@ -401,23 +443,16 @@ private fun FrogDrawerInternal(
 @Composable
 private fun DrawerCloseButton(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    icon: (@Composable () -> Unit)? = null,
 ) {
-    Box(
-        modifier = modifier
-            .size(40.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = onClick)
-            .semantics {
-                role = Role.Button
-                contentDescription = "Close drawer"
-            },
-        contentAlignment = Alignment.Center
-    ) {
+    val glyphColor = FrogTheme.colors.foreground
+    FrogIconButton(onClick, "Close drawer", modifier, size = FrogButtonSize.Small) {
+        if (icon != null) { icon(); return@FrogIconButton }
         // Crisp 14dp vector close crosshair
         androidx.compose.foundation.Canvas(modifier = Modifier.size(14.dp)) {
             val strokeWidth = 2.dp.toPx()
-            val color = Color(0xFFA1A1AA)
+            val color = glyphColor
             drawLine(color, start = androidx.compose.ui.geometry.Offset(0f, 0f), end = androidx.compose.ui.geometry.Offset(size.width, size.height), strokeWidth = strokeWidth)
             drawLine(color, start = androidx.compose.ui.geometry.Offset(size.width, 0f), end = androidx.compose.ui.geometry.Offset(0f, size.height), strokeWidth = strokeWidth)
         }
@@ -432,20 +467,11 @@ private fun DrawerBackButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = modifier
-            .size(40.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = onClick)
-            .semantics {
-                role = Role.Button
-                contentDescription = "Back within drawer"
-            },
-        contentAlignment = Alignment.Center
-    ) {
+    val glyphColor = FrogTheme.colors.foreground
+    FrogIconButton(onClick, "Back within drawer", modifier, variant = FrogButtonVariant.Secondary, size = FrogButtonSize.Small) {
         androidx.compose.foundation.Canvas(modifier = Modifier.size(16.dp)) {
             val strokeWidth = 2.dp.toPx()
-            val color = Color(0xFFA1A1AA)
+            val color = glyphColor
             val w = size.width
             val h = size.height
             // Left arrow

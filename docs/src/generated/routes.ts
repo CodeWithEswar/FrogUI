@@ -25,9 +25,15 @@ export const navigationSections: NavSection[] = [
     title: 'Foundation',
     items: [
       { title: 'Overview', path: '/foundation' },
-      { title: 'Colors & Theme', path: '/foundation/colors' },
+      { title: 'Theme Runtime', path: '/foundation/theme' },
+      { title: 'Colors', path: '/foundation/colors' },
       { title: 'Typography', path: '/foundation/typography' },
-      { title: 'Spacing & Shapes', path: '/foundation/spacing' },
+      { title: 'Spacing', path: '/foundation/spacing' },
+      { title: 'Shapes', path: '/foundation/shapes' },
+      { title: 'Elevation', path: '/foundation/elevation' },
+      { title: 'Motion', path: '/foundation/motion' },
+      { title: 'Sizing', path: '/foundation/sizing' },
+      { title: 'Adaptive', path: '/foundation/adaptive' },
       { title: 'Accessibility', path: '/foundation/accessibility' },
     ]
   },

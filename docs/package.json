@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node ../tools/registry/generate.mjs --docs && node scripts/build.mjs && tsc -b && vite build",
+    "build": "node ../tools/theme/verify.mjs && node ../tools/registry/generate.mjs --docs && node scripts/build.mjs && tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b"
   },

@@ -4,9 +4,21 @@ import androidx.compose.ui.unit.dp
 import io.github.codewitheswar.frogui.registry.FrogComponentRegistry
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.ui.graphics.Color
 import org.junit.Test
 
 class FrogButtonTest {
+
+    @Test
+    fun suppliedColorsOwnEnabledAndDisabledBorders() {
+        val colors = FrogButtonColors(Color.Black, Color.White, Color.Gray, Color.White,
+            borderColor = Color.Red, disabledBorderColor = Color.Blue)
+        assertEquals(BorderStroke(1.dp, Color.Red), FrogButtonDefaults.border(colors, true))
+        assertEquals(BorderStroke(1.dp, Color.Blue), FrogButtonDefaults.border(colors, false))
+        assertNull(FrogButtonDefaults.border(colors.copy(disabledBorderColor = Color.Transparent), false))
+    }
 
     @Test
     fun registryCapabilitiesMatchPublicEnums() {

@@ -76,12 +76,12 @@ class ShowcaseWindowTest(private val width: Int, private val height: Int, privat
         capture("code")
         tab("API").performSemanticsAction(SemanticsActions.OnClick) { it() }
         val detailWidth = width - (if (width >= 840) 208 else if (width >= 600) 108 else 0)
-        val inspectorWidth = if (detailWidth >= 620 && fontScale <= 1.3f) 281 else 0
+        val inspectorWidth = if (detailWidth >= 600 && fontScale <= 1.3f) 281 else 0
         val apiTag = if (detailWidth - 32 - inspectorWidth >= 680) "api-table" else "api-stacked"
         compose.onNodeWithTag(apiTag).assertExists()
         capture("api")
-        tab("Docs").performSemanticsAction(SemanticsActions.OnClick) { it() }
-        compose.onNodeWithText("Usage guidance").performScrollTo().assertIsDisplayed()
-        capture("docs")
+        tab("Accessibility").performSemanticsAction(SemanticsActions.OnClick) { it() }
+        compose.onNodeWithText("Semantics and state").performScrollTo().assertIsDisplayed()
+        capture("accessibility")
     }
 }

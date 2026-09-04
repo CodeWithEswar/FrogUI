@@ -5,40 +5,40 @@ import { Callout } from '../components/ui/Callout';
 export const MarkdownGalleryPage: React.FC = () => {
   return (
     <article className="w-full space-y-10">
-      <header className="space-y-3 pb-6 border-b border-zinc-200 dark:border-zinc-800">
-        <div className="inline-flex items-center px-2 py-0.5 rounded text-[10px] uppercase font-mono font-semibold bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+      <header className="space-y-3 pb-6 border-b border-[var(--frog-border)]">
+        <div className="inline-flex items-center px-2 py-0.5 rounded text-[10px] uppercase font-mono font-semibold bg-[var(--frog-muted)] text-[var(--frog-muted-foreground)]">
           Internal Dev Surface
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--frog-foreground)]">
           Markdown &amp; MDX Component Gallery
         </h1>
-        <p className="text-base text-zinc-600 dark:text-zinc-400 leading-relaxed">
+        <p className="text-base text-[var(--frog-muted-foreground)] leading-relaxed">
           Visual QA test bench for all custom documentation renderers, typography, callouts, and Shiki code blocks.
         </p>
       </header>
 
       {/* Headings */}
       <section className="space-y-4">
-        <h2 id="heading-2" className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 group flex items-center gap-2">
+        <h2 id="heading-2" className="text-2xl font-bold tracking-tight text-[var(--frog-foreground)] group flex items-center gap-2">
           <span>Heading Level 2</span>
           <a href="#heading-2" className="opacity-0 group-hover:opacity-100 text-zinc-400 text-base">#</a>
         </h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+        <p className="text-sm text-[var(--frog-muted-foreground)] leading-relaxed">
           Standard paragraph demonstrating comfortable line length (65–80 characters) and high-legibility typography across both Light and Dark themes.
         </p>
 
-        <h3 id="heading-3" className="text-lg font-semibold text-zinc-800 dark:text-zinc-200 group flex items-center gap-2">
+        <h3 id="heading-3" className="text-lg font-semibold text-[var(--frog-foreground)] group flex items-center gap-2">
           <span>Heading Level 3</span>
           <a href="#heading-3" className="opacity-0 group-hover:opacity-100 text-zinc-400 text-base">#</a>
         </h3>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-          Supporting subsection with <code className="font-mono text-xs bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5 rounded text-zinc-800 dark:text-zinc-200">inline code</code> and <strong>bold text</strong>.
+        <p className="text-sm text-[var(--frog-muted-foreground)] leading-relaxed">
+          Supporting subsection with <code className="font-mono text-xs bg-[var(--frog-muted)] px-1 py-0.5 rounded text-[var(--frog-foreground)]">inline code</code> and <strong>bold text</strong>.
         </p>
       </section>
 
       {/* Callouts */}
       <section className="space-y-4">
-        <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+        <h2 className="text-xl font-bold text-[var(--frog-foreground)]">
           Callout Variations
         </h2>
         <Callout type="note" title="Architectural Note">
@@ -60,7 +60,7 @@ export const MarkdownGalleryPage: React.FC = () => {
 
       {/* Code Blocks */}
       <section className="space-y-4">
-        <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+        <h2 className="text-xl font-bold text-[var(--frog-foreground)]">
           Shiki Code Blocks
         </h2>
 
@@ -88,13 +88,13 @@ fun SaveButton(loading: Boolean, onSave: () -> Unit) {
 
       {/* Tables */}
       <section className="space-y-4">
-        <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+        <h2 className="text-xl font-bold text-[var(--frog-foreground)]">
           Data Table
         </h2>
-        <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-800">
+        <div className="overflow-x-auto rounded-lg border border-[var(--frog-border)]">
           <table className="w-full text-left text-sm border-collapse">
             <thead>
-              <tr className="border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-xs font-semibold text-zinc-600 dark:text-zinc-400">
+              <tr className="border-b border-[var(--frog-border)] bg-zinc-50 dark:bg-zinc-900 text-xs font-semibold text-[var(--frog-muted-foreground)]">
                 <th className="py-2.5 px-4 font-mono">Module</th>
                 <th className="py-2.5 px-4">Role</th>
                 <th className="py-2.5 px-4">Status</th>

@@ -8,6 +8,8 @@ Describe the user scenario, component/module affected, and resulting behavior.
 - [ ] Application state stays with callers; slots, native Modifier, semantic FrogUI APIs, and local theme tokens remain composable.
 - [ ] No accidental Material API leakage, hidden side effects, upward module dependency, or runtime registry rendering.
 - [ ] Shared metadata comes from registry JSON; catalog and docs claims match actual implementation.
+- [ ] Reviewed API names/order/defaults and the candidate `.api` diff; classified source, binary and behavior impact. Linked migration guidance for deprecations or breaking changes.
+- [ ] Ran `apiCheck`; any baseline update was explicitly reviewed, with no automatic `apiDump` step in CI.
 
 ## Validation
 

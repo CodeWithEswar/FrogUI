@@ -83,38 +83,71 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
+      <section className="space-y-6">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold text-[var(--frog-foreground)]">Choose your path</h2>
+          <p className="text-sm text-[var(--frog-muted-foreground)] max-w-3xl leading-relaxed">
+            Start with the smallest page that answers your question, then follow the linked implementation contract for exact defaults and behavior.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { title: 'Install FrogUI', text: 'Add the published modules, repositories, and theme wrapper.', path: '/docs/installation' },
+            { title: 'Build a first screen', text: 'Create a themed Button and a state-owned adaptive Drawer.', path: '/docs/quick-start' },
+            { title: 'Understand the theme', text: 'Inspect colors, type, spacing, shapes, motion, sizing, and adaptive rules.', path: '/foundation' },
+            { title: 'Review the architecture', text: 'See dependency boundaries, public API policy, and verification gates.', path: '/docs/technology' }
+          ].map(item => (
+            <button
+              key={item.path}
+              onClick={() => onNavigate(item.path)}
+              className="group text-left p-4 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] hover:border-zinc-400 dark:hover:border-zinc-600 hover:shadow-sm transition-all cursor-pointer"
+            >
+              <span className="block text-sm font-semibold text-[var(--frog-foreground)] mb-2">{item.title}</span>
+              <span className="block text-xs leading-relaxed text-[var(--frog-muted-foreground)]">{item.text}</span>
+              <span className="block mt-3 text-xs font-semibold text-[var(--frog-foreground)] group-hover:translate-x-0.5 transition-transform">Open guide &rarr;</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
       {/* Quick Install Snippet - Full Width */}
       <section className="space-y-4">
-        <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+        <h2 className="text-xl font-bold text-[var(--frog-foreground)]">
           Quick Setup
         </h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="text-sm text-[var(--frog-muted-foreground)]">
           Add the components and theme to your Android project:
         </p>
         <CodeBlock
           language="kotlin"
           title="build.gradle.kts"
           code={`dependencies {
+    implementation("io.github.codewitheswar.frogui:frogui-theme:${release.version}")
     implementation("io.github.codewitheswar.frogui:frogui-components:${release.version}")
-    implementation("io.github.codewitheswar.frogui:frogui-foundation:${release.version}")
 }`}
         />
+        <p className="text-xs text-[var(--frog-muted-foreground)]">
+          Current catalog release: <code className="font-mono text-[var(--frog-foreground)]">{release.version}</code>.{' '}
+          {release.published
+            ? 'This release is marked as published in the repository metadata.'
+            : 'This snapshot is marked unpublished and the component APIs remain experimental.'}
+        </p>
       </section>
 
       {/* Featured Catalog Section */}
       <section className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+            <h2 className="text-2xl font-bold text-[var(--frog-foreground)]">
               Component Catalog
             </h2>
             <p className="text-sm text-zinc-500">
-              Production-ready UI primitives verified in the native showcase app
+              Registry-backed UI primitives with native showcase examples and explicit stability status
             </p>
           </div>
           <button
             onClick={() => onNavigate('/components/button')}
-            className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 hover:underline inline-flex items-center gap-1 cursor-pointer"
+            className="text-xs font-semibold text-[var(--frog-foreground)] hover:underline inline-flex items-center gap-1 cursor-pointer"
           >
             <span>View all</span>
             <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -129,15 +162,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             <div
               key={component.id}
               onClick={() => onNavigate(`/components/${component.id}`)}
-              className="group cursor-pointer rounded-md border border-zinc-200 dark:border-zinc-800 p-5 bg-white dark:bg-zinc-900/60 hover:border-zinc-400 dark:hover:border-zinc-700 transition-all hover:shadow-md"
+              className="group cursor-pointer rounded-md border border-[var(--frog-border)] p-5 bg-[var(--frog-surface-elevated)] hover:border-zinc-400 dark:hover:border-zinc-700 transition-all hover:shadow-md"
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="font-bold text-base text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">
+                <span className="font-bold text-base text-[var(--frog-foreground)] group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">
                   {component.displayName}
                 </span>
                 <StatusBadge status={component.status} size="sm" />
               </div>
-              <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4 line-clamp-2">
+              <p className="text-xs text-[var(--frog-muted-foreground)] leading-relaxed mb-4 line-clamp-2">
                 {component.description}
               </p>
               <div className="flex items-center justify-between text-[11px] text-zinc-400 pt-3 border-t border-zinc-100 dark:border-zinc-800/80 font-mono">
@@ -150,23 +183,23 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* Philosophy / Architecture Banner */}
-      <section className="rounded-md border border-zinc-200 dark:border-zinc-800 p-8 bg-zinc-50/50 dark:bg-zinc-900/40 space-y-4">
-        <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+      <section className="rounded-md border border-[var(--frog-border)] p-8 bg-zinc-50/50 dark:bg-zinc-900/40 space-y-4">
+        <h3 className="text-lg font-bold text-[var(--frog-foreground)]">
           Architecture &amp; Design Philosophy
         </h3>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-3xl">
+        <p className="text-sm text-[var(--frog-muted-foreground)] leading-relaxed max-w-3xl">
           FrogUI is developed with strict modular separation: <code>frogui-foundation</code> houses semantic design tokens (Zinc-tailored colors, standard elevation, typography scales, squircle and rounded shapes), while <code>frogui-components</code> consumes foundation tokens to deliver accessible, stateful, idiomatically composed UI primitives.
         </p>
-        <div className="pt-2 flex flex-wrap gap-4 text-xs font-medium text-zinc-800 dark:text-zinc-200">
+        <div className="pt-2 flex flex-wrap gap-4 text-xs font-medium text-[var(--frog-foreground)]">
           <button
-            onClick={() => onNavigate('/foundation/overview')}
-            className="hover:underline text-zinc-900 dark:text-zinc-100 cursor-pointer"
+            onClick={() => onNavigate('/foundation')}
+            className="hover:underline text-[var(--frog-foreground)] cursor-pointer"
           >
             Explore Foundation &rarr;
           </button>
           <button
             onClick={() => onNavigate('/foundation/accessibility')}
-            className="hover:underline text-zinc-900 dark:text-zinc-100 cursor-pointer"
+            className="hover:underline text-[var(--frog-foreground)] cursor-pointer"
           >
             Accessibility Standards &rarr;
           </button>

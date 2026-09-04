@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import Ajv from 'ajv';
+import { verifyPropertyMetadata } from './kotlin-signature.mjs';
 
 export function repositoryFile(root, relative) {
   assert(!path.isAbsolute(relative), `Absolute registry reference: ${relative}`);
@@ -71,6 +72,7 @@ export function loadRegistry(root) {
     const source = fs.readFileSync(repositoryFile(root, component.source), 'utf8');
     assert(new RegExp(`\\bfun\\s+${component.name}\\s*\\(`).test(source), `Missing Kotlin function: ${component.name}`);
     assert(!new RegExp(`\\binternal\\s+fun\\s+${component.name}\\s*\\(`).test(source), 'Catalog requires public components');
+    verifyPropertyMetadata(source, component);
     assert(component.showcase.source.startsWith('app/src/main/') && component.showcase.source.endsWith('.kt'), 'Showcase route must reference app Kotlin');
     const demo = fs.readFileSync(repositoryFile(root, component.showcase.source), 'utf8');
     assert(new RegExp(`\\bfun\\s+${component.showcase.screen}\\s*\\(`).test(demo), `Missing Showcase screen: ${component.id}`);

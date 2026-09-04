@@ -87,7 +87,7 @@ export const App: React.FC = () => {
     }
 
     if (logicalRoute.startsWith('/foundation')) {
-      return <FoundationPage />;
+      return <FoundationPage section={logicalRoute.split('/').at(-1)} />;
     }
 
     if (logicalRoute === '/dev/markdown') {

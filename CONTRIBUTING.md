@@ -6,6 +6,10 @@ Provide strong defaults without taking ownership away from application developer
 
 ## Before implementing
 
+Complete the proposal/checklist in [API design](docs/architecture/api-design.md)
+before choosing a new component's props. Preserve established parameter names,
+order, defaults, constructors and slot semantics unless an API review justifies a change.
+
 - Check v1 scope: reusable Compose components, accessibility, adaptive behavior,
   testability, and discovery. Parallel XML components, embedded web runtimes,
   enterprise widgets, and a source-install CLI are outside current v1 scope.
@@ -43,6 +47,8 @@ npm ci --ignore-scripts
 npm test
 npm run docs:build
 ./gradlew verifyArchitecture
+./gradlew apiBuild
+./gradlew apiCheck
 ./gradlew verifyProductContract
 ./gradlew testDebugUnitTest
 ./gradlew lintDebug
@@ -54,8 +60,11 @@ Use `gradlew.bat` on Windows. Generation runs before registry compilation; modul
 `check` tasks run contract verification. See the [registry contract](docs/architecture/registry-contract.md)
 for exact coverage and manual requirements. Node 22+ is a build-time requirement
 (CI uses the version in `.node-version`). CI workflows, full schema validation,
-docs data builds, and local Maven staging are configured. Binary API baselines,
-web UI/Pages deployment, and signed remote publication remain deferred. Report local
+docs data builds, local Maven staging and reviewed release-AAR API baselines are configured.
+`apiCheck` runs in library `check` and Android/release CI. Inspect candidate files in
+each module's `build/api` before explicitly accepting a reviewed change with
+`apiDump`; never add `apiDump` to CI. Source/default/behavior compatibility needs
+separate review. Signed remote publication remains deferred. Report local
 and hosted results separately; a workflow file is not proof of a hosted run.
 
 Only foundation, theme, and components are publishable. `frogui-testing` belongs on

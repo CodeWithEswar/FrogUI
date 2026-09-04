@@ -39,7 +39,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
       case 'stable':
         return {
           title: 'Status: Stable',
-          classes: 'bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border-zinc-300 dark:border-zinc-700',
+          classes: 'bg-[var(--frog-muted)] text-[var(--frog-foreground)] border-[var(--frog-border-strong)]',
           icon: (
             <svg
               className={size === 'sm' ? 'w-3 h-3' : 'w-3.5 h-3.5'}

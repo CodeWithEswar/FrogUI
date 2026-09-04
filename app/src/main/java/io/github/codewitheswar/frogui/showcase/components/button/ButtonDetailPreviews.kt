@@ -6,12 +6,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import io.github.codewitheswar.frogui.showcase.screens.ComponentDetailScreen
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.codewitheswar.frogui.registry.FrogComponentRegistry
 import io.github.codewitheswar.frogui.showcase.colorpicker.*
 import io.github.codewitheswar.frogui.components.overlays.drawer.FrogDrawer
+import io.github.codewitheswar.frogui.components.overlays.drawer.FrogDrawerPresentation
 import io.github.codewitheswar.frogui.showcase.style.LocalFrogMotionEnabled
 import io.github.codewitheswar.frogui.theme.FrogTheme
 
@@ -22,14 +24,14 @@ import io.github.codewitheswar.frogui.theme.FrogTheme
 @Preview(name = "Button detail tablet", widthDp = 1000, heightDp = 800)
 @Composable private fun DetailTablet() = DetailPreview(true)
 @Composable private fun DetailPreview(dark: Boolean) {
-    FrogTheme(darkTheme = dark) { CompositionLocalProvider(LocalFrogMotionEnabled provides false) { Box(Modifier.fillMaxSize().background(FrogTheme.colors.background)) { ButtonScreen("button", {}) } } }
+    FrogTheme(darkTheme = dark) { CompositionLocalProvider(LocalFrogMotionEnabled provides false) { Box(Modifier.fillMaxSize().background(FrogTheme.colors.background)) { ComponentDetailScreen("button", {}) } } }
 }
 @Preview(name = "FrogDrawer phone", widthDp = 390, heightDp = 844)
 @Composable private fun DrawerPhone() = DrawerPreview(false)
 @Preview(name = "FrogDrawer tablet", widthDp = 1000, heightDp = 800)
 @Composable private fun DrawerTablet() = DrawerPreview(true)
 @Composable private fun DrawerPreview(side: Boolean) {
-    FrogTheme(darkTheme = true) { FrogDrawer(true, {}, "Customize", subtitle = "FrogButton", side = side) { PropertyInspector(ButtonDemoState(), {}, onColor = {}) } }
+    FrogTheme(darkTheme = true) { FrogDrawer(visible = true, onDismissRequest = {}, title = "Customize", subtitle = "FrogButton", presentation = if (side) FrogDrawerPresentation.Side else FrogDrawerPresentation.Bottom) { PropertyInspector(ButtonDemoState(), {}, onColor = {}) } }
 }
 @Preview(name = "Color picker tokens", widthDp = 390, heightDp = 844)
 @Composable private fun TokenPicker() = PickerPreview(FrogColorValue.Token(FrogColorToken.Primary))
@@ -46,5 +48,5 @@ import io.github.codewitheswar.frogui.theme.FrogTheme
 @Preview(name = "Button API expanded", widthDp = 840, heightDp = 800)
 @Composable private fun ApiExpanded() = ApiPreview()
 @Composable private fun ApiPreview() {
-    FrogTheme(darkTheme = false) { Column(Modifier.verticalScroll(rememberScrollState()).padding(16.dp)) { ButtonApiReference(FrogComponentRegistry.Button.properties) {} } }
+    FrogTheme(darkTheme = false) { Column(Modifier.verticalScroll(rememberScrollState()).padding(16.dp)) { io.github.codewitheswar.frogui.showcase.detail.ComponentApiReference("FrogButton", FrogComponentRegistry.Button.properties.map(::buttonApiProperty)) {} } }
 }

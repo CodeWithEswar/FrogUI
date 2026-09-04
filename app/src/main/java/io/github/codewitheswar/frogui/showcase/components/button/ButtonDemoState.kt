@@ -59,10 +59,10 @@ internal data class ButtonDemoState(
             params += "    colors = FrogButtonDefaults.colors(\n${colorParams.joinToString(",\n")}\n    )"
         }
         if (hasLeadingIcon) {
-            params.add("    leadingIcon = { Icon(FrogIcons.Play, contentDescription = null) }")
+            params.add("    leadingIcon = { Icon(leadingIcon, contentDescription = null, modifier = Modifier.size(FrogButtonDefaults.iconSize(FrogButtonSize.$size))) }")
         }
         if (hasTrailingIcon) {
-            params.add("    trailingIcon = { Icon(FrogIcons.Forward, contentDescription = null) }")
+            params.add("    trailingIcon = { Icon(trailingIcon, contentDescription = null, modifier = Modifier.size(FrogButtonDefaults.iconSize(FrogButtonSize.$size))) }")
         }
         params.add("    onClick = { /* Handle action */ }")
 
@@ -72,7 +72,9 @@ internal data class ButtonDemoState(
 
         val label = buttonText.replace("\\", "\\\\").replace("\"", "\\\"")
             .replace("$", "\\$").replace("\n", "\\n").replace("\r", "\\r").replace("\t", "\\t")
-        return "FrogButton($paramString) {\n    Text(\"$label\")\n}"
+        val button = "FrogButton($paramString) {\n    Text(\"$label\")\n}"
+        val icons = listOfNotNull(if (hasLeadingIcon) "leadingIcon: ImageVector" else null, if (hasTrailingIcon) "trailingIcon: ImageVector" else null)
+        return if (icons.isEmpty()) button else "@Composable\nfun ButtonExample(${icons.joinToString(", ")}) {\n${button.prependIndent("    ")}\n}"
     }
 
     companion object {

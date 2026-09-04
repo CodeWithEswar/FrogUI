@@ -4,7 +4,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.Icon
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.unit.dp
-import io.github.codewitheswar.frogui.showcase.icons.FrogIcons
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import io.github.codewitheswar.frogui.components.button.FrogButton
@@ -91,15 +91,15 @@ internal fun ButtonLoadingExample(modifier: Modifier = Modifier) {
 
 // example:leading:start
 @Composable
-internal fun ButtonLeadingExample(modifier: Modifier = Modifier) {
-    FrogButton(onClick = {}, modifier = modifier, leadingIcon = { Icon(FrogIcons.Play, null, Modifier.size(18.dp)) }) { Text("Run preview") }
+internal fun ButtonLeadingExample(leadingIcon: ImageVector, modifier: Modifier = Modifier) {
+    FrogButton(onClick = {}, modifier = modifier, leadingIcon = { Icon(leadingIcon, null, Modifier.size(18.dp)) }) { Text("Run preview") }
 }
 // example:leading:end
 
 // example:trailing:start
 @Composable
-internal fun ButtonTrailingExample(modifier: Modifier = Modifier) {
-    FrogButton(onClick = {}, modifier = modifier, trailingIcon = { Icon(FrogIcons.Forward, null, Modifier.size(18.dp)) }) { Text("Continue") }
+internal fun ButtonTrailingExample(trailingIcon: ImageVector, modifier: Modifier = Modifier) {
+    FrogButton(onClick = {}, modifier = modifier, trailingIcon = { Icon(trailingIcon, null, Modifier.size(18.dp)) }) { Text("Continue") }
 }
 // example:trailing:end
 

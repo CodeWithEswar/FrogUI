@@ -18,11 +18,11 @@ internal data class FrogCodeColors(val background: Color, val foreground: Color,
     }
     companion object {
         fun from(colors: FrogColors) = if (colors.isDark) FrogCodeColors(
-            Color(0xFF101012), Color(0xFFE4E4E7), Color(0xFFD8B4FE), Color(0xFFA7D8B5), Color(0xFFE8C38E),
-            Color(0xFFA1A1AA), Color(0xFFE4E4E7), Color(0xFFB6CBDD), colors.border,
+            colors.surfaceElevated, colors.foreground, Color(0xFFD8B4FE), Color(0xFFA7D8B5), Color(0xFFE8C38E),
+            colors.mutedForeground, colors.foreground, Color(0xFFB6CBDD), colors.border,
         ) else FrogCodeColors(
-            Color(0xFFF7F7F8), Color(0xFF27272A), Color(0xFF6B328F), Color(0xFF25633C), Color(0xFF794C12),
-            Color(0xFF62626B), Color(0xFF27272A), Color(0xFF315572), colors.border,
+            colors.surfaceElevated, colors.foreground, Color(0xFF6B328F), Color(0xFF25633C), Color(0xFF794C12),
+            colors.mutedForeground, colors.foreground, Color(0xFF315572), colors.border,
         )
     }
 }

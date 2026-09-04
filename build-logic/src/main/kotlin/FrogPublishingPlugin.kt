@@ -14,6 +14,7 @@ class FrogPublishingPlugin : Plugin<Project> {
         }
         val artifactName = name
         pluginManager.apply("maven-publish")
+        pluginManager.apply("frogui.api.validation")
         extensions.configure<LibraryExtension> {
             publishing { singleVariant("release") { withSourcesJar() } }
         }

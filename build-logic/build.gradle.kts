@@ -3,6 +3,7 @@ plugins { `kotlin-dsl` }
 dependencies {
     implementation(libs.android.gradle.plugin)
     implementation(libs.kotlin.compose.gradle.plugin)
+    implementation(libs.binary.compatibility.validator)
 }
 
 gradlePlugin {
@@ -14,6 +15,10 @@ gradlePlugin {
         register("frogPublishing") {
             id = "frogui.publishing"
             implementationClass = "FrogPublishingPlugin"
+        }
+        register("frogApiValidation") {
+            id = "frogui.api.validation"
+            implementationClass = "FrogApiValidationPlugin"
         }
     }
 }

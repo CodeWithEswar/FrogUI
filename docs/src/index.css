@@ -1,31 +1,59 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
-    --bg-canvas: #fafafa;
-    --bg-surface: #ffffff;
-    --bg-surface-elevated: #f4f4f5;
-    --fg-default: #09090b;
-    --fg-muted: #71717a;
+    --frog-background: #ffffff;
+    --frog-foreground: #09090b;
+    --frog-surface: #fafafa;
+    --frog-surface-elevated: #ffffff;
+    --frog-subtle-surface: #f4f4f5;
+    --frog-muted: #e4e4e7;
+    --frog-muted-foreground: #52525b;
+    --frog-border: #00000014;
+    --frog-border-strong: #00000024;
+    --frog-primary: #09090b;
+    --frog-primary-foreground: #ffffff;
+    --frog-secondary: #f4f4f5;
+    --frog-secondary-foreground: #18181b;
+    --frog-destructive: #dc2626;
+    --frog-destructive-foreground: #ffffff;
+    --frog-focus-ring: #52525b;
+    --bg-canvas: var(--frog-background);
+    --bg-surface: var(--frog-surface);
+    --bg-surface-elevated: var(--frog-surface-elevated);
+    --fg-default: var(--frog-foreground);
+    --fg-muted: var(--frog-muted-foreground);
     --fg-subtle: #a1a1aa;
-    --border-subtle: #e4e4e7;
-    --border-strong: #d4d4d8;
+    --border-subtle: var(--frog-border);
+    --border-strong: var(--frog-border-strong);
   }
 
   .dark {
-    --bg-canvas: #09090b;
-    --bg-surface: #0c0c0e;
-    --bg-surface-elevated: #18181b;
-    --fg-default: #fafafa;
-    --fg-muted: #a1a1aa;
+    --frog-background: #09090b;
+    --frog-foreground: #fafafa;
+    --frog-surface: #0c0c0e;
+    --frog-surface-elevated: #111113;
+    --frog-subtle-surface: #18181b;
+    --frog-muted: #27272a;
+    --frog-muted-foreground: #a1a1aa;
+    --frog-border: #ffffff14;
+    --frog-border-strong: #ffffff24;
+    --frog-primary: #fafafa;
+    --frog-primary-foreground: #09090b;
+    --frog-secondary: #27272a;
+    --frog-secondary-foreground: #fafafa;
+    --frog-destructive: #dc2626;
+    --frog-destructive-foreground: #ffffff;
+    --frog-focus-ring: #a1a1aa;
     --fg-subtle: #71717a;
-    --border-subtle: #27272a;
-    --border-strong: #3f3f46;
   }
 
   html, body {
     overflow-x: hidden;
     max-width: 100vw;
+    background: var(--frog-background);
+    color: var(--frog-foreground);
   }
 
   html {
@@ -65,9 +93,16 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
+  background: var(--frog-border-strong);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #71717a;
+  background: var(--frog-muted-foreground);
 }
+
+/* Foundation docs use the same semantic vocabulary; platform layout remains web-native. */
+.foundation-docs { color: var(--frog-foreground); }
+.foundation-docs p { color: var(--frog-muted-foreground); line-height: 1.65; }
+.foundation-docs h2 { font-size: 1.25rem; font-weight: 650; }
+.foundation-docs code { font-family: monospace; }
+.foundation-token { border: 1px solid var(--frog-border); background: var(--frog-surface); border-radius: 0.625rem; padding: 1rem; }

@@ -11,6 +11,7 @@ import io.github.codewitheswar.frogui.components.overlays.drawer.FrogDrawer
 import io.github.codewitheswar.frogui.components.overlays.drawer.FrogDrawerPresentation
 import io.github.codewitheswar.frogui.showcase.style.LocalFrogMotionEnabled
 import io.github.codewitheswar.frogui.theme.FrogTheme
+import io.github.codewitheswar.frogui.showcase.screens.ComponentDetailScreen
 
 @Preview(name = "Drawer Screen Light", widthDp = 390, heightDp = 844)
 @Composable
@@ -18,7 +19,7 @@ private fun DrawerScreenLightPreview() {
     FrogTheme(darkTheme = false) {
         CompositionLocalProvider(LocalFrogMotionEnabled provides false) {
             Box(Modifier.fillMaxSize().background(FrogTheme.colors.background)) {
-                DrawerScreen("drawer", {})
+                ComponentDetailScreen("drawer", {})
             }
         }
     }
@@ -30,7 +31,7 @@ private fun DrawerScreenDarkPreview() {
     FrogTheme(darkTheme = true) {
         CompositionLocalProvider(LocalFrogMotionEnabled provides false) {
             Box(Modifier.fillMaxSize().background(FrogTheme.colors.background)) {
-                DrawerScreen("drawer", {})
+                ComponentDetailScreen("drawer", {})
             }
         }
     }

@@ -24,12 +24,12 @@ import io.github.codewitheswar.frogui.showcase.icons.FrogIcons
 import androidx.compose.foundation.BorderStroke
 
 @Composable
-internal fun ShowcaseBackButton(label: String = "Back", onClick: () -> Unit, modifier: Modifier = Modifier) {
+internal fun ShowcaseBackButton(onClick: () -> Unit, modifier: Modifier = Modifier, label: String = "Back") {
     val colors = FrogTheme.colors
     FrogIconButton(onClick, label, modifier, variant = FrogButtonVariant.Secondary, size = FrogButtonSize.Small,
         colors = FrogButtonDefaults.colors(FrogButtonVariant.Secondary, containerColor = colors.muted, contentColor = colors.foreground),
         border = BorderStroke(1.dp, colors.border)) {
-        Icon(FrogIcons.Back, null, Modifier.size(18.dp))
+        Icon(FrogIcons.Back, null, Modifier.size(FrogTheme.sizing.iconMedium))
     }
 }
 
@@ -47,10 +47,10 @@ internal fun Modifier.showcaseFocus(source: MutableInteractionSource): Modifier 
 @Composable
 internal fun ShowcaseIconButton(icon: ImageVector, label: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val source = remember { MutableInteractionSource() }
-    Box(modifier.sizeIn(minWidth = 48.dp, minHeight = 48.dp).showcaseFocus(source)
+    Box(modifier.sizeIn(minWidth = FrogTheme.sizing.minimumTouchTarget, minHeight = FrogTheme.sizing.minimumTouchTarget).showcaseFocus(source)
         .clickable(interactionSource = source, indication = null, role = Role.Button, onClickLabel = label, onClick = onClick),
         contentAlignment = Alignment.Center) {
-        Icon(icon, contentDescription = label, tint = FrogTheme.colors.foreground, modifier = Modifier.size(21.dp))
+        Icon(icon, contentDescription = label, tint = FrogTheme.colors.foreground, modifier = Modifier.size(FrogTheme.sizing.iconLarge))
     }
 }
 
@@ -58,7 +58,7 @@ internal fun ShowcaseIconButton(icon: ImageVector, label: String, onClick: () ->
 internal fun ShowcaseChoice(label: String, selected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val source = remember { MutableInteractionSource() }
     val colors = FrogTheme.colors
-    Box(modifier.heightIn(min = 48.dp).showcaseFocus(source)
+    Box(modifier.heightIn(min = FrogTheme.sizing.minimumTouchTarget).showcaseFocus(source)
         .background(if (selected) colors.muted else Color.Transparent)
         .selectable(selected, interactionSource = source, indication = null, role = Role.RadioButton, onClick = onClick)
         .padding(horizontal = 12.dp, vertical = 10.dp), contentAlignment = Alignment.Center) {

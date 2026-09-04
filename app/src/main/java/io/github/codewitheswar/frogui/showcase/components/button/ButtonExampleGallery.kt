@@ -10,33 +10,22 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import io.github.codewitheswar.frogui.components.button.FrogButton
 import io.github.codewitheswar.frogui.registry.ComponentExampleMetadata
-import io.github.codewitheswar.frogui.showcase.code.FrogCodeSnippet
+import io.github.codewitheswar.frogui.showcase.detail.ComponentExampleSection
+import io.github.codewitheswar.frogui.showcase.icons.FrogIcons
 import io.github.codewitheswar.frogui.theme.FrogTheme
 
 @Composable
 internal fun ButtonExampleGallery(examples: List<ComponentExampleMetadata>) {
-    BoxWithConstraints(Modifier.fillMaxWidth()) {
-        val columns = if (maxWidth >= 640.dp) 2 else 1
-        Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
-            examples.chunked(columns).forEach { row ->
-                Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-                    row.forEach { example ->
-                        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                            Text(example.title, style = FrogTheme.typography.subheading, color = FrogTheme.colors.foreground)
-                            Text(example.description, style = FrogTheme.typography.bodySmall, color = FrogTheme.colors.mutedForeground)
+    Column(verticalArrangement = Arrangement.spacedBy(FrogTheme.spacing.xxl)) {
+        examples.forEach { example ->
+            ComponentExampleSection(example) {
                             when (example.id) {
                                 "primary" -> ButtonPrimaryExample(); "secondary" -> ButtonSecondaryExample()
                                 "outline" -> ButtonOutlineExample(); "ghost" -> ButtonGhostExample()
                                 "destructive" -> ButtonDestructiveExample(); "loading" -> ButtonLoadingExample()
-                                "leading" -> ButtonLeadingExample(); "trailing" -> ButtonTrailingExample()
+                                "leading" -> ButtonLeadingExample(FrogIcons.Play); "trailing" -> ButtonTrailingExample(FrogIcons.Forward)
                                 "disabled" -> ButtonDisabledExample(); "fullwidth" -> ButtonFullWidthExample()
                             }
-                            FrogCodeSnippet(example.codeSnippet)
-                            HorizontalDivider(color = FrogTheme.colors.border)
-                        }
-                    }
-                    if (row.size < columns) Spacer(Modifier.weight(1f))
-                }
             }
         }
     }
@@ -44,7 +33,6 @@ internal fun ButtonExampleGallery(examples: List<ComponentExampleMetadata>) {
 
 @Composable
 internal fun ButtonStateGallery() {
-    Text("State comparison", style = FrogTheme.typography.heading, color = FrogTheme.colors.foreground)
     FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         listOf("Default", "Pressed (simulated)", "Focused (simulated)", "Disabled", "Loading").forEach { state ->
             val source = remember { MutableInteractionSource() }

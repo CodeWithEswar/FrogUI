@@ -8,17 +8,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import io.github.codewitheswar.frogui.theme.FrogTheme
+import io.github.codewitheswar.frogui.foundation.sizing.FrogSizing
 
 /**
  * Default configurations, shapes, paddings, and colors for [FrogButton].
  */
 object FrogButtonDefaults {
 
-    val MinTouchTarget = 48.dp
+    /** Canonical minimum retained for compatibility; components read FrogTheme.sizing live. */
+    val MinTouchTarget = FrogSizing().minimumTouchTarget
+    /** Default visible outline thickness; the focus outline is independent. */
     val BorderWidth = 1.dp
 
     /**
      * Resolves default [FrogButtonColors] for the given [variant] using current [FrogTheme] tokens.
+     * Each [Color.Unspecified] override retains the corresponding variant default; Transparent
+     * is an explicit color. Resolve again under a new theme rather than remembering stale colors.
+     *
+     * @param variant Semantic treatment used for every unspecified field.
+     * @param containerColor Optional enabled fill override.
+     * @param contentColor Optional enabled label/icon override.
+     * @param borderColor Optional enabled outline override.
+     * @param disabledContainerColor Optional disabled fill override.
+     * @param disabledContentColor Optional disabled label/icon override.
+     * @param disabledBorderColor Optional disabled outline override.
      */
     @Composable
     @ReadOnlyComposable
@@ -100,13 +113,13 @@ object FrogButtonDefaults {
                 borderColor = Color.Transparent,
                 disabledBorderColor = Color.Transparent,
                 pressedOverlayColor = Color(0x2E000000),
-                focusRingColor = colors.destructive
+                focusRingColor = colors.focusRing
             )
         }
     }
 
     /**
-     * Resolves default button shape based on button size.
+     * Uses the local small shape for Small and medium shape for Medium/Large.
      */
     @Composable
     @ReadOnlyComposable
@@ -117,6 +130,24 @@ object FrogButtonDefaults {
             FrogButtonSize.Medium -> shapes.md
             FrogButtonSize.Large -> shapes.md
         }
+    }
+
+    /** Minimum visual height from the local sizing group; text/padding may require more room. */
+    @Composable
+    @ReadOnlyComposable
+    fun controlHeight(size: FrogButtonSize) = when (size) {
+        FrogButtonSize.Small -> FrogTheme.sizing.controlSmall
+        FrogButtonSize.Medium -> FrogTheme.sizing.controlMedium
+        FrogButtonSize.Large -> FrogTheme.sizing.controlLarge
+    }
+
+    /** Theme-aware glyph size for loading feedback and caller-owned icon slots. */
+    @Composable
+    @ReadOnlyComposable
+    fun iconSize(size: FrogButtonSize) = when (size) {
+        FrogButtonSize.Small -> FrogTheme.sizing.iconSmall
+        FrogButtonSize.Medium -> FrogTheme.sizing.iconMedium
+        FrogButtonSize.Large -> FrogTheme.sizing.iconLarge
     }
 
     /**
@@ -137,7 +168,7 @@ object FrogButtonDefaults {
     }
 
     /**
-     * Resolves padding values for the button size.
+     * Resolves symmetric content padding from the semantic size; label scaling may increase height.
      */
     fun contentPadding(size: FrogButtonSize): PaddingValues {
         return PaddingValues(

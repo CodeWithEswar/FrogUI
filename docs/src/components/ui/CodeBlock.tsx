@@ -63,12 +63,12 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
   };
 
   return (
-    <div className="my-5 w-full rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/70 overflow-hidden shadow-xs">
+    <div className="my-5 w-full rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] overflow-hidden shadow-xs">
       {/* Header bar */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-900/90 text-xs text-zinc-500 dark:text-zinc-400">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-[var(--frog-border)] bg-[var(--frog-surface)] text-xs text-[var(--frog-muted-foreground)]">
         <div className="flex items-center space-x-2 font-mono">
           {title ? (
-            <span className="font-medium text-zinc-700 dark:text-zinc-300">{title}</span>
+            <span className="font-medium text-[var(--frog-foreground)]">{title}</span>
           ) : (
             <span className="uppercase text-[10px] tracking-wider text-zinc-400 dark:text-zinc-500 font-semibold">
               {language}
@@ -84,8 +84,8 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             title={isWrapped ? 'Unwrap code' : 'Wrap code'}
             className={`inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-colors cursor-pointer ${
               isWrapped
-                ? 'bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-semibold'
-                : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                ? 'bg-[var(--frog-muted)] text-[var(--frog-foreground)] font-semibold'
+                : 'text-[var(--frog-muted-foreground)] hover:text-[var(--frog-foreground)] hover:bg-[var(--frog-muted)]'
             }`}
           >
             <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -100,14 +100,14 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
           <button
             onClick={handleCopy}
             aria-label="Copy code"
-            className="inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-colors hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 cursor-pointer"
+            className="inline-flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium transition-colors hover:bg-[var(--frog-muted)] text-[var(--frog-muted-foreground)] hover:text-[var(--frog-foreground)] cursor-pointer"
           >
             {copied ? (
               <>
-                <svg className="w-3.5 h-3.5 text-zinc-900 dark:text-zinc-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <svg className="w-3.5 h-3.5 text-[var(--frog-foreground)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
-                <span className="font-semibold text-zinc-900 dark:text-zinc-100">Copied!</span>
+                <span className="font-semibold text-[var(--frog-foreground)]">Copied!</span>
               </>
             ) : (
               <>
@@ -136,7 +136,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             dangerouslySetInnerHTML={{ __html: highlightedHtml }}
           />
         ) : (
-          <pre className="text-zinc-800 dark:text-zinc-200">
+          <pre className="text-[var(--frog-foreground)]">
             <code>{code.trim()}</code>
           </pre>
         )}

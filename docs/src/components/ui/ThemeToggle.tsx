@@ -42,7 +42,7 @@ export const ThemeToggle: React.FC = () => {
     <button
       onClick={cycleTheme}
       aria-label={`Current theme: ${theme}. Click to switch theme.`}
-      className="p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
+      className="p-2 rounded-lg border border-[var(--frog-border)] text-[var(--frog-muted-foreground)] hover:text-[var(--frog-foreground)] hover:bg-[var(--frog-subtle-surface)] transition-colors"
     >
       {theme === 'light' ? (
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

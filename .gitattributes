@@ -1,0 +1,2 @@
+# Keep reviewed Kotlin ABI snapshots identical across Windows and Unix checkouts.
+*.api text eol=lf

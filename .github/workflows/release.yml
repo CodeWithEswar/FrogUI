@@ -15,7 +15,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - run: npm ci --ignore-scripts
       - run: sdkmanager 'platforms;android-36.1'
-      - run: bash gradlew verifyArchitecture testDebugUnitTest publishAllPublicationsToBuildRepository
+      - run: bash gradlew verifyArchitecture apiCheck testDebugUnitTest publishAllPublicationsToBuildRepository
       - uses: actions/upload-artifact@v4
         with:
           name: maven-staging

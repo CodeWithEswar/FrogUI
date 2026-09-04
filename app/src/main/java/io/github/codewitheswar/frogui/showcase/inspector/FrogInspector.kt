@@ -22,6 +22,13 @@ import io.github.codewitheswar.frogui.showcase.style.showcaseFocus
 import io.github.codewitheswar.frogui.theme.FrogTheme
 
 @Composable
+internal fun FrogInspectorText(label: String, value: String, onChange: (String) -> Unit) {
+    OutlinedTextField(value, onChange, Modifier.fillMaxWidth(), label = { Text(label) }, singleLine = true,
+        textStyle = FrogTheme.typography.bodySmall, shape = FrogTheme.shapes.sm,
+        colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = FrogTheme.colors.focusRing, unfocusedBorderColor = FrogTheme.colors.border))
+}
+
+@Composable
 internal fun FrogInspectorSection(title: String, content: @Composable ColumnScope.() -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(title.uppercase(), style = FrogTheme.typography.label, color = FrogTheme.colors.mutedForeground, modifier = Modifier.semantics { heading() })
@@ -43,7 +50,7 @@ internal fun FrogInspectorRow(label: String, value: String, onClick: () -> Unit,
             Text(value, style = FrogTheme.typography.code, color = FrogTheme.colors.mutedForeground)
             description?.let { Text(it, style = FrogTheme.typography.bodySmall, color = FrogTheme.colors.mutedForeground) }
         }
-        Icon(FrogIcons.Forward, null, Modifier.size(16.dp), tint = FrogTheme.colors.mutedForeground)
+        Icon(FrogIcons.Forward, null, Modifier.size(FrogTheme.sizing.iconSmall), tint = FrogTheme.colors.mutedForeground)
     }
 }
 
@@ -55,7 +62,7 @@ internal fun FrogEnumSelector(label: String, values: List<String>, selected: Str
             values.forEach { value ->
                 val source = remember { MutableInteractionSource() }
                 val active = value == selected
-                Box(Modifier.widthIn(min = 64.dp).heightIn(min = 48.dp)
+                Box(Modifier.widthIn(min = 64.dp).heightIn(min = FrogTheme.sizing.minimumTouchTarget)
                     .selectable(active, source, indication = null, role = Role.RadioButton, onClick = { onSelect(value) })
                     .padding(vertical = 6.dp).heightIn(min = 36.dp).showcaseFocus(source)
                     .background(if (active) FrogTheme.colors.primary else FrogTheme.colors.surface, FrogTheme.shapes.sm)
@@ -71,7 +78,7 @@ internal fun FrogEnumSelector(label: String, values: List<String>, selected: Str
 @Composable
 internal fun FrogBooleanSelector(title: String, checked: Boolean, onChange: (Boolean) -> Unit) {
     val source = remember { MutableInteractionSource() }
-    Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).showcaseFocus(source)
+    Row(Modifier.fillMaxWidth().heightIn(min = FrogTheme.sizing.minimumTouchTarget).showcaseFocus(source)
         .toggleable(checked, source, indication = null, role = Role.Switch, onValueChange = onChange).padding(horizontal = 4.dp),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(title, Modifier.weight(1f), style = FrogTheme.typography.bodySmall, color = FrogTheme.colors.foreground)

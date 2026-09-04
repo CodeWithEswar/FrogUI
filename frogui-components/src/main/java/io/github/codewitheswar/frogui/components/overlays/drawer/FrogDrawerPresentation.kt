@@ -1,11 +1,12 @@
 package io.github.codewitheswar.frogui.components.overlays.drawer
 
 /**
- * Presentation mode for [FrogDrawer].
+ * Placement within the available native window or bounded overlay host.
+ * Both Bottom and Side are modal by default; this enum does not select modal/persistent behavior.
  */
 enum class FrogDrawerPresentation {
     /**
-     * Dynamically chooses [Bottom] on compact screens (< 620dp) and [Side] on expanded screens (>= 620dp).
+     * Uses the local adaptive policy: [Bottom] for Compact and [Side] otherwise.
      */
     Auto,
 

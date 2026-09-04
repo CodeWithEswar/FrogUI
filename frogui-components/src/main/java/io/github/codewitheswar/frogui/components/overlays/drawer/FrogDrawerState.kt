@@ -11,7 +11,10 @@ import androidx.compose.runtime.setValue
 /**
  * State of a [FrogDrawer] composable.
  *
- * Controls visibility and provides imperative suspend [open] and [close] operations.
+ * Hoist this helper when several actions open or close the same drawer. For a simple Boolean
+ * owner, use the visible overload instead. [open], [close] and [snapTo] update requested
+ * visibility immediately; they do not await or describe the rendered transition's progress.
+ * Call mutations from the UI owner. Use [rememberFrogDrawerState] to save across recreation.
  *
  * @param initialValue The initial value of the state.
  */
@@ -20,31 +23,32 @@ class FrogDrawerState(
     initialValue: FrogDrawerValue = FrogDrawerValue.Closed
 ) {
     /**
-     * The current value of the drawer state.
+     * Last requested visibility. It changes immediately, independently of the exit animation.
      */
     var currentValue: FrogDrawerValue by mutableStateOf(initialValue)
         internal set
 
     /**
-     * The target value of the drawer state.
+     * Requested destination; currently updated together with [currentValue].
      */
     var targetValue: FrogDrawerValue by mutableStateOf(initialValue)
         internal set
 
     /**
-     * Whether the drawer is currently open or opening.
+     * Whether Open is requested. This is not a measurement of on-screen animation progress.
      */
     val isOpen: Boolean
         get() = currentValue == FrogDrawerValue.Open || targetValue == FrogDrawerValue.Open
 
     /**
-     * Whether the drawer is currently closed and not opening.
+     * Whether Closed is requested; a closing visual transition may still be running.
      */
     val isClosed: Boolean
         get() = !isOpen
 
     /**
-     * Request opening the drawer.
+     * Requests Open and returns immediately. Suspension is retained for API compatibility;
+     * it does not await the opening transition.
      */
     suspend fun open() {
         targetValue = FrogDrawerValue.Open
@@ -52,7 +56,7 @@ class FrogDrawerState(
     }
 
     /**
-     * Request closing the drawer.
+     * Requests Closed and returns immediately; it does not await the closing transition.
      */
     suspend fun close() {
         targetValue = FrogDrawerValue.Closed
@@ -60,7 +64,8 @@ class FrogDrawerState(
     }
 
     /**
-     * Instantly updates the drawer state without animation.
+     * Immediately changes requested visibility. It does not bypass the renderer's motion;
+     * supply zero-duration theme motion when transitions must be disabled.
      */
     fun snapTo(targetValue: FrogDrawerValue) {
         this.targetValue = targetValue
@@ -69,7 +74,7 @@ class FrogDrawerState(
 
     companion object {
         /**
-         * The default [Saver] implementation for [FrogDrawerState].
+         * Saves requested visibility only; callbacks, content and animation frames are not saved.
          */
         val Saver: Saver<FrogDrawerState, FrogDrawerValue> = Saver(
             save = { it.currentValue },

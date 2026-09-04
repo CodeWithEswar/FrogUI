@@ -19,7 +19,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - run: npm ci --ignore-scripts
       - run: sdkmanager 'platforms;android-36.1'
-      - run: bash gradlew verifyArchitecture testDebugUnitTest lintDebug assembleDebug :app:assembleDebugAndroidTest :frogui-theme:assembleDebugAndroidTest
+      - run: bash gradlew verifyArchitecture apiCheck testDebugUnitTest lintDebug assembleDebug :app:assembleDebugAndroidTest :frogui-theme:assembleDebugAndroidTest
       - uses: actions/upload-artifact@v4
         if: always()
         with:

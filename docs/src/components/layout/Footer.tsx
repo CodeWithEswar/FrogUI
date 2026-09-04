@@ -4,11 +4,11 @@ import { AppLogo } from '../ui/AppLogo';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="mt-20 border-t border-zinc-200 dark:border-zinc-800/80 py-8 text-xs text-zinc-500 dark:text-zinc-400">
+    <footer className="mt-20 border-t border-zinc-200 dark:border-zinc-800/80 py-8 text-xs text-[var(--frog-muted-foreground)]">
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:pr-72 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <AppLogo className="w-4 h-4" />
-          <span className="font-semibold text-zinc-800 dark:text-zinc-200">FrogUI</span>
+          <span className="font-semibold text-[var(--frog-foreground)]">FrogUI</span>
           <span>&middot;</span>
           <span>Open-source Jetpack Compose Ecosystem</span>
           <span>&middot;</span>
@@ -20,7 +20,7 @@ export const Footer: React.FC = () => {
             href="https://github.com/CodeWithEswar/FrogUI/blob/main/LICENSE"
             target="_blank"
             rel="noreferrer"
-            className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            className="hover:text-[var(--frog-foreground)] transition-colors"
           >
             Apache 2.0
           </a>
@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
             href="https://github.com/CodeWithEswar/FrogUI/blob/main/CONTRIBUTING.md"
             target="_blank"
             rel="noreferrer"
-            className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            className="hover:text-[var(--frog-foreground)] transition-colors"
           >
             Contributing
           </a>
@@ -36,7 +36,7 @@ export const Footer: React.FC = () => {
             href="https://github.com/CodeWithEswar/FrogUI/blob/main/SECURITY.md"
             target="_blank"
             rel="noreferrer"
-            className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            className="hover:text-[var(--frog-foreground)] transition-colors"
           >
             Security
           </a>
@@ -44,7 +44,7 @@ export const Footer: React.FC = () => {
             href="https://github.com/CodeWithEswar/FrogUI"
             target="_blank"
             rel="noreferrer"
-            className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            className="hover:text-[var(--frog-foreground)] transition-colors"
           >
             GitHub
           </a>

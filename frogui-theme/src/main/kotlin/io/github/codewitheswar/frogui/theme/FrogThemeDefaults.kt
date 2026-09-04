@@ -44,14 +44,14 @@ object FrogThemeDefaults {
         surfaceElevated = FrogPalette.White,        // #FFFFFF
         subtleSurface = FrogPalette.Zinc100,        // #F4F4F5
         muted = FrogPalette.Zinc200,                // #E4E4E7
-        mutedForeground = FrogPalette.Zinc500,      // #71717A
+        mutedForeground = FrogPalette.Zinc600,      // #52525B; readable on muted surfaces too
         border = Color(0x14000000),                 // rgba(0, 0, 0, 0.08)
         borderStrong = Color(0x24000000),           // rgba(0, 0, 0, 0.14)
         primary = FrogPalette.Zinc950,              // #09090B
         primaryForeground = FrogPalette.White,
         secondary = FrogPalette.Zinc100,            // #F4F4F5
         secondaryForeground = FrogPalette.Zinc900,  // #18181B
-        destructive = FrogPalette.Destructive,      // #EF4444
+        destructive = FrogPalette.DestructiveDark,  // #DC2626; white label contrast 4.83:1
         destructiveForeground = FrogPalette.White,
         focusRing = FrogPalette.Zinc600,
         isDark = false

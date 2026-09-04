@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import io.github.codewitheswar.frogui.showcase.screens.ComponentDetailScreen
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toPixelMap
@@ -40,7 +41,7 @@ class ButtonDetailTest {
         node.performClick()
     }
     private fun tab(label: String) = compose.onNode(hasText(label) and SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Tab)).performSemanticsAction(SemanticsActions.OnClick) { it() }
-    private fun content() { compose.setFrogContent(darkTheme = true) { CompositionLocalProvider(LocalFrogMotionEnabled provides false) { Box(Modifier.width(360.dp).fillMaxHeight().background(FrogTheme.colors.background)) { ButtonScreen("button", {}) } } } }
+    private fun content() { compose.setFrogContent(darkTheme = true) { CompositionLocalProvider(LocalFrogMotionEnabled provides false) { Box(Modifier.width(360.dp).fillMaxHeight().background(FrogTheme.colors.background)) { ComponentDetailScreen("button", {}) } } } }
     private fun color() { click("Customize"); click("Container color"); compose.onNodeWithTag("drawer-bottom").assertIsDisplayed() }
     private fun capture(name: String) {
         val directory = File(InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null), "showcase-qa").apply { mkdirs() }
@@ -85,7 +86,7 @@ class ButtonDetailTest {
     }
     @Test fun nestedDrawerRestoresAndBackReturnsToInspector() {
         val restoration = StateRestorationTester(compose)
-        restoration.setContent { FrogTheme { CompositionLocalProvider(LocalFrogMotionEnabled provides false) { Box(Modifier.width(360.dp)) { ButtonScreen("button", {}) } } } }
+        restoration.setContent { FrogTheme { CompositionLocalProvider(LocalFrogMotionEnabled provides false) { Box(Modifier.width(360.dp)) { ComponentDetailScreen("button", {}) } } } }
         color(); click("Surface")
         restoration.emulateSavedInstanceStateRestore()
         compose.onNodeWithContentDescription("Back within drawer").assertIsDisplayed().performClick()

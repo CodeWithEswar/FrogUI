@@ -8,13 +8,17 @@ import {
   Download01Icon,
   Rocket01Icon,
   Layers01Icon,
+  Layers02Icon,
   PaletteIcon,
   TextIcon,
   GridViewIcon,
+  Motion01Icon,
+  RulerIcon,
+  SmartPhone01Icon,
   AccessibilityIcon,
   CursorPointer01Icon,
   SidebarRight01Icon,
-  SlidersHorizontalIcon,
+  ComponentIcon,
   CpuIcon
 } from '@hugeicons/core-free-icons';
 import { StatusBadge } from '../ui/StatusBadge';
@@ -28,18 +32,30 @@ interface MobileDrawerProps {
 }
 
 const getNavIcon = (path: string): HugeIconData => {
+  // Getting Started
   if (path.includes('introduction')) return BookOpen01Icon as unknown as HugeIconData;
   if (path.includes('installation')) return Download01Icon as unknown as HugeIconData;
-  if (path.includes('quickstart')) return Rocket01Icon as unknown as HugeIconData;
-  if (path.includes('technology')) return CpuIcon as unknown as HugeIconData;
+  if (path.includes('quick-start') || path.includes('quickstart')) return Rocket01Icon as unknown as HugeIconData;
+
+  // Architecture
+  if (path.includes('technology') || path.includes('architecture')) return CpuIcon as unknown as HugeIconData;
+
+  // Foundation
   if (path.includes('colors')) return PaletteIcon as unknown as HugeIconData;
   if (path.includes('typography')) return TextIcon as unknown as HugeIconData;
   if (path.includes('spacing')) return GridViewIcon as unknown as HugeIconData;
+  if (path.includes('elevation')) return Layers02Icon as unknown as HugeIconData;
+  if (path.includes('motion')) return Motion01Icon as unknown as HugeIconData;
+  if (path.includes('sizing')) return RulerIcon as unknown as HugeIconData;
+  if (path.includes('adaptive')) return SmartPhone01Icon as unknown as HugeIconData;
   if (path.includes('accessibility')) return AccessibilityIcon as unknown as HugeIconData;
-  if (path.includes('foundation')) return Layers01Icon as unknown as HugeIconData;
+  if (path === '/foundation' || path.endsWith('/foundation')) return Layers01Icon as unknown as HugeIconData;
+
+  // Components
   if (path.includes('button')) return CursorPointer01Icon as unknown as HugeIconData;
   if (path.includes('drawer')) return SidebarRight01Icon as unknown as HugeIconData;
-  return SlidersHorizontalIcon as unknown as HugeIconData;
+
+  return ComponentIcon as unknown as HugeIconData;
 };
 
 export const MobileDrawer: React.FC<MobileDrawerProps> = ({
@@ -102,21 +118,21 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
 
       {/* Smooth sliding sheet surface */}
       <div
-        className={`relative w-4/5 max-w-xs bg-white dark:bg-zinc-900 h-full border-r border-zinc-200 dark:border-zinc-800 p-6 overflow-y-auto flex flex-col justify-between shadow-2xl z-10 transition-transform duration-250 ease-out ${
+        className={`relative w-4/5 max-w-xs bg-[var(--frog-surface-elevated)] h-full border-r border-[var(--frog-border)] p-6 overflow-y-auto flex flex-col justify-between shadow-2xl z-10 transition-transform duration-250 ease-out ${
           isVisible ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div>
           {/* Top header */}
-          <div className="flex items-center justify-between pb-4 border-b border-zinc-200 dark:border-zinc-800 mb-6">
+          <div className="flex items-center justify-between pb-4 border-b border-[var(--frog-border)] mb-6">
             <div className="flex items-center gap-2.5">
               <AppLogo className="w-6 h-6" />
-              <span className="font-bold text-lg text-zinc-900 dark:text-zinc-100">FrogUI</span>
+              <span className="font-bold text-lg text-[var(--frog-foreground)]">FrogUI</span>
             </div>
             <button
               onClick={onClose}
               aria-label="Close menu"
-              className="p-1 rounded-md text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 cursor-pointer transition-colors"
+              className="p-1 rounded-md text-zinc-500 hover:text-[var(--frog-foreground)] cursor-pointer transition-colors"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <line x1="18" y1="6" x2="6" y2="18" />
@@ -131,7 +147,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
               onClose();
               onOpenSearch();
             }}
-            className="w-full mb-6 flex items-center justify-between px-3 py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800/60 text-xs text-zinc-500 dark:text-zinc-400 cursor-pointer hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
+            className="w-full mb-6 flex items-center justify-between px-3 py-2 rounded-lg border border-[var(--frog-border)] bg-zinc-50 dark:bg-zinc-800/60 text-xs text-[var(--frog-muted-foreground)] cursor-pointer hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
           >
             <span>Search docs...</span>
             <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-zinc-200/80 dark:bg-zinc-700 rounded">
@@ -158,8 +174,8 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
                           }}
                           className={`w-full text-left flex items-center justify-between px-3 py-2 rounded-lg transition-colors cursor-pointer ${
                             isActive
-                              ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-semibold'
-                              : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
+                              ? 'bg-[var(--frog-muted)] text-[var(--frog-foreground)] font-semibold'
+                              : 'text-[var(--frog-muted-foreground)] hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
                           }`}
                         >
                           <div className="flex items-center gap-2.5 truncate">
@@ -167,7 +183,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
                               icon={getNavIcon(item.path)}
                               className={`w-4 h-4 shrink-0 transition-colors ${
                                 isActive
-                                  ? 'text-zinc-900 dark:text-zinc-100'
+                                  ? 'text-[var(--frog-foreground)]'
                                   : 'text-zinc-400 dark:text-zinc-500'
                               }`}
                             />
@@ -187,7 +203,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
         </div>
 
         {/* Bottom footer drawer */}
-        <div className="pt-6 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+        <div className="pt-6 border-t border-[var(--frog-border)] flex items-center justify-between">
           <span className="text-xs text-zinc-500">Theme</span>
           <ThemeToggle />
         </div>

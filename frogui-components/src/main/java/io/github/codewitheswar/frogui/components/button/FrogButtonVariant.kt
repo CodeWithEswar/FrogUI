@@ -13,7 +13,7 @@ enum class FrogButtonVariant {
     /** Outlined action with a visible structural border and transparent surface. */
     Outline,
 
-    /** Low-emphasis ghost action without background or border until pressed/hovered. */
+    /** Low-emphasis action with transparent default fill/border and a pressed overlay. */
     Ghost,
 
     /** High-priority destructive action communicating permanent or dangerous operations. */

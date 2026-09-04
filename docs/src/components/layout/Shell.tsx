@@ -28,7 +28,7 @@ export const Shell: React.FC<ShellProps> = ({ currentPath, onNavigate, children 
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
+    <div className="min-h-screen flex flex-col bg-[var(--frog-background)] text-[var(--frog-foreground)]">
       {/* Top Header */}
       <Header
         currentPath={currentPath}

@@ -2,11 +2,13 @@
 
 The app's catalog/search reads generated `FrogComponentRegistry` data locally.
 `ShowcaseRegistry` adapts records to explicit `ComponentDemo` destinations.
-`ComponentDetailScreen` dispatches an exhaustive typed `when` to `ButtonScreen`.
+`ComponentDetailScreen` resolves a typed `ComponentShowcaseFactory` and renders the
+single shared `ComponentDetailLayout`. Button and Drawer supply definitions with
+component-owned state, compiled previews, inspectors and code generators.
 Tests require exactly one destination per catalog ID and matching route strings.
 Unknown IDs render an explicit missing-component state.
 
-Button's state, inspector, screen, and examples live in
+Button's state, inspector, definition, and examples live in
 `app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button`.
 They import the same public Button/theme APIs available to consumers, with no
 cross-module internal access, reflection, friend configuration, or source copies.
@@ -20,6 +22,13 @@ Marked regions also generate docs/native code snippets, and app compilation chec
 those examples against actual public APIs. The interactive code generator escapes
 consumer label text as Kotlin literals; it is an illustrative usage view, not a
 runtime source executor.
+
+Drawer follows the same contract in `showcase/components/drawer`. Both use one
+header, preview workspace, inspector host, four-tab strip, documentation layout,
+code renderer, API renderer, accessibility renderer and example presentation.
+`frogui://components/button` and `frogui://components/drawer` enter those same
+routes on cold or warm launch. Unknown IDs use the shared missing-component state.
+See [shared detail system](shared-component-detail-system.md) for ownership and QA.
 
 Preview themes nest inside the app theme via public FrogTheme parameters. The new
 test fixture exercises nested theme isolation. Catalog, preview, inspector, and

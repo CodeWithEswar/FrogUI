@@ -35,9 +35,11 @@ fun ContinueAction(enabled: Boolean, onContinue: () -> Unit) {
 ## Customize colors and layout
 
 Use `fullWidth = true` to expand both the visible surface and its touch target.
-Small, Medium, and Large use one shared size model for padding, icon size, spacing,
-and minimum surface height. Prefer semantic shapes; override `shape` only when
-the surrounding design calls for it.
+Small, Medium, and Large resolve visual heights and glyph sizes through `FrogTheme.sizing`.
+Padding and icon gaps remain component-specific. Use `FrogButtonDefaults.iconSize(size)`
+for theme-aware icon slots. Targets use `FrogTheme.sizing.minimumTouchTarget`, at least
+48dp, separately from compact visuals. Prefer semantic shapes; override `shape` only
+when the surrounding design calls for it.
 
 ```kotlin
 FrogButton(
@@ -58,6 +60,10 @@ The color defaults accept selected overrides, including border and disabled
 colors. The default border uses the supplied `FrogButtonColors`. Keep the same
 variant in the button and its color defaults. Semantic tokens follow the theme;
 a custom literal such as `Color(0x8018181B)` keeps its ARGB value and alpha.
+
+`ProvideFrogThemeEnvironment(reduceMotion = true)` stops press scale and decorative
+loading rotation while retaining immediate state/color feedback. Android's disabled
+animator preference also applies. Nested themes inherit omitted non-color token groups.
 
 ## Use the component laboratory
 
@@ -105,6 +111,25 @@ speech/traversal, physical tablet input, and minimum-API review remain release c
 before this experimental component can be considered Stable.
 
 ## Native preview
+
+### Icon-only companion
+
+`FrogIconButton(onClick, contentDescription)` shares Button's variants, sizes, colors,
+shape, border, enabled/loading states and interaction source. Its default variant is
+Ghost, and its composable content is decorative. Supply a concise action label and
+null descriptions on child icons. Loading keeps the action label, prevents repeated
+activation and suppresses duplicate progress announcements. Custom pressed overlays
+and disabled borders use the supplied color contract. This public companion remains
+Experimental and is included in the components ABI baseline.
+
+### Compatibility
+
+The established `leadingIcon` and `trailingIcon` slot names are retained for Kotlin
+named-argument compatibility. They accept composable content and do not require an
+icon library. `fullWidth` expands both the visible surface and outer target. A tiny
+label or reduced content padding still retains a 48dp target in each dimension unless
+an explicit parent constraint prevents it. See the library [API design guide](../../architecture/api-design.md)
+for source, binary and behavior review rules.
 
 Use the Android Showcase for real interaction. Web documentation presents metadata,
 usage code, and documentation; it does not execute native Compose.

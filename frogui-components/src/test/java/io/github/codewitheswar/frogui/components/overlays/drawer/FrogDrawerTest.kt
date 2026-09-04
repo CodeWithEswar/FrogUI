@@ -3,6 +3,7 @@ package io.github.codewitheswar.frogui.components.overlays.drawer
 import androidx.compose.ui.unit.dp
 import io.github.codewitheswar.frogui.registry.FrogComponentRegistry
 import kotlinx.coroutines.runBlocking
+import androidx.compose.runtime.saveable.SaverScope
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -35,7 +36,19 @@ class FrogDrawerTest {
         assertEquals(400.dp, FrogDrawerDefaults.SideWidth)
         assertEquals(600.dp, FrogDrawerDefaults.BottomMaxWidth)
         assertEquals(64.dp, FrogDrawerDefaults.DragDismissThreshold)
-        assertEquals(220, FrogDrawerDefaults.AnimationDurationMs)
+    }
+
+    @Test
+    fun savedVisibilityRestoresIntoAnIndependentOwner() = runBlocking {
+        val original = FrogDrawerState()
+        original.open()
+        val saved = with(FrogDrawerState.Saver) { SaverScope { true }.save(original) }
+        val restored = FrogDrawerState.Saver.restore(requireNotNull(saved))!!
+        assertTrue(restored.isOpen)
+        assertEquals(restored.currentValue, restored.targetValue)
+        restored.close()
+        assertTrue(original.isOpen)
+        assertTrue(restored.isClosed)
     }
 
     @Test
@@ -62,6 +75,6 @@ class FrogDrawerTest {
         assertEquals("FrogDrawer", drawer?.name)
         assertEquals("Drawer", drawer?.displayName)
         assertEquals(io.github.codewitheswar.frogui.registry.FrogComponentCategory.Overlays, drawer?.category)
-        assertEquals(listOf("Auto", "Bottom", "Side"), drawer?.variants)
+        assertEquals(FrogDrawerPresentation.entries.map { it.name }, drawer?.variants)
     }
 }

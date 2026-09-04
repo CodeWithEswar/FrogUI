@@ -10,6 +10,17 @@ import androidx.compose.ui.unit.sp
  * FrogUI typography system.
  * Optimized for readability, predictable line height, developer tooling aesthetics,
  * and accessibility font scaling.
+ *
+ * @property display Most prominent page-level title.
+ * @property titleLarge Large section or detail title.
+ * @property title Standard page title.
+ * @property heading Section heading.
+ * @property subheading Nested section or group heading.
+ * @property body Primary reading text.
+ * @property bodySmall Compact body and supporting text.
+ * @property label Concise control and metadata label.
+ * @property caption Low-emphasis annotations.
+ * @property code Monospaced source and value text.
  */
 @Immutable
 data class FrogTypography(

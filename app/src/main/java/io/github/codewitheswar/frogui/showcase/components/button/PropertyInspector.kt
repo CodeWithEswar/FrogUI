@@ -43,9 +43,7 @@ internal fun PropertyInspector(state: ButtonDemoState, onStateChange: (ButtonDem
             FrogEnumSelector("Shape", ButtonShape.entries.map { it.name }, state.shape.name) { onStateChange(state.copy(shape = ButtonShape.valueOf(it))) }
         }
         FrogInspectorSection("Content") {
-            OutlinedTextField(state.buttonText, { onStateChange(state.copy(buttonText = it)) }, Modifier.fillMaxWidth(),
-                label = { Text("Button label") }, singleLine = true, textStyle = FrogTheme.typography.bodySmall,
-                shape = FrogTheme.shapes.sm, colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = colors.focusRing, unfocusedBorderColor = colors.border))
+            FrogInspectorText("Button label", state.buttonText) { onStateChange(state.copy(buttonText = it)) }
             FrogBooleanSelector("Leading icon", state.hasLeadingIcon) { onStateChange(state.copy(hasLeadingIcon = it)) }
             FrogBooleanSelector("Trailing icon", state.hasTrailingIcon) { onStateChange(state.copy(hasTrailingIcon = it)) }
         }
@@ -96,7 +94,7 @@ private fun InspectorChoice(label: String, selected: Boolean, onClick: () -> Uni
     val foreground = if (selected && !showCheck) colors.primaryForeground else colors.foreground
     val pressed by source.collectIsPressedAsState()
     val fill = if (selected) selectedFill else colors.surface
-    Row(modifier.heightIn(min = 48.dp)
+    Row(modifier.heightIn(min = FrogTheme.sizing.minimumTouchTarget)
         .selectable(selected, interactionSource = source, indication = null, role = Role.RadioButton, onClick = onClick)
         .padding(vertical = 6.dp).heightIn(min = 36.dp).showcaseFocus(source)
         .background(if (pressed) lerp(fill, foreground, .08f) else fill, shape)

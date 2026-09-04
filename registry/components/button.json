@@ -198,7 +198,7 @@
   ],
   "showcase": {
     "route": "components/button",
-    "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonScreen.kt",
-    "screen": "ButtonScreen"
+    "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonShowcaseDefinition.kt",
+    "screen": "buttonShowcaseDefinition"
   }
 }

@@ -6,6 +6,26 @@ import androidx.compose.ui.graphics.Color
 /**
  * Semantic color tokens for the FrogUI design system.
  * Components must consume these semantic tokens rather than raw palette colors.
+ * Construct a complete palette or copy an existing theme palette; explicit values are fixed
+ * until the caller supplies a different instance. Review foreground/background contrast together.
+ *
+ * @property background Base canvas behind component surfaces.
+ * @property foreground Primary text/icon color on neutral surfaces.
+ * @property surface Standard component surface.
+ * @property surfaceElevated Visually raised contextual surface.
+ * @property subtleSurface Low-emphasis surface for grouping.
+ * @property muted Muted fills and subdued regions.
+ * @property mutedForeground Secondary text and supporting information.
+ * @property border Subtle structural boundary.
+ * @property borderStrong Higher-emphasis structural boundary.
+ * @property primary Primary action fill.
+ * @property primaryForeground Content on the primary fill.
+ * @property secondary Supporting action fill.
+ * @property secondaryForeground Content on the secondary fill.
+ * @property destructive Fill conveying destructive intent.
+ * @property destructiveForeground Content on the destructive fill.
+ * @property focusRing Visible keyboard-focus outline.
+ * @property isDark Indicates this palette's luminance mode, independently of system appearance.
  */
 @Immutable
 data class FrogColors(

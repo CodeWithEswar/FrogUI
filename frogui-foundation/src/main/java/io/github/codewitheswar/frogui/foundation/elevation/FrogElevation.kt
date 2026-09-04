@@ -7,6 +7,11 @@ import androidx.compose.ui.unit.dp
 /**
  * Elevation tokens for the FrogUI design system.
  * Restrained tonal elevation rather than heavy artificial shadows.
+ *
+ * @property none Flat surfaces without elevation.
+ * @property low Subtle separation from surrounding content.
+ * @property medium Contextual emphasis above ordinary surfaces.
+ * @property high Highest standard elevation level.
  */
 @Immutable
 data class FrogElevation(
@@ -16,6 +21,7 @@ data class FrogElevation(
     val high: Dp = 6.dp
 ) {
     companion object {
+        /** Reusable immutable standard scale. */
         val Default = FrogElevation()
     }
 }

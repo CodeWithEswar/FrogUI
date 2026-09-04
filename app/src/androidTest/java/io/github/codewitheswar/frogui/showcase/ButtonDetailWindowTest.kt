@@ -13,7 +13,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.test.platform.app.InstrumentationRegistry
-import io.github.codewitheswar.frogui.showcase.components.button.ButtonScreen
+import io.github.codewitheswar.frogui.showcase.screens.ComponentDetailScreen
 import io.github.codewitheswar.frogui.showcase.style.LocalFrogMotionEnabled
 import io.github.codewitheswar.frogui.theme.FrogTheme
 import org.junit.Rule
@@ -47,17 +47,17 @@ class ButtonDetailWindowTest(private val width: Int, private val height: Int, pr
             DeviceConfigurationOverride(DeviceConfigurationOverride.ForcedSize(DpSize(width.dp, height.dp)) then DeviceConfigurationOverride.FontScale(font)) {
                 CompositionLocalProvider(LocalFrogMotionEnabled provides false) {
                     FrogTheme(darkTheme = dark) {
-                        Box(Modifier.fillMaxSize().consumeWindowInsets(WindowInsets.safeDrawing).background(FrogTheme.colors.background).testTag("detail-viewport")) { ButtonScreen("button", {}) }
+                        Box(Modifier.fillMaxSize().consumeWindowInsets(WindowInsets.safeDrawing).background(FrogTheme.colors.background).testTag("detail-viewport")) { ComponentDetailScreen("button", {}) }
                     }
                 }
             }
         }
-        if (width >= 620 && font <= 1.3f) compose.onNodeWithTag("persistent-inspector").assertIsDisplayed()
+        if (width >= 600 && font <= 1.3f) compose.onNodeWithTag("persistent-inspector").assertIsDisplayed()
         else compose.onNode(hasText("Customize") and hasClickAction()).assertExists()
         capture("detail-viewport", "preview")
-        if (width < 620 || font > 1.3f) { click("Customize"); capture("drawer-window", "inspector") }
+        if (width < 600 || font > 1.3f) { click("Customize"); capture("drawer-window", "inspector") }
         click("Container color")
-        compose.onNodeWithTag(if (width >= 620) "drawer-side" else "drawer-bottom").assertIsDisplayed()
+        compose.onNodeWithTag(if (width >= 600) "drawer-side" else "drawer-bottom").assertIsDisplayed()
         capture("drawer-window", "tokens")
         click("Custom")
         compose.onNodeWithContentDescription("Hue").performScrollTo().assertExists()

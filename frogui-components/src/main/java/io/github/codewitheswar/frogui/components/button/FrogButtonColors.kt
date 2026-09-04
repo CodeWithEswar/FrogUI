@@ -5,6 +5,17 @@ import androidx.compose.ui.graphics.Color
 
 /**
  * Color configuration for [FrogButton] across enabled, disabled, pressed, and loading states.
+ * Also used by [FrogIconButton]. Prefer [FrogButtonDefaults.colors] for theme-aware defaults;
+ * use [copy] for the additional press/focus overrides. Explicit colors do not adapt to theme changes.
+ *
+ * @property containerColor Enabled surface fill; also used while loading if enabled.
+ * @property contentColor Enabled label, icon and progress color.
+ * @property disabledContainerColor Surface fill when enabled is false.
+ * @property disabledContentColor Label/icon color when enabled is false.
+ * @property borderColor Enabled outline; transparent means no default stroke.
+ * @property disabledBorderColor Outline when enabled is false.
+ * @property pressedOverlayColor Composited over the enabled fill while pressed.
+ * @property focusRingColor Keyboard focus outline; transparent opts out of the built-in ring.
  */
 @Immutable
 data class FrogButtonColors(

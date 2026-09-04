@@ -1,0 +1,28 @@
+public final class io/github/codewitheswar/frogui/theme/FrogTheme {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/codewitheswar/frogui/theme/FrogTheme;
+	public final fun getAdaptive (Landroidx/compose/runtime/Composer;I)Lio/github/codewitheswar/frogui/foundation/adaptive/FrogAdaptive;
+	public final fun getColors (Landroidx/compose/runtime/Composer;I)Lio/github/codewitheswar/frogui/foundation/color/FrogColors;
+	public final fun getElevation (Landroidx/compose/runtime/Composer;I)Lio/github/codewitheswar/frogui/foundation/elevation/FrogElevation;
+	public final fun getMotion (Landroidx/compose/runtime/Composer;I)Lio/github/codewitheswar/frogui/foundation/motion/FrogMotion;
+	public final fun getReduceMotion (Landroidx/compose/runtime/Composer;I)Z
+	public final fun getShapes (Landroidx/compose/runtime/Composer;I)Lio/github/codewitheswar/frogui/foundation/shape/FrogShapes;
+	public final fun getSizing (Landroidx/compose/runtime/Composer;I)Lio/github/codewitheswar/frogui/foundation/sizing/FrogSizing;
+	public final fun getSpacing (Landroidx/compose/runtime/Composer;I)Lio/github/codewitheswar/frogui/foundation/spacing/FrogSpacing;
+	public final fun getTypography (Landroidx/compose/runtime/Composer;I)Lio/github/codewitheswar/frogui/foundation/typography/FrogTypography;
+}
+
+public final class io/github/codewitheswar/frogui/theme/FrogThemeDefaults {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/codewitheswar/frogui/theme/FrogThemeDefaults;
+	public final fun darkColors ()Lio/github/codewitheswar/frogui/foundation/color/FrogColors;
+	public final fun lightColors ()Lio/github/codewitheswar/frogui/foundation/color/FrogColors;
+}
+
+public final class io/github/codewitheswar/frogui/theme/FrogThemeEnvironmentKt {
+	public static final fun ProvideFrogThemeEnvironment (Lio/github/codewitheswar/frogui/foundation/sizing/FrogSizing;Lio/github/codewitheswar/frogui/foundation/adaptive/FrogAdaptive;ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/codewitheswar/frogui/theme/FrogThemeKt {
+	public static final fun FrogTheme (ZLio/github/codewitheswar/frogui/foundation/color/FrogColors;Lio/github/codewitheswar/frogui/foundation/typography/FrogTypography;Lio/github/codewitheswar/frogui/foundation/shape/FrogShapes;Lio/github/codewitheswar/frogui/foundation/spacing/FrogSpacing;Lio/github/codewitheswar/frogui/foundation/elevation/FrogElevation;Lio/github/codewitheswar/frogui/foundation/motion/FrogMotion;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+}

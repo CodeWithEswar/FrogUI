@@ -10,8 +10,14 @@ kotlin = "2.2.10"
 composeBom = "2026.02.01"
 highlights = "1.1.0"
 commonmark = "0.29.0"
+binaryCompatibility = "0.18.1"
+asm = "9.6"
 
 [libraries]
+binary-compatibility-validator = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "binaryCompatibility" }
+kotlin-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin" }
+asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
+asm-tree = { module = "org.ow2.asm:asm-tree", version.ref = "asm" }
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-compose-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }

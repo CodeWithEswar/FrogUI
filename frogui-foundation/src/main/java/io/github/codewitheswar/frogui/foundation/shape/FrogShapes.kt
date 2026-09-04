@@ -10,6 +10,14 @@ import androidx.compose.ui.unit.dp
 /**
  * Semantic corner radius shape tokens for FrogUI.
  * Avoids indiscriminate over-rounding; provides precise structural radii.
+ * Values are Compose primitives, so consumers can copy a theme with custom corner treatments.
+ *
+ * @property xs Smallest treatment for inline details.
+ * @property sm Compact control corners.
+ * @property md Standard control and surface corners.
+ * @property lg Larger contextual surface corners.
+ * @property xl Most rounded large-surface treatment.
+ * @property full Circular/pill-style treatment when that shape has semantic value.
  */
 @Immutable
 data class FrogShapes(

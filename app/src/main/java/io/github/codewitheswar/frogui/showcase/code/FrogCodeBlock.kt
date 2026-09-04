@@ -61,7 +61,7 @@ internal fun FrogCodeBlock(code: String, modifier: Modifier = Modifier, language
         FrogCodeToolbar(code, filename ?: language.label, expandable, expanded, { expanded = !expanded })
         HorizontalDivider(color = colors.border)
         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(if (presentation == CodePresentation.Compact) 10.dp else 14.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            val textStyle = FrogTheme.typography.code.copy(lineHeight = 21.sp)
+            val textStyle = FrogTheme.typography.code
             if (lineNumbers && presentation != CodePresentation.Compact) DisableSelection {
                 Text((1..visibleCode.split('\n').size).joinToString("\n"), color = colors.comment, style = textStyle, softWrap = false,
                     modifier = Modifier.clearAndSetSemantics {})
@@ -79,7 +79,7 @@ internal fun FrogCodeToolbar(code: String, title: String, expandable: Boolean, e
     var copyCount by remember(code) { mutableIntStateOf(0) }
     var copied by remember(code) { mutableStateOf(false) }
     LaunchedEffect(copyCount) { if (copyCount > 0) { copied = true; delay(1800); copied = false } }
-    Row(modifier.fillMaxWidth().heightIn(min = 48.dp).padding(start = 14.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier.fillMaxWidth().heightIn(min = FrogTheme.sizing.minimumTouchTarget).padding(start = 14.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(title, Modifier.weight(1f), style = FrogTheme.typography.bodySmall, color = FrogTheme.colors.mutedForeground, maxLines = 1, overflow = TextOverflow.Ellipsis)
         if (copied) Text("Copied", Modifier.semantics { liveRegion = LiveRegionMode.Polite }, style = FrogTheme.typography.bodySmall, color = FrogTheme.colors.foreground)
         if (expandable) ShowcaseIconButton(if (expanded) FrogIcons.Collapse else FrogIcons.Expand, if (expanded) "Collapse code" else "Expand code", onExpand)

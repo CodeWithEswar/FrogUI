@@ -3,6 +3,7 @@ package io.github.codewitheswar.frogui.showcase.components.button
 import androidx.compose.ui.graphics.Color
 import io.github.codewitheswar.frogui.components.button.*
 import io.github.codewitheswar.frogui.showcase.colorpicker.*
+import io.github.codewitheswar.frogui.showcase.detail.*
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -51,10 +52,13 @@ class ButtonColorStateTest {
         assertTrue(half > 3.9 && half < 4.1)
     }
     @Test fun drawerBackReturnsToParentWithoutStackingWindows() {
-        val root = ButtonDrawerState().open(ButtonDrawerPage.Properties)
-        val color = root.push(ButtonDrawerPage.Color(ButtonColorProperty.Container))
-        assertEquals(root, color.back())
-        assertEquals(2, color.pages.size)
-        assertNull(root.back().current)
+        val state = ComponentDetailState(true)
+        state.open(ComponentDrawerPage.Inspector)
+        state.push(ComponentDrawerPage.Custom("color:Container"))
+        assertEquals(2, state.pages.size)
+        state.back()
+        assertEquals(ComponentDrawerPage.Inspector, state.currentPage)
+        state.back()
+        assertNull(state.currentPage)
     }
 }

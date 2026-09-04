@@ -32,10 +32,11 @@ import io.github.codewitheswar.frogui.showcase.branding.FrogUiLogo
 import io.github.codewitheswar.frogui.showcase.icons.FrogIcons
 import io.github.codewitheswar.frogui.showcase.style.*
 import io.github.codewitheswar.frogui.theme.FrogTheme
-import kotlin.math.roundToInt
+import io.github.codewitheswar.frogui.foundation.adaptive.FrogAdaptive
+import io.github.codewitheswar.frogui.foundation.adaptive.FrogWindowSizeClass
 
-internal enum class ShowcaseWindow { Compact, Medium, Expanded }
-internal fun showcaseWindow(width: Dp) = when { width.value.roundToInt() < 600 -> ShowcaseWindow.Compact; width.value.roundToInt() < 840 -> ShowcaseWindow.Medium; else -> ShowcaseWindow.Expanded }
+internal typealias ShowcaseWindow = FrogWindowSizeClass
+internal fun showcaseWindow(width: Dp, adaptive: FrogAdaptive = FrogAdaptive()) = adaptive.windowSizeClass(width)
 internal data class ShowcaseDestination(val route: String, val label: String, val icon: ImageVector)
 internal val showcaseDestinations get() = listOf(
     ShowcaseDestination("home", "Home", FrogIcons.Home),
@@ -56,7 +57,7 @@ internal fun AnimatedNavIcon(icon: ImageVector, selected: Boolean, modifier: Mod
         imageVector = icon,
         contentDescription = null,
         modifier = modifier
-            .size(22.dp)
+            .size(FrogTheme.sizing.iconLarge)
             .graphicsLayer {
                 scaleX = if (motion) 1f + 0.06f * progress else 1f
                 scaleY = scaleX

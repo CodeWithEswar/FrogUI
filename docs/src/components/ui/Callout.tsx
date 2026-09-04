@@ -15,11 +15,11 @@ export const Callout: React.FC<CalloutProps> = ({
 }) => {
   const styles = {
     note: {
-      border: 'border-zinc-300 dark:border-zinc-700',
+      border: 'border-[var(--frog-border-strong)]',
       bg: 'bg-zinc-100/60 dark:bg-zinc-900/60',
-      titleColor: 'text-zinc-900 dark:text-zinc-100',
+      titleColor: 'text-[var(--frog-foreground)]',
       icon: (
-        <svg className="w-4 h-4 text-zinc-600 dark:text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg className="w-4 h-4 text-[var(--frog-muted-foreground)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <circle cx="12" cy="12" r="10" />
           <line x1="12" y1="16" x2="12" y2="12" />
           <line x1="12" y1="8" x2="12.01" y2="8" />
@@ -39,9 +39,9 @@ export const Callout: React.FC<CalloutProps> = ({
     important: {
       border: 'border-zinc-400 dark:border-zinc-600',
       bg: 'bg-zinc-100 dark:bg-zinc-900/90',
-      titleColor: 'text-zinc-900 dark:text-zinc-100',
+      titleColor: 'text-[var(--frog-foreground)]',
       icon: (
-        <svg className="w-4 h-4 text-zinc-900 dark:text-zinc-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg className="w-4 h-4 text-[var(--frog-foreground)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <circle cx="12" cy="12" r="10" />
           <line x1="12" y1="8" x2="12" y2="12" />
           <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -70,7 +70,7 @@ export const Callout: React.FC<CalloutProps> = ({
         {styles.icon}
         <span>{displayTitle}</span>
       </div>
-      <div className="text-zinc-700 dark:text-zinc-300 pl-6">
+      <div className="text-[var(--frog-foreground)] pl-6">
         {children}
       </div>
     </div>
