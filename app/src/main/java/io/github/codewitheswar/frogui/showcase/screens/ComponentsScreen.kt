@@ -18,6 +18,10 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import io.github.codewitheswar.frogui.components.button.FrogIconButton
+import io.github.codewitheswar.frogui.components.button.FrogIconButtonDefaults
+import io.github.codewitheswar.frogui.components.button.FrogIconButtonSize
+import io.github.codewitheswar.frogui.components.button.FrogIconButtonVariant
 import io.github.codewitheswar.frogui.registry.*
 import io.github.codewitheswar.frogui.showcase.icons.FrogIcons
 import io.github.codewitheswar.frogui.showcase.style.*
@@ -31,11 +35,30 @@ fun ComponentsScreen(onSelectComponent: (String) -> Unit, modifier: Modifier = M
     val colors = FrogTheme.colors
     LazyColumn(modifier.fillMaxSize(), contentPadding = PaddingValues(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         item {
-            OutlinedTextField(query, { query = it }, Modifier.fillMaxWidth(), label = { Text("Search components") }, singleLine = true,
-                textStyle = FrogTheme.typography.body, shape = FrogTheme.shapes.sm,
-                leadingIcon = { Icon(FrogIcons.Search, null, Modifier.size(20.dp)) },
-                trailingIcon = if (query.isNotEmpty()) ({ ShowcaseIconButton(FrogIcons.Close, "Clear search", { query = "" }) }) else null,
-                colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = colors.focusRing, unfocusedBorderColor = colors.border, focusedContainerColor = colors.surface, unfocusedContainerColor = colors.surface))
+            io.github.codewitheswar.frogui.components.textfield.FrogTextField(
+                value = query,
+                onValueChange = { query = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = "Search components",
+                singleLine = true,
+                variant = io.github.codewitheswar.frogui.components.textfield.FrogTextFieldVariant.Outline,
+                leading = { Icon(FrogIcons.Search, null, Modifier.size(20.dp)) },
+                trailing = if (query.isNotEmpty()) ({
+                    FrogIconButton(
+                        icon = {
+                            Icon(
+                                imageVector = FrogIcons.Close,
+                                contentDescription = null,
+                                modifier = Modifier.size(FrogIconButtonDefaults.iconSize(FrogIconButtonSize.Small))
+                            )
+                        },
+                        contentDescription = "Clear search",
+                        onClick = { query = "" },
+                        variant = FrogIconButtonVariant.Ghost,
+                        size = FrogIconButtonSize.Small
+                    )
+                }) else null,
+            )
         }
         item { FlowRow(Modifier.fillMaxWidth().selectableGroup()) {
             ShowcaseChoice("All", category == null, { category = null })

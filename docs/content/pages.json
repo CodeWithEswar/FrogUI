@@ -1,0 +1,2730 @@
+[
+  {
+    "path": "/docs/introduction",
+    "eyebrow": "Getting Started",
+    "title": "Introduction",
+    "description": "FrogUI is an open-source component system for building consistent, customizable, and accessible Android interfaces with Kotlin and Jetpack Compose.",
+    "intro": "Understand the core engineering goals behind FrogUI, what it packages for Compose applications, what it intentionally avoids doing, and how to think about ownership when building with it.",
+    "sections": [
+      {
+        "id": "why-frogui",
+        "title": "Why FrogUI exists",
+        "paragraphs": [
+          "Jetpack Compose gives Android developers powerful primitives for building interfaces, but real-world production applications still need to make hundreds of repeated decisions: consistent spacing rhythms, accessible 48dp touch targets, semantic color tokens, elevation surfaces, interaction feedback, and robust state-hoisting patterns.",
+          "FrogUI packages those recurring decisions into a coherent component and foundation system without replacing the standard Compose programming model."
+        ]
+      },
+      {
+        "id": "what-is-frogui",
+        "title": "What FrogUI is",
+        "paragraphs": [
+          "FrogUI is a production-oriented Android UI library and design foundation designed around modern Kotlin and Compose best practices:"
+        ],
+        "bullets": [
+          "A native Kotlin and Jetpack Compose UI library providing verified primitives.",
+          "A semantic design-token foundation (FrogTheme) covering colors, typography, spacing, shapes, elevation, motion, sizing, and adaptive rules.",
+          "An accessible component system with built-in TalkBack semantics, visible focus rings, and touch-target enforcement.",
+          "A native Android Showcase application for interactive on-device component inspection.",
+          "A build-time registry model that guarantees documentation, preview, and API parity across platforms."
+        ]
+      },
+      {
+        "id": "what-frogui-is-not",
+        "title": "What FrogUI is not",
+        "paragraphs": [
+          "To keep architecture clear and boundaries disciplined, FrogUI intentionally avoids doing too much. FrogUI is NOT:"
+        ],
+        "bullets": [
+          "A replacement for Jetpack Compose. FrogUI builds on top of Compose primitives.",
+          "A WebView wrapper or JavaScript-driven runtime for Android.",
+          "An application architecture, dependency-injection, or networking framework.",
+          "A navigation library or routing framework. Your application controls navigation.",
+          "A server-driven JSON UI rendering engine."
+        ]
+      },
+      {
+        "id": "built-for-compose",
+        "title": "Built for Compose",
+        "paragraphs": [
+          "FrogUI components are ordinary Compose composables. They accept standard Modifier parameters, use explicit callbacks, favor caller-owned state, and expose composable slots where extension is useful."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Composable integration",
+          "value": "FrogTheme {\n    FrogButton(\n        onClick = ::onContinue,\n        variant = FrogButtonVariant.Primary,\n        modifier = Modifier.fillMaxWidth()\n    ) {\n        Text(\"Continue\")\n    }\n}"
+        }
+      },
+      {
+        "id": "ownership",
+        "title": "Own the interface you ship",
+        "paragraphs": [
+          "FrogUI accelerates interface delivery without forcing the rest of an application to adopt FrogUI-specific architecture. You can adopt FrogUI in a single screen, mix it with standard Compose controls, provide custom content through composable slots, and customize theme tokens without forking."
+        ],
+        "visual": "intro-principles"
+      },
+      {
+        "id": "api-philosophy",
+        "title": "API design philosophy",
+        "paragraphs": [
+          "Every FrogUI component signature is designed around six foundational principles:"
+        ],
+        "bullets": [
+          "State hoisting: Applications own business state and loading flags; components expose explicit callbacks.",
+          "Semantic variants: Variant names communicate intent (Primary, Destructive, Outline) rather than raw visual styling.",
+          "Composable slots: Slots accept RowScope and ColumnScope composables, avoiding rigid icon or image library dependencies.",
+          "Modifier escape hatch: Every component accepts a Modifier early in its parameter list for custom layout and semantics.",
+          "Immutable defaults: Configuration resolves from the nearest FrogTheme and remains caller-owned.",
+          "Accessibility as a contract: Roles, touch targets, state descriptions, and focus rings are mandatory delivery gates."
+        ]
+      },
+      {
+        "id": "design-foundations",
+        "title": "Design foundations",
+        "paragraphs": [
+          "Components derive their visual and behavioral language from nine shared foundation domains. Foundation tokens define semantic decisions, while component Defaults translate those tokens into component-specific behavior."
+        ],
+        "visual": "foundation-index"
+      },
+      {
+        "id": "module-map",
+        "title": "Repository structure",
+        "paragraphs": [
+          "The FrogUI repository enforces strict acyclic dependency boundaries between foundation tokens, theme locals, reusable components, and the showcase application:"
+        ],
+        "visual": "module-map"
+      },
+      {
+        "id": "component-lifecycle",
+        "title": "Component delivery lifecycle",
+        "paragraphs": [
+          "In FrogUI, a component is not complete merely because it compiles or renders visually. Every component follows a rigorous 10-gate delivery pipeline: Specification → API Review → Implementation → Accessibility → Previews → Tests → Registry Record → Showcase → Documentation → Stability Gate."
+        ]
+      },
+      {
+        "id": "stability",
+        "title": "Component stability model",
+        "paragraphs": [
+          "The registry categorizes each component under an explicit lifecycle status:"
+        ],
+        "bullets": [
+          "Experimental: Usable and tested, but public API signatures may evolve based on feedback.",
+          "Beta: Public API and behavior are settling; delivery gates are near completion.",
+          "Stable: Fully validated with complete API compatibility, TalkBack evidence, unit/instrumentation tests, and reviewed delivery records.",
+          "Deprecated: Retained for migration with documented replacements."
+        ],
+        "callout": {
+          "type": "note",
+          "title": "Development snapshot notice",
+          "value": "FrogUI is currently in active development under the 0.1.0-SNAPSHOT version. Available components (FrogButton, FrogDrawer) are marked Experimental until their final stability review."
+        }
+      },
+      {
+        "id": "showcase-vs-docs",
+        "title": "Native Showcase versus Web Documentation",
+        "paragraphs": [
+          "FrogUI provides two complementary surfaces for developers:",
+          "• Native Android Showcase: The authoritative on-device environment running real Compose code, supporting interactive state testing, theme matrix toggles, and TalkBack verification.",
+          "• Web Documentation: The conceptual and discovery guide, providing API tables, architectural guidance, Shiki-highlighted code snippets, and representative interactive previews."
+        ]
+      },
+      {
+        "id": "who-it-is-for",
+        "title": "Who FrogUI is for (and when not to use it)",
+        "paragraphs": [
+          "FrogUI is ideal for Android teams building production applications with Jetpack Compose who want polished, accessible UI primitives without building a design system from scratch.",
+          "When not to use FrogUI: If your application is entirely legacy Android View/XML and cannot introduce Compose, or if you require cross-platform web/iOS code sharing from the same UI layer, FrogUI is not the right fit."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/docs/installation",
+    "eyebrow": "Getting Started",
+    "title": "Installation",
+    "description": "Add FrogUI to an Android project and verify that the component system is configured correctly.",
+    "intro": "Follow verified requirements, add the necessary library modules, and confirm your theme configuration. FrogUI is currently under active development as version 0.1.0-SNAPSHOT.",
+    "sections": [
+      {
+        "id": "requirements",
+        "title": "Project requirements",
+        "paragraphs": [
+          "Before integrating FrogUI, ensure your Android project meets the verified toolchain and SDK baseline:"
+        ],
+        "visual": "installation-requirements"
+      },
+      {
+        "id": "distribution-status",
+        "title": "Distribution status",
+        "paragraphs": [
+          "FrogUI is currently under active development as a 0.1.0-SNAPSHOT release and has not yet been published to Maven Central.",
+          "During this phase, developers and contributors consume FrogUI directly from the repository via local module inclusion or Gradle composite builds (includeBuild)."
+        ],
+        "callout": {
+          "type": "important",
+          "title": "Maven Central availability",
+          "value": "Maven Central distribution is planned for the first milestone release. Until published, do not expect remote Gradle resolution from Maven Central."
+        }
+      },
+      {
+        "id": "dependency-setup",
+        "title": "Adding dependencies",
+        "paragraphs": [
+          "Applications typically need frogui-theme (for theme runtime and CompositionLocals) and frogui-components (for UI primitives like FrogButton). The foundation module is included transitively."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "app/build.gradle.kts",
+          "value": "dependencies {\n    // Core theme runtime and CompositionLocals\n    implementation(\"io.github.codewitheswar.frogui:frogui-theme:0.1.0-SNAPSHOT\")\n\n    // Component library (FrogButton, FrogDrawer)\n    implementation(\"io.github.codewitheswar.frogui:frogui-components:0.1.0-SNAPSHOT\")\n\n    // Optional: direct foundation token imports (colors, spacing, typography)\n    // implementation(\"io.github.codewitheswar.frogui:frogui-foundation:0.1.0-SNAPSHOT\")\n}"
+        }
+      },
+      {
+        "id": "version-catalog",
+        "title": "Version catalog setup (recommended)",
+        "paragraphs": [
+          "If your project uses a Gradle version catalog (libs.versions.toml), declare the dependencies as follows:"
+        ],
+        "code": {
+          "language": "toml",
+          "title": "gradle/libs.versions.toml",
+          "value": "[versions]\nfrogui = \"0.1.0-SNAPSHOT\"\n\n[libraries]\nfrogui-theme = { module = \"io.github.codewitheswar.frogui:frogui-theme\", version.ref = \"frogui\" }\nfrogui-components = { module = \"io.github.codewitheswar.frogui:frogui-components\", version.ref = \"frogui\" }"
+        }
+      },
+      {
+        "id": "local-development",
+        "title": "Working from source & composite builds",
+        "paragraphs": [
+          "To test or develop with FrogUI directly from the source repository, include the project in your settings.gradle.kts using Gradle dependency substitution:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "settings.gradle.kts",
+          "value": "includeBuild(\"../FrogUI\") {\n    dependencySubstitution {\n        substitute(module(\"io.github.codewitheswar.frogui:frogui-theme\")).using(project(\":frogui-theme\"))\n        substitute(module(\"io.github.codewitheswar.frogui:frogui-components\")).using(project(\":frogui-components\"))\n        substitute(module(\"io.github.codewitheswar.frogui:frogui-foundation\")).using(project(\":frogui-foundation\"))\n    }\n}"
+        }
+      },
+      {
+        "id": "first-import",
+        "title": "First import",
+        "paragraphs": [
+          "Once dependencies are synced, import the core theme and component symbols in your Compose UI:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "MainActivity.kt",
+          "value": "import io.github.codewitheswar.frogui.theme.FrogTheme\nimport io.github.codewitheswar.frogui.components.button.FrogButton\nimport io.github.codewitheswar.frogui.components.button.FrogButtonVariant"
+        }
+      },
+      {
+        "id": "verify-installation",
+        "title": "Verify installation",
+        "paragraphs": [
+          "Render a minimal test composable to verify that FrogTheme and component rendering compile and render without issue:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "FrogUiInstallationCheck.kt",
+          "value": "@Composable\nfun FrogUiInstallationCheck() {\n    FrogTheme {\n        FrogButton(\n            onClick = { /* Verified */ },\n            variant = FrogButtonVariant.Primary\n        ) {\n            Text(\"FrogUI is ready\")\n        }\n    }\n}"
+        }
+      },
+      {
+        "id": "theme-setup",
+        "title": "Theme setup",
+        "paragraphs": [
+          "FrogTheme sets up LocalFrogColors, LocalFrogTypography, LocalFrogShapes, LocalFrogSpacing, LocalFrogElevation, and LocalFrogMotion. It also bridges with Android MaterialTheme internally so underlying Android platform accessibility and selection behaviors function smoothly."
+        ]
+      },
+      {
+        "id": "existing-projects",
+        "title": "Integrating into existing projects",
+        "paragraphs": [
+          "FrogUI is designed for incremental adoption. You do not need to rewrite your application or replace MaterialTheme globally:",
+          "• Wrap individual screens or feature subtrees in FrogTheme.",
+          "• FrogUI components coexist seamlessly alongside standard Compose or Material3 components.",
+          "• Application state, ViewModels, and navigation remain completely caller-owned."
+        ]
+      },
+      {
+        "id": "troubleshooting",
+        "title": "Troubleshooting & common problems",
+        "paragraphs": [
+          "Common integration issues and their verified solutions:"
+        ],
+        "bullets": [
+          "Minimum SDK error: Ensure your app module defaultConfig sets minSdk = 24 or higher.",
+          "Unresolved FrogTheme tokens: Confirm your composable is wrapped in FrogTheme; components read tokens from CompositionLocals.",
+          "Compose compiler plugin: Verify org.jetbrains.kotlin.plugin.compose is applied in your build.gradle.kts for Kotlin 2.0+ compatibility.",
+          "Dependency resolution failure: Remember that 0.1.0-SNAPSHOT is unpublished on Maven Central; use local module substitution until published."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/docs/quick-start",
+    "eyebrow": "Getting Started",
+    "title": "Quick Start",
+    "description": "Build an interactive Compose interface with FrogUI and learn the core conventions used throughout the component system.",
+    "intro": "In this guide you will build a complete sign-in and action surface using FrogTheme, FrogButton, caller-owned Compose state, layout modifiers, and semantic variants.",
+    "sections": [
+      {
+        "id": "outcome",
+        "title": "What we are building",
+        "paragraphs": [
+          "You will construct a realistic action card for an Android application. Along the way, you will learn the eight core patterns shared by all FrogUI components: theme scoping, explicit callbacks, modifiers, semantic variants, state hoisting, composable slots, theme customization, and local component overrides."
+        ]
+      },
+      {
+        "id": "apply-theme",
+        "title": "1. Apply FrogTheme",
+        "paragraphs": [
+          "Wrap your screen or application content in FrogTheme. This initializes all design-system CompositionLocals and bridges them to the platform."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "MainActivity.kt",
+          "value": "@Composable\nfun App() {\n    FrogTheme {\n        AccountActionScreen()\n    }\n}"
+        }
+      },
+      {
+        "id": "add-component",
+        "title": "2. Add your first FrogButton",
+        "paragraphs": [
+          "FrogButton requires only an onClick callback and trailing composable content for its label row. Visual styling defaults are automatically resolved from FrogTheme."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "SimpleButton.kt",
+          "value": "FrogButton(\n    onClick = { println(\"Action triggered\") }\n) {\n    Text(\"Continue\")\n}"
+        }
+      },
+      {
+        "id": "use-modifier",
+        "title": "3. Control layout with Modifier",
+        "paragraphs": [
+          "FrogUI components preserve the Compose programming model by accepting Modifier as an early parameter for layout, spacing, and outer semantics."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "LayoutModifier.kt",
+          "value": "FrogButton(\n    onClick = ::onContinue,\n    modifier = Modifier\n        .fillMaxWidth()\n        .padding(horizontal = FrogTheme.spacing.lg)\n) {\n    Text(\"Continue\")\n}"
+        }
+      },
+      {
+        "id": "semantic-variants",
+        "title": "4. Select a semantic variant",
+        "paragraphs": [
+          "FrogUI uses intent-driven variants rather than arbitrary color flags: Primary, Secondary, Outline, Ghost, and Destructive. This ensures high visual contrast and accessibility across both light and dark themes."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "SemanticVariants.kt",
+          "value": "FrogButton(\n    onClick = ::onDeleteAccount,\n    variant = FrogButtonVariant.Destructive\n) {\n    Text(\"Delete account\")\n}"
+        }
+      },
+      {
+        "id": "hoist-state",
+        "title": "5. Hoist interactive state",
+        "paragraphs": [
+          "FrogUI components never store business or loading state internally. Pass a loading boolean from your ViewModel or local remember state. When loading is true, FrogButton displays a centered spinner and suppresses click events automatically."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "LoadingState.kt",
+          "value": "var isLoading by remember { mutableStateOf(false) }\n\nFrogButton(\n    onClick = { isLoading = true },\n    loading = isLoading,\n    variant = FrogButtonVariant.Primary\n) {\n    Text(\"Save changes\")\n}"
+        }
+      },
+      {
+        "id": "use-slots",
+        "title": "6. Use composable slots",
+        "paragraphs": [
+          "Slots accept arbitrary composable content without forcing third-party icon libraries into the public component signature. Use leadingIcon or trailingIcon for decorative glyphs."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "ButtonSlots.kt",
+          "value": "FrogButton(\n    onClick = ::onSync,\n    leadingIcon = {\n        Icon(\n            imageVector = Icons.Default.Refresh,\n            contentDescription = null // Decorative; button owns the label\n        )\n    }\n) {\n    Text(\"Synchronize\")\n}"
+        }
+      },
+      {
+        "id": "customize-theme",
+        "title": "7. Customize the theme",
+        "paragraphs": [
+          "To adjust visual decisions system-wide, provide custom token instances to FrogTheme. Nested composables will automatically consume the customized tokens."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "CustomTheme.kt",
+          "value": "val customColors = FrogThemeDefaults.darkColors().copy(\n    primary = Color(0xFFE4E4E7),\n    primaryForeground = Color(0xFF09090B)\n)\n\nFrogTheme(colors = customColors) {\n    AppContent()\n}"
+        }
+      },
+      {
+        "id": "local-overrides",
+        "title": "8. Component-level overrides",
+        "paragraphs": [
+          "When a single control requires unique geometry or colors, use FrogButtonDefaults escape hatches rather than altering the global theme."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "LocalOverride.kt",
+          "value": "FrogButton(\n    onClick = ::onSpecialAction,\n    shape = FrogTheme.shapes.full,\n    size = FrogButtonSize.Large\n) {\n    Text(\"Start Free Trial\")\n}"
+        }
+      },
+      {
+        "id": "complete-example",
+        "title": "Complete working example",
+        "paragraphs": [
+          "Here is a complete, realistic sign-in action surface combining FrogTheme, spacing, typography, and state-hoisted FrogButtons:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "AccountActionScreen.kt",
+          "value": "@Composable\nfun AccountActionScreen(\n    onContinue: () -> Unit,\n    onCancel: () -> Unit\n) {\n    var isSubmitting by remember { mutableStateOf(false) }\n\n    FrogTheme {\n        Surface(\n            modifier = Modifier.fillMaxSize(),\n            color = FrogTheme.colors.background\n        ) {\n            Column(\n                modifier = Modifier\n                    .fillMaxSize()\n                    .padding(FrogTheme.spacing.xl),\n                verticalArrangement = Arrangement.spacedBy(FrogTheme.spacing.lg)\n            ) {\n                Text(\n                    text = \"Confirm Operation\",\n                    style = FrogTheme.typography.title,\n                    color = FrogTheme.colors.foreground\n                )\n                Text(\n                    text = \"Your action will immediately take effect across all synced workspaces.\",\n                    style = FrogTheme.typography.body,\n                    color = FrogTheme.colors.mutedForeground\n                )\n                Spacer(modifier = Modifier.weight(1f))\n                FrogButton(\n                    onClick = {\n                        isSubmitting = true\n                        onContinue()\n                    },\n                    loading = isSubmitting,\n                    variant = FrogButtonVariant.Primary,\n                    fullWidth = true\n                ) {\n                    Text(\"Confirm & Proceed\")\n                }\n                FrogButton(\n                    onClick = onCancel,\n                    variant = FrogButtonVariant.Ghost,\n                    fullWidth = true,\n                    enabled = !isSubmitting\n                ) {\n                    Text(\"Cancel\")\n                }\n            }\n        }\n    }\n}"
+        }
+      },
+      {
+        "id": "next-steps",
+        "title": "Where to go next",
+        "paragraphs": [
+          "Now that you understand the core FrogUI conventions, dive deeper into the system:"
+        ],
+        "bullets": [
+          "Component Catalog: Explore FrogButton, FrogDrawer, and upcoming UI primitives.",
+          "Foundation: Understand semantic colors, typography hierarchy, 12-step spacing, shapes, and elevation.",
+          "API Design Principles: Read the formal guidelines on state hoisting, parameter order, and binary compatibility.",
+          "Architecture: Discover how registry metadata, compiler checks, and Showcase previews are synchronized."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/components",
+    "eyebrow": "Components",
+    "title": "Component catalog",
+    "description": "Canonical Compose components organized by semantic responsibility.",
+    "intro": "Each component page combines registry-backed API metadata, compiled examples, accessibility guidance, and a representative web preview. Android Compose remains the runtime source of truth.",
+    "sections": [
+      {
+        "id": "browse",
+        "title": "Browse the catalog",
+        "paragraphs": [
+          "Component categories and availability come from the canonical registry."
+        ],
+        "visual": "component-index"
+      },
+      {
+        "id": "quality",
+        "title": "Delivery quality",
+        "paragraphs": [
+          "Every catalog entry must provide implementation, preview, test, Showcase, documentation, and compatibility evidence before promotion."
+        ],
+        "bullets": [
+          "Experimental APIs are usable but may evolve.",
+          "Beta requires settled behavior and no missing delivery gate.",
+          "Stable requires complete evidence and a reviewed stability record."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/foundations",
+    "eyebrow": "Foundation",
+    "title": "Foundation Overview",
+    "description": "The visual, behavioral, and adaptive design token language consumed by every FrogUI component.",
+    "intro": "Foundation tokens express shared architectural decisions across nine disciplines: colors, typography, spacing, shapes, elevation, motion, sizing, adaptive policies, and accessibility. Component Defaults translate these foundational tokens into component-specific behavior without turning every ad-hoc measurement into a global token.",
+    "sections": [
+      {
+        "id": "explore",
+        "title": "Explore the nine foundation pillars",
+        "paragraphs": [
+          "Every FrogUI component derives its appearance, spacing, geometry, and motion from nine shared foundation domains. Explore each domain for detailed token reference, Android Compose mappings, interactive visuals, and customization rules:"
+        ],
+        "visual": "foundation-index"
+      },
+      {
+        "id": "flow",
+        "title": "Source-of-truth flow",
+        "paragraphs": [
+          "FrogUI enforces a strict, unidirectional token flow. Primitives never depend on application state, and higher-level components resolve styling from the nearest FrogTheme provider:",
+          "1. Foundation Tokens: Raw immutable data classes (FrogColors, FrogTypography, FrogSpacing, FrogShapes, FrogElevation, FrogMotion, FrogSizing, FrogAdaptive).",
+          "2. Theme Provider: FrogTheme exposes these tokens through CompositionLocals and bridges with Android platform accessibility.",
+          "3. Component Defaults: Factory objects (e.g. FrogButtonDefaults, FrogDrawerDefaults) translate tokens into variant colors, paddings, and shapes.",
+          "4. Application UI: Composable screens consume FrogUI primitives with caller-owned state and standard Modifier layout escape hatches."
+        ],
+        "code": {
+          "language": "text",
+          "title": "Token runtime dataflow",
+          "value": "FrogColors / FrogTypography / FrogSpacing (Tokens)\n                    ↓\n           FrogTheme Provider (CompositionLocals)\n                    ↓\n      Component Defaults (FrogButtonDefaults)\n                    ↓\n          FrogUI Components (FrogButton)\n                    ↓\n              Application UI"
+        }
+      },
+      {
+        "id": "ownership",
+        "title": "Token ownership and disciplined boundaries",
+        "paragraphs": [
+          "A healthy design system distinguishes between system-wide decisions and component-specific measurements:",
+          "• System-Wide Rhythm: Shared 12-step spacing, semantic color roles, and scalable typography belong in FrogTheme.",
+          "• Component Geometry: Internal button padding, drag-dismiss thresholds, and drawer drawer widths belong in their respective ComponentDefaults.",
+          "• Screen Composition: Page margins, multi-pane arrangements, and layout placement belong in application-level Modifiers.",
+          "This separation prevents token explosion and ensures that modifying a button's internal padding never accidentally breaks layout spacing across the rest of the application."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/foundations/colors",
+    "eyebrow": "Foundation",
+    "title": "Colors & Theme",
+    "description": "Semantic palettes for canvas, content, surfaces, actions, boundaries, and focus.",
+    "intro": "FrogColors names visual intent rather than raw palette shades. Light and dark defaults are canonical Kotlin implementations, and the documentation CSS is verified against them during build time to guarantee 100% token parity.",
+    "sections": [
+      {
+        "id": "overview",
+        "title": "Overview",
+        "paragraphs": [
+          "In modern multi-theme applications, referencing raw palette values like Zinc900 or Color.Black inside component code creates maintenance debt and breaks theme switching. FrogUI decouples visual styling through a two-tier color architecture:",
+          "1. Raw Palette (FrogPalette): Curated monochrome neutral zinc tones (Zinc50 through Zinc950) plus functional accent colors.",
+          "2. Semantic Tokens (FrogColors): Intent-based names (background, surface, primary, destructive, focusRing) that adapt automatically between light and dark modes."
+        ]
+      },
+      {
+        "id": "semantic-tokens",
+        "title": "Semantic color tokens reference",
+        "paragraphs": [
+          "FrogColors defines 16 semantic tokens. Components consume these tokens exclusively, guaranteeing that dark mode, high-contrast settings, and custom palettes propagate seamlessly:"
+        ],
+        "visual": "colors"
+      },
+      {
+        "id": "light-theme",
+        "title": "Canonical light theme",
+        "paragraphs": [
+          "The light foundation uses a pure white canvas (#FFFFFF), near-black foreground (#09090B), crisp off-white component surfaces (#FAFAFA), and subtle 1px divider borders (rgba(0,0,0,0.08)).",
+          "Primary actions use a high-contrast dark fill (#09090B) with white text (#FFFFFF), while secondary actions use subtle neutral gray fills (#F4F4F5) with dark text (#18181B)."
+        ]
+      },
+      {
+        "id": "dark-theme",
+        "title": "Canonical dark theme",
+        "paragraphs": [
+          "The dark foundation starts at Zinc950 (#09090B) and uses restrained tonal steps rather than heavy drop shadows to distinguish layers: surface is #0C0C0E, surfaceElevated is #111113, and subtleSurface is #18181B.",
+          "Boundaries are reinforced with luminous 1px borders (rgba(255,255,255,0.08)), while primary actions invert to high-contrast white (#FAFAFA) with deep dark text (#09090B)."
+        ]
+      },
+      {
+        "id": "surfaces-foreground",
+        "title": "Surface hierarchy and foreground roles",
+        "paragraphs": [
+          "Surfaces establish spatial depth and reading contrast across both themes:",
+          "• background: The bottom canvas behind all screens and viewports.",
+          "• surface: Default resting container for cards, list items, and standard panels.",
+          "• surfaceElevated: Raised contextual surfaces such as modal dialogs, drawers, and floating menus.",
+          "• subtleSurface: Low-emphasis grouping fills, search input backgrounds, and table header rows.",
+          "• foreground: Primary text and high-emphasis icons (WCAG AAA compliant).",
+          "• mutedForeground: Secondary text, descriptions, hints, and timestamps (WCAG AA compliant)."
+        ]
+      },
+      {
+        "id": "borders-focus",
+        "title": "Borders, outlines, and focus ring",
+        "paragraphs": [
+          "Structural boundaries provide clarity without visual clutter:",
+          "• border: Subtle 1px structural boundary (8% opacity) used for horizontal dividers and card outlines.",
+          "• borderStrong: Higher-emphasis boundary (14% opacity) used for outline button borders and active tab indicators.",
+          "• focusRing: Dedicated 2dp high-contrast focus indicator (#52525B in light, #A1A1AA in dark) for keyboard, D-pad, and TV remote navigation. The focus ring is intentionally decoupled from the primary color to ensure visibility across all component variants."
+        ]
+      },
+      {
+        "id": "destructive-disabled",
+        "title": "Destructive and disabled semantics",
+        "paragraphs": [
+          "Destructive actions use a verified high-contrast red (#DC2626) that achieves a 4.83:1 contrast ratio against white text (exceeding WCAG AA requirements).",
+          "Disabled states apply systematic opacity reductions (25% for containers, 45% for text) rather than arbitrary gray values. This retains the semantic hue of the control while clearly communicating non-interactive state."
+        ]
+      },
+      {
+        "id": "using-theme",
+        "title": "Using FrogTheme in Compose",
+        "paragraphs": [
+          "Wrap your root content or screen in FrogTheme. Read color tokens anywhere in the composition using FrogTheme.colors:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Theme color consumption",
+          "value": "@Composable\nfun UserProfileCard() {\n    Surface(\n        shape = FrogTheme.shapes.md,\n        color = FrogTheme.colors.surface,\n        border = BorderStroke(1.dp, FrogTheme.colors.border)\n    ) {\n        Column(modifier = Modifier.padding(FrogTheme.spacing.lg)) {\n            Text(\n                text = \"Account Profile\",\n                style = FrogTheme.typography.heading,\n                color = FrogTheme.colors.foreground\n            )\n            Text(\n                text = \"Manage your organization credentials\",\n                style = FrogTheme.typography.bodySmall,\n                color = FrogTheme.colors.mutedForeground\n            )\n        }\n    }\n}"
+        }
+      },
+      {
+        "id": "custom-colors",
+        "title": "Custom theme overrides and nested themes",
+        "paragraphs": [
+          "To customize colors system-wide, copy the canonical palette and pass it to FrogTheme. To theme a specific region (such as a dark sidebar in a light app), nest a secondary FrogTheme:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Custom palette override",
+          "value": "// 1. System-wide brand override\nval brandColors = FrogThemeDefaults.darkColors().copy(\n    primary = Color(0xFF10B981), // Emerald accent\n    primaryForeground = Color(0xFF09090B)\n)\n\n// 2. Nested theme for an isolated dark drawer\nFrogTheme(colors = FrogThemeDefaults.lightColors()) {\n    MainLightAppContent()\n\n    FrogTheme(colors = FrogThemeDefaults.darkColors()) {\n        DarkSidebarDrawerContent()\n    }\n}"
+        }
+      },
+      {
+        "id": "component-defaults",
+        "title": "Component-level color mapping",
+        "paragraphs": [
+          "Components do not hardcode colors; they delegate to component Defaults factories. For example, FrogButtonDefaults.colors() resolves container, content, border, and focus ring colors based on the requested FrogButtonVariant (Primary, Secondary, Outline, Ghost, Destructive).",
+          "When a single button requires a custom color, pass an explicit FrogButtonColors instance to the button rather than mutating global theme state."
+        ]
+      },
+      {
+        "id": "contrast",
+        "title": "Accessibility and contrast guidelines",
+        "paragraphs": [
+          "FrogUI's default colors meet WCAG 2.1 AA requirements across both light and dark themes:",
+          "• Body Text: foreground against background achieves > 15:1 contrast.",
+          "• Secondary Text: mutedForeground against surface achieves > 4.5:1 contrast.",
+          "• Destructive Action: destructiveForeground against destructive achieves 4.83:1 contrast.",
+          "• Focus Indication: focusRing achieves > 3:1 contrast against both canvas and surface fills."
+        ],
+        "callout": {
+          "type": "important",
+          "title": "Never use color alone",
+          "value": "Color alone must never be the sole indicator of status, errors, or selection. Always pair color shifts with text descriptions, icons, or accessibility semantics."
+        }
+      },
+      {
+        "id": "do-dont",
+        "title": "Do and Don't guidelines",
+        "paragraphs": [
+          "Best practices for working with FrogUI colors:"
+        ],
+        "bullets": [
+          "DO: Consume FrogTheme.colors semantic tokens everywhere in application UI.",
+          "DO: Provide custom palettes by copying FrogThemeDefaults.lightColors() or darkColors().",
+          "DO: Pair destructive and error colors with icons and explicit confirmation dialogs.",
+          "DON'T: Hardcode raw Color(0xFF...) or Color.Black / Color.White inside composables.",
+          "DON'T: Use different arbitrary gray hex codes across components.",
+          "DON'T: Rely on color alone to communicate interactive or error state."
+        ]
+      },
+      {
+        "id": "api",
+        "title": "API reference",
+        "paragraphs": [
+          "Core color symbols in frogui-foundation and frogui-theme:",
+          "• io.github.codewitheswar.frogui.foundation.color.FrogColors (Immutable semantic data class)",
+          "• io.github.codewitheswar.frogui.foundation.color.FrogPalette (Curated zinc and accent raw palette)",
+          "• io.github.codewitheswar.frogui.theme.FrogThemeDefaults.lightColors() (Canonical light palette)",
+          "• io.github.codewitheswar.frogui.theme.FrogThemeDefaults.darkColors() (Canonical dark palette)",
+          "• io.github.codewitheswar.frogui.theme.FrogTheme.colors (Read-only composable accessor)"
+        ]
+      },
+      {
+        "id": "related",
+        "title": "Related foundations",
+        "paragraphs": [
+          "Explore how colors integrate with adjacent foundation systems:"
+        ],
+        "bullets": [
+          "Typography: Understand how foreground and mutedForeground map to text hierarchy.",
+          "Elevation: See how surface and surfaceElevated tones create depth in dark mode.",
+          "Accessibility: Review focus ring requirements, contrast ratios, and non-color cues."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/foundations/typography",
+    "eyebrow": "Foundation",
+    "title": "Typography",
+    "description": "A compact type hierarchy for readable product UI, code surfaces, and developer tooling.",
+    "intro": "FrogTypography provides ten semantic text styles expressed in scalable font units (sp). Explicit line heights, restrained font weights, and an integrated monospaced code role ensure predictable readability across compact phones, tablets, and system font-scaling modes.",
+    "sections": [
+      {
+        "id": "overview",
+        "title": "Overview",
+        "paragraphs": [
+          "Typography in developer tools and production Android interfaces must balance visual hierarchy with information density. Unconstrained font sizes cause layout clipping and inconsistent vertical alignment.",
+          "FrogTypography packages ten purpose-driven text styles with mathematically proportional font sizes and line heights. Each role serves a specific structural purpose in the interface."
+        ]
+      },
+      {
+        "id": "hierarchy",
+        "title": "Typographic scale reference",
+        "paragraphs": [
+          "Choose the semantic role that matches your information hierarchy rather than applying arbitrary font sizes:"
+        ],
+        "visual": "typography"
+      },
+      {
+        "id": "display-titles",
+        "title": "Display and page titles",
+        "paragraphs": [
+          "High-emphasis titles for screens, hero banners, and primary sheet headers:",
+          "• display (32sp / 40sp, Bold, -0.5sp tracking): The most prominent statement on a page. Used for hero headings and welcome screens.",
+          "• titleLarge (24sp / 32sp, SemiBold, -0.3sp tracking): Primary modal headers, drawer sheet titles, and prominent section banners.",
+          "• title (20sp / 28sp, SemiBold, -0.2sp tracking): Standard screen titles and major card group headers."
+        ]
+      },
+      {
+        "id": "headings",
+        "title": "Headings and subheadings",
+        "paragraphs": [
+          "Mid-tier hierarchy for organizing readable content without competing with page titles:",
+          "• heading (18sp / 24sp, SemiBold): Section headers, form group titles, and modal sub-panels.",
+          "• subheading (16sp / 22sp, Medium): Nested sub-section titles, card headers, and list category dividers."
+        ]
+      },
+      {
+        "id": "body",
+        "title": "Body text",
+        "paragraphs": [
+          "Styles optimized for continuous reading comprehension and dense secondary descriptions:",
+          "• body (15sp / 22sp, Normal): Primary reading text, article paragraphs, and comprehensive descriptions.",
+          "• bodySmall (13sp / 18sp, Normal): Secondary supporting detail, helper text, form field hints, and table cell content."
+        ]
+      },
+      {
+        "id": "labels-caption-code",
+        "title": "Labels, captions, and monospaced code",
+        "paragraphs": [
+          "High-utility styles for compact controls, annotations, and technical identifiers:",
+          "• label (12sp / 16sp, Medium, 0.2sp tracking): Concise action buttons, status tags, badges, and segmented tab labels.",
+          "• caption (11sp / 14sp, Normal): Timestamps, copyright footers, and low-emphasis metadata annotations.",
+          "• code (13sp / 18sp, Monospace, Normal): Monospaced technical identifiers, API parameter names, and inline code snippets."
+        ]
+      },
+      {
+        "id": "font-scaling",
+        "title": "Accessibility and font scaling",
+        "paragraphs": [
+          "Android allows users to adjust system font scale from 1.0x up to 2.0x for accessibility. FrogUI components are engineered to scale gracefully under enlarged text settings:",
+          "• No Hardcoded Text Heights: Containers use wrapContentHeight() and vertical padding rather than fixed pixel heights.",
+          "• Multi-line Wrapping: Action labels and table rows wrap naturally without truncating critical words.",
+          "• Touch Target Independence: Enforcing a 48dp minimum touch target ensures controls remain easily clickable even when labels expand."
+        ],
+        "callout": {
+          "type": "tip",
+          "title": "Font scale testing",
+          "value": "Always verify screens at 1.3x and 1.5x font scale in Android Studio layout inspector or an emulator."
+        }
+      },
+      {
+        "id": "component-mapping",
+        "title": "Component typography mapping",
+        "paragraphs": [
+          "Canonical FrogUI components map their text directly to the typography system:",
+          "• FrogButton: Automatically applies FrogTheme.typography.label to button content slots.",
+          "• FrogDrawer: Uses titleLarge for sheet titles, subheading for subtitles, and bodySmall for status metadata.",
+          "• Code Blocks: Render using FrogTheme.typography.code with monospaced font family."
+        ]
+      },
+      {
+        "id": "usage",
+        "title": "Using FrogTypography in Compose",
+        "paragraphs": [
+          "Access text styles via FrogTheme.typography and apply them to standard Compose Text composables:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Typography Compose usage",
+          "value": "@Composable\nfun ArticleSummary() {\n    Column(verticalArrangement = Arrangement.spacedBy(FrogTheme.spacing.sm)) {\n        Text(\n            text = \"Delivery Pipelines\",\n            style = FrogTheme.typography.titleLarge,\n            color = FrogTheme.colors.foreground\n        )\n        Text(\n            text = \"Published in v0.1.0-SNAPSHOT\",\n            style = FrogTheme.typography.caption,\n            color = FrogTheme.colors.mutedForeground\n        )\n        Text(\n            text = \"Components pass 10 validation gates before being promoted to Stable.\",\n            style = FrogTheme.typography.body,\n            color = FrogTheme.colors.foreground\n        )\n    }\n}"
+        }
+      },
+      {
+        "id": "customization",
+        "title": "Custom font families and typography overrides",
+        "paragraphs": [
+          "To introduce custom brand fonts (e.g. Inter, Roboto, or Outfit), copy FrogTypography and supply custom FontFamily instances to FrogTheme:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Custom typography with brand font",
+          "value": "val BrandFontFamily = FontFamily(\n    Font(R.font.inter_regular, FontWeight.Normal),\n    Font(R.font.inter_medium, FontWeight.Medium),\n    Font(R.font.inter_semibold, FontWeight.SemiBold),\n    Font(R.font.inter_bold, FontWeight.Bold)\n)\n\nval customTypography = FrogTypography(\n    display = FrogTypography().display.copy(fontFamily = BrandFontFamily),\n    titleLarge = FrogTypography().titleLarge.copy(fontFamily = BrandFontFamily),\n    title = FrogTypography().title.copy(fontFamily = BrandFontFamily),\n    heading = FrogTypography().heading.copy(fontFamily = BrandFontFamily),\n    body = FrogTypography().body.copy(fontFamily = BrandFontFamily)\n)\n\nFrogTheme(typography = customTypography) {\n    AppContent()\n}"
+        }
+      },
+      {
+        "id": "do-dont",
+        "title": "Do and Don't guidelines",
+        "paragraphs": [
+          "Best practices for consistent typography:"
+        ],
+        "bullets": [
+          "DO: Use semantic roles (heading, body, label) matching information hierarchy.",
+          "DO: Rely on sp units so text respects system accessibility font scaling.",
+          "DO: Use FrogTheme.typography.code for technical identifiers, tokens, and filenames.",
+          "DON'T: Set ad-hoc fontSize = 17.sp with arbitrary line heights inside composables.",
+          "DON'T: Use fixed height constraints on text containers that cause clipping at 1.5x font scale.",
+          "DON'T: Style headings using body styles with bold overrides; use the dedicated heading token."
+        ]
+      },
+      {
+        "id": "api",
+        "title": "API reference",
+        "paragraphs": [
+          "Core typography symbols in frogui-foundation and frogui-theme:",
+          "• io.github.codewitheswar.frogui.foundation.typography.FrogTypography (Immutable data class)",
+          "• Properties: display, titleLarge, title, heading, subheading, body, bodySmall, label, caption, code",
+          "• io.github.codewitheswar.frogui.theme.FrogTheme.typography (Read-only composable accessor)"
+        ]
+      },
+      {
+        "id": "related",
+        "title": "Related foundations",
+        "paragraphs": [
+          "Explore how typography coordinates with other design pillars:"
+        ],
+        "bullets": [
+          "Colors & Theme: Discover how foreground and mutedForeground create visual hierarchy.",
+          "Spacing: Learn how line height and vertical spacing create rhythm between text blocks.",
+          "Accessibility: Review font scaling, contrast guidelines, and screen reader announcements."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/foundations/spacing",
+    "eyebrow": "Foundation",
+    "title": "Spacing",
+    "description": "A twelve-step rhythm for layout, grouping, and comfortable visual density.",
+    "intro": "FrogSpacing provides shared layout intervals from 2dp through 64dp. Components maintain internal padding in their own Defaults factories while using shared spacing tokens for layout arrangement.",
+    "sections": [
+      {
+        "id": "overview",
+        "title": "Overview",
+        "paragraphs": [
+          "Consistent spatial rhythm makes user interfaces feel stable, organized, and predictable. When spacing is arbitrary (e.g. mixing 13dp, 17dp, and 23dp), layouts look unpolished and optical alignment breaks down.",
+          "FrogSpacing defines twelve mathematically disciplined intervals based on an 8dp and 4dp modular grid. Every step has a clear semantic role."
+        ]
+      },
+      {
+        "id": "scale",
+        "title": "12-step spacing scale reference",
+        "paragraphs": [
+          "The canonical scale spans from 2dp micro-separations to 64dp major landmark padding:"
+        ],
+        "visual": "spacing"
+      },
+      {
+        "id": "micro-scale",
+        "title": "Micro spacing: xxs, xs, sm, and md",
+        "paragraphs": [
+          "Tightly coupled inline elements and control internal gaps:",
+          "• xxs (2dp): The finest separation between tight inline badges, status dots, and micro-dividers.",
+          "• xs (4dp): Small inline gap between an icon and its text label in compact buttons.",
+          "• sm (6dp): Compact gap within small action controls and form field indicators.",
+          "• md (8dp): The base grid increment. Standard gap between related form fields, chips, and list row items."
+        ]
+      },
+      {
+        "id": "layout-scale",
+        "title": "Layout spacing: lg, xl, xxl, and xxxl",
+        "paragraphs": [
+          "Container-level padding and grouping gaps:",
+          "• lg (12dp): Control and card group separation; standard padding inside compact cards.",
+          "• xl (16dp): Standard screen edge padding on mobile devices and default internal container padding.",
+          "• xxl (20dp): Generous gap between related content cards and grouped form sections.",
+          "• xxxl (24dp): Section separation within a single page; screen edge margin on tablet layouts."
+        ]
+      },
+      {
+        "id": "macro-scale",
+        "title": "Macro spacing: x4l, x5l, x6l, and x7l",
+        "paragraphs": [
+          "Large spatial separations and responsive layout margins:",
+          "• x4l (32dp): Major section separation and hero banner vertical margins.",
+          "• x5l (40dp): Landmark gap between distinct functional regions on large screens.",
+          "• x6l (48dp): Major region separation on expanded tablet and desktop displays.",
+          "• x7l (64dp): Expansive hero boundary padding and top-level page margins."
+        ]
+      },
+      {
+        "id": "ownership",
+        "title": "Spacing ownership and boundaries",
+        "paragraphs": [
+          "To prevent token bloat and maintain clean architecture, FrogUI separates spacing concerns:",
+          "1. FrogSpacing: Universal layout intervals (Column, Row, Arrangement.spacedBy, screen padding).",
+          "2. Component Defaults: Specialized internal padding (e.g. FrogButtonDefaults.contentPadding) encoding component geometry.",
+          "3. Layout Modifiers: Screen-specific alignment, weights, and positioning overrides."
+        ]
+      },
+      {
+        "id": "horizontal-vertical",
+        "title": "Horizontal versus vertical rhythm",
+        "paragraphs": [
+          "Human eyes scan vertically more frequently on mobile devices. As a rule, vertical gaps between paragraphs or cards should be one step larger than horizontal inline gaps.",
+          "For example, pair md (8dp) horizontal gap between icon and label with lg (12dp) or xl (16dp) vertical gap between adjacent form input rows."
+        ]
+      },
+      {
+        "id": "usage",
+        "title": "Using FrogSpacing in Compose",
+        "paragraphs": [
+          "Access tokens via FrogTheme.spacing. Use them in arrangement helpers and padding modifiers:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Spacing in Compose layouts",
+          "value": "@Composable\nfun SettingsSection() {\n    Column(\n        modifier = Modifier\n            .fillMaxWidth()\n            .padding(FrogTheme.spacing.xl),\n        verticalArrangement = Arrangement.spacedBy(FrogTheme.spacing.lg)\n    ) {\n        Text(\n            text = \"Notification Preferences\",\n            style = FrogTheme.typography.heading\n        )\n        Row(\n            horizontalArrangement = Arrangement.spacedBy(FrogTheme.spacing.md),\n            verticalAlignment = Alignment.CenterVertically\n        ) {\n            Icon(imageVector = Icons.Default.Notifications, contentDescription = null)\n            Text(text = \"Enable push alerts\", style = FrogTheme.typography.body)\n        }\n    }\n}"
+        }
+      },
+      {
+        "id": "responsive-spacing",
+        "title": "Responsive spacing across window sizes",
+        "paragraphs": [
+          "Adapt outer screen margins based on available width class:",
+          "• Compact (< 600dp): Use xl (16dp) horizontal padding to maximize usable content area.",
+          "• Medium (600–839dp): Use xxxl (24dp) horizontal padding to provide breathing room.",
+          "• Expanded (≥ 840dp): Use x4l (32dp) or x5l (40dp) horizontal padding."
+        ]
+      },
+      {
+        "id": "do-dont",
+        "title": "Do and Don't guidelines",
+        "paragraphs": [
+          "Best practices for spacing rhythm:"
+        ],
+        "bullets": [
+          "DO: Use Arrangement.spacedBy(FrogTheme.spacing.<token>) for consistent list and column rhythm.",
+          "DO: Keep related items closer together than unrelated section groupings (Law of Proximity).",
+          "DO: Scale outer margins up on tablet and desktop window classes.",
+          "DON'T: Embed arbitrary pixel measurements like 11.dp or 19.dp inside layout modifiers.",
+          "DON'T: Confuse internal component touch padding with outer layout spacing.",
+          "DON'T: Create custom global tokens for single-use optical offsets."
+        ]
+      },
+      {
+        "id": "api",
+        "title": "API reference",
+        "paragraphs": [
+          "Core spacing symbols in frogui-foundation and frogui-theme:",
+          "• io.github.codewitheswar.frogui.foundation.spacing.FrogSpacing (Immutable data class)",
+          "• Properties: xxs (2dp), xs (4dp), sm (6dp), md (8dp), lg (12dp), xl (16dp), xxl (20dp), xxxl (24dp), x4l (32dp), x5l (40dp), x6l (48dp), x7l (64dp)",
+          "• io.github.codewitheswar.frogui.theme.FrogTheme.spacing (Read-only composable accessor)"
+        ]
+      },
+      {
+        "id": "related",
+        "title": "Related foundations",
+        "paragraphs": [
+          "Explore how spacing coordinates with other foundation systems:"
+        ],
+        "bullets": [
+          "Sizing: Understand the difference between layout spacing and 48dp minimum touch targets.",
+          "Shapes: Learn how corner radii align with internal padding.",
+          "Adaptive: See how screen margins adjust between Compact and Expanded window classes."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/foundations/shapes",
+    "eyebrow": "Foundation",
+    "title": "Shapes",
+    "description": "Restrained corner treatments and geometry for controls, surfaces, and circular content.",
+    "intro": "FrogShapes provides a disciplined corner radius scale from 4dp to 18dp, plus a dedicated circular full shape. Components choose semantic defaults and expose shape override escape hatches where custom styling is required.",
+    "sections": [
+      {
+        "id": "overview",
+        "title": "Overview",
+        "paragraphs": [
+          "Shape geometry in FrogUI communicates hierarchy, component nature, and tactile behavior. Indiscriminate over-rounding (making every container a 32dp bubble) looks toy-like and degrades content density on mobile screens.",
+          "FrogShapes emphasizes architectural restraint: smaller inline controls use subtle, crisp radii, while large overlay sheets receive gentle, rounded corners."
+        ]
+      },
+      {
+        "id": "scale",
+        "title": "Shape scale reference",
+        "paragraphs": [
+          "The canonical scale defines six corner treatments:"
+        ],
+        "visual": "shapes"
+      },
+      {
+        "id": "small-shapes",
+        "title": "xs and sm: 4dp and 6dp",
+        "paragraphs": [
+          "Subtle radii for small inline elements and compact controls:",
+          "• xs (4dp): Inline badges, status tags, subtle code chips, and tooltip borders.",
+          "• sm (6dp): Compact buttons (FrogButtonSize.Small), filter chips, and segmented control items."
+        ]
+      },
+      {
+        "id": "medium-shape",
+        "title": "md: 10dp",
+        "paragraphs": [
+          "The workhorse radius of the FrogUI design system:",
+          "• md (10dp): Standard buttons (FrogButtonSize.Medium and Large), text input containers, card surfaces, and dropdown menus.",
+          "The 10dp radius strikes an optimal balance: distinctly modern and tactile without encroaching on text padding."
+        ]
+      },
+      {
+        "id": "large-shapes",
+        "title": "lg and xl: 14dp and 18dp",
+        "paragraphs": [
+          "Contextual surfaces and prominent overlay containers:",
+          "• lg (14dp): Docked side drawers (FrogDrawer side shape facing content), prominent cards, and modal dialogs.",
+          "• xl (18dp): Bottom sheet top corners (FrogDrawer bottom shape) and high-priority alerts."
+        ]
+      },
+      {
+        "id": "full-shape",
+        "title": "full: CircleShape",
+        "paragraphs": [
+          "Pill buttons, circular avatars, and floating action buttons:",
+          "• full (CircleShape): Pill action buttons, user profile avatars, and circular status dots when full rounding serves a clear semantic purpose."
+        ]
+      },
+      {
+        "id": "component-mapping",
+        "title": "Component shape mapping",
+        "paragraphs": [
+          "Canonical FrogUI components resolve shapes from FrogTheme.shapes:",
+          "• FrogButton: FrogButtonDefaults.shape(size) selects sm (6dp) for Small buttons and md (10dp) for Medium/Large buttons.",
+          "• FrogDrawer: FrogDrawerDefaults.shape() dynamically applies xl (18dp) top corners for Bottom presentation, and lg (14dp) inner corners for Side presentation."
+        ]
+      },
+      {
+        "id": "usage",
+        "title": "Using FrogShapes in Compose",
+        "paragraphs": [
+          "Pass shapes to Surface or component shape parameters:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Shape usage and component override",
+          "value": "@Composable\nfun CustomActionCard() {\n    // Standard surface with md shape\n    Surface(\n        shape = FrogTheme.shapes.md,\n        color = FrogTheme.colors.surface,\n        border = BorderStroke(1.dp, FrogTheme.colors.border)\n    ) {\n        Column(modifier = Modifier.padding(FrogTheme.spacing.lg)) {\n            Text(text = \"Special Offer\", style = FrogTheme.typography.heading)\n            Spacer(modifier = Modifier.height(FrogTheme.spacing.md))\n            \n            // Button overriding default shape with a full pill shape\n            FrogButton(\n                onClick = { /* Action */ },\n                shape = FrogTheme.shapes.full,\n                variant = FrogButtonVariant.Primary\n            ) {\n                Text(\"Claim Offer\")\n            }\n        }\n    }\n}"
+        }
+      },
+      {
+        "id": "customization",
+        "title": "Customizing the shape system",
+        "paragraphs": [
+          "To adjust corner geometry system-wide, copy FrogShapes and supply it to FrogTheme:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "System-wide shape customization",
+          "value": "val softerShapes = FrogTheme.shapes.copy(\n    sm = RoundedCornerShape(8.dp),\n    md = RoundedCornerShape(12.dp),\n    lg = RoundedCornerShape(16.dp)\n)\n\nFrogTheme(shapes = softerShapes) {\n    AppContent()\n}"
+        }
+      },
+      {
+        "id": "do-dont",
+        "title": "Do and Don't guidelines",
+        "paragraphs": [
+          "Best practices for shape geometry:"
+        ],
+        "bullets": [
+          "DO: Use md (10dp) for standard interactive controls and cards.",
+          "DO: Align clipping, borders, and touch-feedback overlays to the exact resolved shape.",
+          "DO: Use full (CircleShape) only when circular/pill geometry communicates intent.",
+          "DON'T: Apply 24dp or 32dp corner radii to dense, small form controls.",
+          "DON'T: Mix completely sharp (0dp) and heavily rounded (20dp) cards randomly in the same screen.",
+          "DON'T: Clip content without matching boundary borders to the same corner radius."
+        ]
+      },
+      {
+        "id": "api",
+        "title": "API reference",
+        "paragraphs": [
+          "Core shape symbols in frogui-foundation and frogui-theme:",
+          "• io.github.codewitheswar.frogui.foundation.shape.FrogShapes (Immutable data class)",
+          "• Properties: xs (4dp), sm (6dp), md (10dp), lg (14dp), xl (18dp), full (CircleShape)",
+          "• io.github.codewitheswar.frogui.theme.FrogTheme.shapes (Read-only composable accessor)"
+        ]
+      },
+      {
+        "id": "related",
+        "title": "Related foundations",
+        "paragraphs": [
+          "Explore how shapes integrate with other design pillars:"
+        ],
+        "bullets": [
+          "Elevation: Learn how corner radii align with tonal elevation and boundary borders.",
+          "Spacing: Discover how internal container padding accommodates rounded corners.",
+          "Colors & Theme: See how border and borderStrong follow shape geometry."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/foundations/elevation",
+    "eyebrow": "Foundation",
+    "title": "Elevation",
+    "description": "A restrained depth system for surface hierarchy, overlays, and contextual sheets without relying on excessive shadow.",
+    "intro": "FrogUI communicates spatial depth through small elevation values, subtle tonal surfaces, and crisp 1px borders. Elevation explains stacking hierarchy and focus boundaries rather than serving as decorative ornament.",
+    "sections": [
+      {
+        "id": "overview",
+        "title": "Overview",
+        "paragraphs": [
+          "In modern multi-theme applications, heavy artificial shadows fail in dark mode and clutter compact mobile layouts. FrogUI replaces exaggerated shadows with an intentional combination of tonal surface steps, delicate borders, and restrained elevation.",
+          "Depth is used exclusively to clarify which layer receives interaction, which surface sits above the canvas, and how temporary overlays command attention."
+        ]
+      },
+      {
+        "id": "philosophy",
+        "title": "Depth philosophy",
+        "paragraphs": [
+          "Elevation is functional, not ornamental. Every step in the elevation scale corresponds to a distinct architectural layer in the application.",
+          "When two surfaces share identical priority, they should be separated by layout spacing or subtle border dividers—never by arbitrary dropshadows."
+        ],
+        "bullets": [
+          "Restrained: Maximum standard elevation is 6dp. Avoid heavy, blurred drop shadows.",
+          "Tonal: Dark surfaces use lighter tones rather than blacker shadows to signal height.",
+          "Structural: Borders define spatial boundaries; elevation defines stacking order."
+        ]
+      },
+      {
+        "id": "levels",
+        "title": "Elevation levels",
+        "paragraphs": [
+          "The canonical FrogElevation scale provides four discrete levels: None (0dp), Low (1dp), Medium (3dp), and High (6dp)."
+        ],
+        "visual": "elevation"
+      },
+      {
+        "id": "none",
+        "title": "None · 0dp",
+        "paragraphs": [
+          "The default canvas and flat embedded content. Flat elements rely on FrogSpacing rhythm or subtle 1px borders (FrogTheme.colors.border) for layout separation.",
+          "Common uses include screen backgrounds, list items, inline tables, and uncontained input controls."
+        ]
+      },
+      {
+        "id": "low",
+        "title": "Low · 1dp",
+        "paragraphs": [
+          "Subtle separation from surrounding content. Provides minimal tactile depth to distinguish an interactive or grouped container from the background canvas.",
+          "Common uses include cards, grouped form sections, segmented buttons, and persistent utility toolbars."
+        ]
+      },
+      {
+        "id": "medium",
+        "title": "Medium · 3dp",
+        "paragraphs": [
+          "Contextual floating emphasis above ordinary surfaces. Content at this level remains closely associated with the triggering interaction while floating above page flow.",
+          "Common uses include popovers, dropdown menus, autocomplete suggestions, tooltips, and floating action buttons."
+        ]
+      },
+      {
+        "id": "high",
+        "title": "High · 6dp",
+        "paragraphs": [
+          "Highest standard elevation level. Reserved for high-priority blocking or modal surfaces that require immediate user focus and overlay the entire primary viewport.",
+          "Common uses include modal dialogs, FrogDrawer sheets, bottom sheets, full-screen notifications, and critical confirmation alerts."
+        ]
+      },
+      {
+        "id": "themes",
+        "title": "Light and dark theme behavior",
+        "paragraphs": [
+          "In light themes, surfaces rely on a soft ambient shadow combined with a subtle semi-transparent border (rgba(0,0,0,0.08)).",
+          "In dark themes, physical shadows lose perceptible contrast against deep canvases. FrogUI instead lifts the surface tone (from Zinc950 canvas to Zinc900 for low, and Zinc850 for high) and reinforces edge clarity with a luminous 1px border (rgba(255,255,255,0.08))."
+        ],
+        "callout": {
+          "type": "tip",
+          "title": "Dark mode depth rule",
+          "value": "In dark mode, never rely solely on shadows for layer separation. Always pair surfaceElevated with a visible boundary border."
+        }
+      },
+      {
+        "id": "borders",
+        "title": "Borders versus shadows",
+        "paragraphs": [
+          "Borders provide structural clarity; shadows provide spatial separation. Use borders when dividing adjacent content on the same plane. Use elevation when one surface physically overlays another.",
+          "For contextual overlays (such as dropdowns or sheets), combine both: the border guarantees edge contrast across varied backgrounds, while the elevation communicates stacking priority."
+        ]
+      },
+      {
+        "id": "component-examples",
+        "title": "Component examples",
+        "paragraphs": [
+          "Canonical FrogUI components map their spatial responsibilities directly to the elevation scale:"
+        ],
+        "bullets": [
+          "FrogButton: None (0dp) at rest; Low (1dp) when hovered or pressed for subtle tactile feedback.",
+          "FrogDrawer: High (6dp) when presented as an overlay sheet; None (0dp) with a right border when docked persistently in Expanded adaptive mode.",
+          "Containers: Cards consume Low (1dp); Dialogs consume High (6dp)."
+        ]
+      },
+      {
+        "id": "usage",
+        "title": "Using FrogElevation in Compose",
+        "paragraphs": [
+          "Access the elevation scale directly from FrogTheme.elevation. Custom theme overrides can be supplied via FrogThemeDefaults.elevation() or custom FrogElevation instances."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Surface elevation example",
+          "value": "Surface(\n    shape = FrogTheme.shapes.lg,\n    color = FrogTheme.colors.surfaceElevated,\n    tonalElevation = FrogTheme.elevation.medium,\n    shadowElevation = FrogTheme.elevation.medium,\n    border = BorderStroke(1.dp, FrogTheme.colors.border)\n) {\n    Column(\n        modifier = Modifier.padding(FrogTheme.spacing.lg)\n    ) {\n        Text(\n            text = \"Contextual Panel\",\n            style = FrogTheme.typography.title\n        )\n    }\n}"
+        }
+      },
+      {
+        "id": "accessibility",
+        "title": "Accessibility and visual clarity",
+        "paragraphs": [
+          "Elevation must never be the sole visual indicator of interactive state, focus, selection, or errors. Users with low contrast vision or high ambient lighting cannot distinguish subtle shadows.",
+          "Always pair elevation changes with explicit state indicators: focus rings (FrogTheme.colors.focusRing), color shifts, or icons."
+        ],
+        "callout": {
+          "type": "important",
+          "title": "Contrast requirement",
+          "value": "Ensure elevated surfaces meet WCAG 2.1 AA 3:1 contrast against the canvas when boundary borders are rendered."
+        }
+      },
+      {
+        "id": "api",
+        "title": "API reference",
+        "paragraphs": [
+          "io.github.codewitheswar.frogui.foundation.elevation.FrogElevation is an immutable data class providing Dp tokens:",
+          "• none: Dp = 0.dp (Flat canvas surfaces)\n• low: Dp = 1.dp (Subtle raised containers)\n• medium: Dp = 3.dp (Contextual floating overlays)\n• high: Dp = 6.dp (Modal priority sheets)\n• FrogElevation.Default: Reusable immutable standard scale"
+        ]
+      },
+      {
+        "id": "related",
+        "title": "Related foundations",
+        "paragraphs": [
+          "Explore how elevation works in harmony with other FrogUI foundation systems:"
+        ],
+        "bullets": [
+          "Colors & Theme: Discover how surface and surfaceElevated tones reinforce depth across light and dark modes.",
+          "Shapes: Learn how corner radii map to elevated cards, floating menus, and full-screen sheets.",
+          "Motion: See how enter and exit transitions animate elevation changes during overlay presentation."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/foundations/motion",
+    "eyebrow": "Foundation",
+    "title": "Motion",
+    "description": "Short, purposeful transitions and spring physics that communicate state changes and spatial continuity.",
+    "intro": "FrogMotion defines duration tokens, easing curves, and Compose spring animation profiles. Motion communicates cause and feedback, never decorative distraction, and automatically collapses to instant state updates when system reduced-motion is detected.",
+    "sections": [
+      {
+        "id": "overview",
+        "title": "Overview",
+        "paragraphs": [
+          "Motion in FrogUI is functional, purposeful, and disciplined. Animation exists solely to explain what just happened, show where content entered from, and provide tactile confirmation of user actions.",
+          "Transitions never block user input with long decorative sequences. Every animation is fast (under 300ms) and respects platform accessibility preferences."
+        ]
+      },
+      {
+        "id": "profiles",
+        "title": "Duration profiles reference",
+        "paragraphs": [
+          "FrogMotion provides three standard duration tiers:"
+        ],
+        "visual": "motion"
+      },
+      {
+        "id": "fast-duration",
+        "title": "Fast: 120ms",
+        "paragraphs": [
+          "Micro-interactions and immediate tactile feedback:",
+          "• fastDurationMillis = 120: Button press/release overlay shifts, checkbox/switch toggles, badge appearances, and tooltip fades.",
+          "The 120ms duration feels instantaneous to human perception while eliminating jarring visual pop."
+        ]
+      },
+      {
+        "id": "normal-duration",
+        "title": "Normal: 200ms",
+        "paragraphs": [
+          "Standard state transitions within a single screen:",
+          "• normalDurationMillis = 200: Accordion expand/collapse, tab indicator movement, drawer open/close transitions, and contextual toolbar reveals."
+        ]
+      },
+      {
+        "id": "large-duration",
+        "title": "Large: 280ms",
+        "paragraphs": [
+          "Spatial translations and major layout reorganizations:",
+          "• largeDurationMillis = 280: Bottom sheet enter/exit slides, full-screen dialog presentations, and multi-pane adaptive transitions on tablet displays."
+        ]
+      },
+      {
+        "id": "easing",
+        "title": "Easing curves and physics",
+        "paragraphs": [
+          "FrogUI uses three mathematically tuned easing curves:",
+          "• standardEasing: FastOutSlowInEasing (cubic-bezier(0.4, 0.0, 0.2, 1.0)). Natural acceleration and deceleration for elements moving within view bounds.",
+          "• enterEasing: LinearOutSlowInEasing (cubic-bezier(0.0, 0.0, 0.2, 1.0)). Quick entrance that gently settles into place.",
+          "• exitEasing: CubicBezierEasing(0.4f, 0.0f, 1.0f, 1.0f). Prompt departure that accelerates off-screen without lingering."
+        ]
+      },
+      {
+        "id": "springs",
+        "title": "Spring physics and spec helpers",
+        "paragraphs": [
+          "FrogMotion provides built-in Compose AnimationSpec factory helpers:",
+          "• fastSpec<T>(): Short tween using fastDurationMillis and standardEasing.",
+          "• normalSpec<T>(): Standard tween using normalDurationMillis and standardEasing.",
+          "• largeSpec<T>(): Spatial tween using largeDurationMillis and standardEasing.",
+          "• responsiveSpring<T>(): Physics spring with DampingRatioLowBouncy and StiffnessMediumLow. When reduced motion is active, responsiveSpring automatically snaps instantly."
+        ]
+      },
+      {
+        "id": "reduced-motion",
+        "title": "Reduced motion and system animator detection",
+        "paragraphs": [
+          "Accessibility requires respecting users who experience vestibular discomfort or motion sickness. FrogUI implements two layers of reduced-motion protection:",
+          "1. System Preference: Automatically listens to Android's Settings.Global.ANIMATOR_DURATION_SCALE. When set to 0, FrogTheme.reduceMotion becomes true immediately.",
+          "2. Environment Override: ProvideFrogThemeEnvironment(reduceMotion = true) or FrogMotion().reduced() zeroes all durations.",
+          "When motion is reduced, spatial slides and fades collapse to 0ms, but critical visual states (open, closed, loading, focused) remain fully visible."
+        ],
+        "callout": {
+          "type": "important",
+          "title": "State remains visible",
+          "value": "Reduced motion disables animation duration; it must NEVER suppress state feedback. Spinners, focus rings, and selection indicators must remain clearly displayed."
+        }
+      },
+      {
+        "id": "component-mapping",
+        "title": "Component motion mapping",
+        "paragraphs": [
+          "Canonical FrogUI components integrate motion tokens seamlessly:",
+          "• FrogButton: Uses fastDurationMillis (120ms) for pressed state overlay transitions.",
+          "• FrogDrawer: Uses normalDurationMillis (200ms) with enterEasing and exitEasing for smooth bottom sheet and side panel translation.",
+          "• Static Primitives: Spacing, typography, and borders never animate."
+        ]
+      },
+      {
+        "id": "usage",
+        "title": "Using FrogMotion in Compose",
+        "paragraphs": [
+          "Use motion helpers in animatedVisibility, animateFloatAsState, or custom transitions:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Motion in Compose animations",
+          "value": "@Composable\nfun ExpandableCard(expanded: Boolean) {\n    val motion = FrogTheme.motion\n    val rotation by animateFloatAsState(\n        targetValue = if (expanded) 180f else 0f,\n        animationSpec = motion.normalSpec(),\n        label = \"ChevronRotation\"\n    )\n    \n    AnimatedVisibility(\n        visible = expanded,\n        enter = fadeIn(animationSpec = motion.fastSpec()) + expandVertically(animationSpec = motion.normalSpec()),\n        exit = fadeOut(animationSpec = motion.fastSpec()) + shrinkVertically(animationSpec = motion.normalSpec())\n    ) {\n        CardContent()\n    }\n}"
+        }
+      },
+      {
+        "id": "do-dont",
+        "title": "Do and Don't guidelines",
+        "paragraphs": [
+          "Best practices for UI motion:"
+        ],
+        "bullets": [
+          "DO: Keep transitions under 280ms for immediate responsiveness.",
+          "DO: Use responsiveSpring() for tactile gestures and drag-to-dismiss.",
+          "DO: Test with system animator duration turned off to verify instant snapping.",
+          "DON'T: Add long decorative entrance sequences that prevent user clicks.",
+          "DON'T: Apply spring bounce to basic button press feedback.",
+          "DON'T: Animate elements on initial screen render when no user interaction occurred."
+        ]
+      },
+      {
+        "id": "api",
+        "title": "API reference",
+        "paragraphs": [
+          "Core motion symbols in frogui-foundation and frogui-theme:",
+          "• io.github.codewitheswar.frogui.foundation.motion.FrogMotion (Immutable data class)",
+          "• Properties: fastDurationMillis (120), normalDurationMillis (200), largeDurationMillis (280), standardEasing, enterEasing, exitEasing",
+          "• Helpers: fastSpec(), normalSpec(), largeSpec(), responsiveSpring(), isReduced, reduced()",
+          "• io.github.codewitheswar.frogui.theme.FrogTheme.motion (Read-only composable accessor)",
+          "• io.github.codewitheswar.frogui.theme.FrogTheme.reduceMotion (Boolean accessor)"
+        ]
+      },
+      {
+        "id": "related",
+        "title": "Related foundations",
+        "paragraphs": [
+          "Explore how motion coordinates with adjacent foundation systems:"
+        ],
+        "bullets": [
+          "Elevation: See how sheet enter and exit transitions animate elevation levels.",
+          "Adaptive: Discover how drawer presentations slide smoothly between Compact and Side modes.",
+          "Accessibility: Review reduced-motion requirements and system animator scale detection."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/foundations/sizing",
+    "eyebrow": "Foundation",
+    "title": "Sizing",
+    "description": "Shared control heights, icon glyph dimensions, and mandatory accessible interaction targets.",
+    "intro": "FrogSizing separates visual compactness from interaction accessibility. A control can be visually compact (32dp) while strictly reserving at least 48dp for its interactive hit target via a compile-time and runtime invariant.",
+    "sections": [
+      {
+        "id": "overview",
+        "title": "Overview",
+        "paragraphs": [
+          "A recurring failure in mobile design systems is coupling visual control dimensions directly to touch targets. When designers request a small 32dp button for a dense data table, naive implementations shrink the clickable hit target to 32dp—causing missed clicks and frustration for users with motor impairments or large fingers.",
+          "FrogSizing solves this by separating visual control geometry from interactive hit targets. Controls can remain visually compact while their clickable bounds automatically expand to meet accessibility requirements."
+        ]
+      },
+      {
+        "id": "targets",
+        "title": "Mandatory 48dp minimum touch target",
+        "paragraphs": [
+          "FrogSizing enforces an absolute invariant: minimumTouchTarget must be finite and at least 48dp. Attempting to initialize FrogSizing with a value below 48dp throws an IllegalArgumentException at runtime.",
+          "This ensures that no component or theme configuration can accidentally violate WCAG 2.5.5 and Android accessibility target standards."
+        ],
+        "visual": "sizing"
+      },
+      {
+        "id": "control-heights",
+        "title": "Visual control heights",
+        "paragraphs": [
+          "Standard visual height tiers for interactive controls (buttons, inputs, segmented chips):",
+          "• controlSmall (32dp): Compact controls for dense data tables, utility headers, and toolbars. The interactive touch envelope remains 48dp.",
+          "• controlMedium (40dp): Standard control height for primary application forms, buttons, and navigation actions.",
+          "• controlLarge (48dp): Prominent call-to-action controls for welcome screens, checkout buttons, and hero flows."
+        ]
+      },
+      {
+        "id": "icons",
+        "title": "Decorative icon glyph sizes",
+        "paragraphs": [
+          "Standard dimensions for vector icon glyphs within controls and navigation rows:",
+          "• iconSmall (16dp): Glyphs inside compact buttons and inline metadata badges.",
+          "• iconMedium (18dp): Standard glyphs inside regular buttons, form fields, and dropdown items.",
+          "• iconLarge (20dp): Prominent icons inside navigation bars, floating action buttons, and hero banners."
+        ]
+      },
+      {
+        "id": "visual-vs-interaction",
+        "title": "Visual size versus interaction size",
+        "paragraphs": [
+          "In Compose, visual geometry and interaction bounds are decoupled using Modifier.defaultMinSize(minWidth = FrogTheme.sizing.minimumTouchTarget, minHeight = FrogTheme.sizing.minimumTouchTarget).",
+          "Even if a button's visual Surface is 32dp tall, the parent container reserves a 48dp touch region. Clicks anywhere within the 48dp boundary trigger the button's onClick action."
+        ]
+      },
+      {
+        "id": "component-mapping",
+        "title": "Component sizing mapping",
+        "paragraphs": [
+          "Canonical FrogUI components map their dimensions directly to FrogSizing:",
+          "• FrogButton: FrogButtonDefaults.controlHeight(size) resolves controlSmall (32dp), controlMedium (40dp), or controlLarge (48dp). FrogButtonDefaults.iconSize(size) resolves iconSmall (16dp), iconMedium (18dp), or iconLarge (20dp).",
+          "• FrogDrawer: Close action button and header actions enforce FrogTheme.sizing.minimumTouchTarget (48dp) for effortless dismissal."
+        ]
+      },
+      {
+        "id": "usage",
+        "title": "Using FrogSizing in Compose",
+        "paragraphs": [
+          "Read sizing tokens from FrogTheme.sizing in custom controls:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Accessible icon button sizing",
+          "value": "@Composable\nfun AccessibleIconButton(\n    onClick: () -> Unit,\n    icon: ImageVector,\n    contentDescription: String\n) {\n    val sizing = FrogTheme.sizing\n    \n    Box(\n        modifier = Modifier\n            .size(sizing.minimumTouchTarget) // 48dp interactive envelope\n            .clickable(onClick = onClick),\n        contentAlignment = Alignment.Center\n    ) {\n        Box(\n            modifier = Modifier\n                .size(sizing.controlSmall) // 32dp visual pill\n                .background(FrogTheme.colors.subtleSurface, FrogTheme.shapes.full),\n            contentAlignment = Alignment.Center\n        ) {\n            Icon(\n                imageVector = icon,\n                contentDescription = contentDescription,\n                modifier = Modifier.size(sizing.iconSmall),\n                tint = FrogTheme.colors.foreground\n            )\n        }\n    }\n}"
+        }
+      },
+      {
+        "id": "customization",
+        "title": "Customizing sizing at the environment boundary",
+        "paragraphs": [
+          "For enterprise or kiosk applications requiring larger targets (e.g. 56dp), override sizing via ProvideFrogThemeEnvironment without modifying library source code:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Larger accessible targets override",
+          "value": "ProvideFrogThemeEnvironment(\n    sizing = FrogTheme.sizing.copy(minimumTouchTarget = 56.dp)\n) {\n    KioskApplicationContent()\n}"
+        }
+      },
+      {
+        "id": "do-dont",
+        "title": "Do and Don't guidelines",
+        "paragraphs": [
+          "Best practices for control and icon sizing:"
+        ],
+        "bullets": [
+          "DO: Maintain at least 48dp clickable area for all user-actionable controls.",
+          "DO: Use controlMedium (40dp) and iconMedium (18dp) as standard defaults.",
+          "DO: Use ProvideFrogThemeEnvironment when an application requires larger accessible touch targets.",
+          "DON'T: Shrink clickable bounds below 48dp just because visual graphics are small.",
+          "DON'T: Place interactive touch targets closer than 8dp to avoid accidental double-clicks.",
+          "DON'T: Confuse icon glyph size (18dp) with the icon button's touch target (48dp)."
+        ]
+      },
+      {
+        "id": "api",
+        "title": "API reference",
+        "paragraphs": [
+          "Core sizing symbols in frogui-foundation and frogui-theme:",
+          "• io.github.codewitheswar.frogui.foundation.sizing.FrogSizing (Immutable data class with validation invariants)",
+          "• Properties: minimumTouchTarget (≥ 48dp), controlSmall (32dp), controlMedium (40dp), controlLarge (48dp), iconSmall (16dp), iconMedium (18dp), iconLarge (20dp)",
+          "• io.github.codewitheswar.frogui.theme.FrogTheme.sizing (Read-only composable accessor)",
+          "• io.github.codewitheswar.frogui.theme.ProvideFrogThemeEnvironment (Additive environment provider)"
+        ]
+      },
+      {
+        "id": "related",
+        "title": "Related foundations",
+        "paragraphs": [
+          "Explore how sizing integrates with other foundation systems:"
+        ],
+        "bullets": [
+          "Accessibility: Review touch target testing and WCAG 2.5.5 compliance.",
+          "Spacing: Learn how layout spacing prevents adjacent touch targets from overlapping.",
+          "Adaptive: See how control sizes remain stable across phone and tablet window classes."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/foundations/adaptive",
+    "eyebrow": "Foundation",
+    "title": "Adaptive",
+    "description": "Constraint-driven Compact, Medium, and Expanded window classification and multi-pane composition.",
+    "intro": "FrogAdaptive classifies actual available width into Compact, Medium, and Expanded categories. Layouts adapt through composition changes rather than stretching, allowing nested panes, previews, and drawer overlays to resolve their own constraints independently.",
+    "sections": [
+      {
+        "id": "overview",
+        "title": "Overview",
+        "paragraphs": [
+          "Android runs across a massive range of screen form factors: compact smartphones, large phones, foldables, tablets, Chromebooks, and desktop window managers. Naive responsive design simply stretches phone layouts wider—resulting in 800dp-wide text paragraphs that are awkward to read and waste screen real estate.",
+          "FrogUI's adaptive architecture is built around a single core principle: Composition, not stretching. On wider displays, screens reorganize into multi-pane layouts, navigation rails, and side inspectors."
+        ]
+      },
+      {
+        "id": "classes",
+        "title": "Window size classes reference",
+        "paragraphs": [
+          "FrogAdaptive defines three canonical width categories following Android's official window size class thresholds:"
+        ],
+        "visual": "adaptive"
+      },
+      {
+        "id": "compact",
+        "title": "Compact: Width < 600dp",
+        "paragraphs": [
+          "Standard smartphone portrait and narrow foldable outer screens:",
+          "• Single-column stacked layouts: Navigation bars at the bottom, linear content flow, and full-width cards.",
+          "• Bottom Modal Sheets: Contextual details and filters enter from the bottom of the screen via FrogDrawer bottom presentation."
+        ]
+      },
+      {
+        "id": "medium",
+        "title": "Medium: 600dp ≤ Width < 840dp",
+        "paragraphs": [
+          "Unfolded foldables, small tablets in portrait, and landscape phones:",
+          "• Navigation Rail: Replaces bottom navigation with a compact vertical rail on the start edge.",
+          "• Split Composition: Room for a primary content stream paired with an optional contextual side panel or inspector."
+        ]
+      },
+      {
+        "id": "expanded",
+        "title": "Expanded: Width ≥ 840dp",
+        "paragraphs": [
+          "Large tablets in landscape, desktop windows, and Chromebooks:",
+          "• Multi-Region Composition: Room for a persistent sidebar navigation, primary content pane, and dedicated side inspector pane simultaneously.",
+          "• Side Sheets: Overlays present as docked side panels (FrogDrawer side presentation) rather than obstructing the entire screen."
+        ]
+      },
+      {
+        "id": "resolver",
+        "title": "Constraint-based window resolver",
+        "paragraphs": [
+          "FrogAdaptive.windowSizeClass(availableWidth: Dp) operates on actual available Compose dp constraints, not physical device hardware identity or screen resolution.",
+          "This means a nested preview or split-screen pane can resolve its own constraints accurately without changing the outer application's window state."
+        ]
+      },
+      {
+        "id": "drawer-example",
+        "title": "Reference component: FrogDrawer Auto presentation",
+        "paragraphs": [
+          "FrogDrawer demonstrates adaptive behavior in action with its FrogDrawerPresentation.Auto setting:",
+          "• When available width is under 620dp (Compact): Presents as a modal bottom sheet with rounded top corners (18dp) and vertical drag-to-dismiss gesture.",
+          "• When available width is 620dp or greater (Medium/Expanded): Automatically shifts to a docked side drawer with rounded inner corners (14dp) and horizontal drag dismissal.",
+          "Developers can also force Bottom or Side presentation explicitly when product requirements dictate."
+        ]
+      },
+      {
+        "id": "usage",
+        "title": "Using FrogAdaptive in Compose",
+        "paragraphs": [
+          "Use BoxWithConstraints to resolve adaptive layout decisions at the composition boundary:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Adaptive multi-pane composition",
+          "value": "@Composable\nfun AdaptiveDashboard() {\n    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {\n        val windowClass = FrogTheme.adaptive.windowSizeClass(maxWidth)\n        \n        when (windowClass) {\n            FrogWindowSizeClass.Compact -> {\n                // Single column phone layout\n                PhoneDashboardLayout()\n            }\n            FrogWindowSizeClass.Medium -> {\n                // Navigation rail + content\n                Row(modifier = Modifier.fillMaxSize()) {\n                    DashboardNavRail()\n                    PhoneDashboardLayout(modifier = Modifier.weight(1f))\n                }\n            }\n            FrogWindowSizeClass.Expanded -> {\n                // Multi-pane: Sidebar + Content + Inspector\n                Row(modifier = Modifier.fillMaxSize()) {\n                    DashboardSidebar(modifier = Modifier.width(260.dp))\n                    PrimaryContentPane(modifier = Modifier.weight(1f))\n                    InspectorPane(modifier = Modifier.width(360.dp))\n                }\n            }\n        }\n    }\n}"
+        }
+      },
+      {
+        "id": "showcase-testing",
+        "title": "Showcase and testing adaptive layouts",
+        "paragraphs": [
+          "The native Android Showcase provides an interactive constraint switcher where developers can toggle between Compact, Medium, and Expanded views on a single physical device.",
+          "In Compose Previews, use multiple @Preview annotations with varied widthDp parameters to verify responsiveness during development."
+        ]
+      },
+      {
+        "id": "do-dont",
+        "title": "Do and Don't guidelines",
+        "paragraphs": [
+          "Best practices for adaptive Android interfaces:"
+        ],
+        "bullets": [
+          "DO: Reorganize composition into multi-column panes on Expanded displays.",
+          "DO: Resolve adaptive decisions from local BoxWithConstraints maxWidth.",
+          "DO: Use FrogDrawerPresentation.Auto for seamless phone-to-tablet overlay adaptation.",
+          "DON'T: Stretch single-column content cards across 1000dp tablet screens.",
+          "DON'T: Check physical device model or boolean isTablet flags.",
+          "DON'T: Scale font sizes up proportionally to fill wide screens."
+        ]
+      },
+      {
+        "id": "api",
+        "title": "API reference",
+        "paragraphs": [
+          "Core adaptive symbols in frogui-foundation and frogui-theme:",
+          "• io.github.codewitheswar.frogui.foundation.adaptive.FrogWindowSizeClass (Enum: Compact, Medium, Expanded)",
+          "• io.github.codewitheswar.frogui.foundation.adaptive.FrogAdaptive (Immutable data class with mediumMinWidth = 600dp and expandedMinWidth = 840dp)",
+          "• Function: windowSizeClass(availableWidth: Dp): FrogWindowSizeClass",
+          "• io.github.codewitheswar.frogui.theme.FrogTheme.adaptive (Read-only composable accessor)",
+          "• io.github.codewitheswar.frogui.components.overlays.drawer.FrogDrawerPresentation (Auto, Bottom, Side)"
+        ]
+      },
+      {
+        "id": "related",
+        "title": "Related foundations",
+        "paragraphs": [
+          "Explore how adaptive policies coordinate with other foundation systems:"
+        ],
+        "bullets": [
+          "Sizing: Discover how control heights and touch targets remain consistent across screen sizes.",
+          "Spacing: Learn how outer screen margins expand on tablet and desktop layouts.",
+          "Motion: See how transition animations adjust between bottom sheets and side panels."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/foundations/accessibility",
+    "eyebrow": "Foundation",
+    "title": "Accessibility",
+    "description": "Cross-component semantics, focus management, TalkBack testing, font scaling, contrast, and inclusive interaction contracts.",
+    "intro": "Accessibility in FrogUI is not an afterthought checklist—it is a mandatory component contract. Every component undergoes verification for semantic roles, visible focus, touch targets, font scaling, screen reader announcements, and reduced motion before being promoted to Stable.",
+    "sections": [
+      {
+        "id": "overview",
+        "title": "Overview",
+        "paragraphs": [
+          "An inaccessible design system propagates accessibility failures to every screen that consumes it. FrogUI builds accessibility requirements directly into component APIs, defaults, and automated test pipelines.",
+          "Components handle basic semantics, touch targets, and focus states out of the box so application engineers can build inclusive experiences effortlessly."
+        ]
+      },
+      {
+        "id": "principles",
+        "title": "The eight accessibility pillars",
+        "paragraphs": [
+          "Every FrogUI component satisfies eight foundational accessibility criteria:"
+        ],
+        "visual": "accessibility"
+      },
+      {
+        "id": "semantics",
+        "title": "Semantics and accessibility roles",
+        "paragraphs": [
+          "Compose components expose high-level semantic nodes consumed by TalkBack and assistive services:",
+          "• Explicit Roles: FrogButton automatically sets Role.Button; FrogDrawer sets paneTitle and TraversalIndex for modal presentation.",
+          "• State Descriptions: Loading, expanded, selected, and disabled states are announced automatically via stateDescription rather than being hidden in custom draw logic.",
+          "• Single-Node Merging: Related elements (icon + text label) are merged into a single accessible semantic node to eliminate redundant swipe stops."
+        ]
+      },
+      {
+        "id": "content-descriptions",
+        "title": "Content descriptions and visible labels",
+        "paragraphs": [
+          "A common accessibility mistake is duplicating announcements on labeled controls:",
+          "• Visible Text: When a button displays a text label ('Continue'), its contentDescription must be null. Setting contentDescription to 'Continue' causes TalkBack to announce 'Continue, Continue, Button'.",
+          "• Icon-Only Actions: When an action has no visible text (such as a close or search icon), contentDescription is strictly required ('Close dialog', 'Search catalog')."
+        ]
+      },
+      {
+        "id": "targets",
+        "title": "Enforced 48dp touch targets",
+        "paragraphs": [
+          "Every user-actionable control enforces a minimum 48dp clickable envelope via FrogTheme.sizing.minimumTouchTarget.",
+          "Even when a visual badge or icon button is only 32dp tall, its interaction region expands to 48dp, satisfying WCAG 2.5.5 and Android accessibility test suites."
+        ]
+      },
+      {
+        "id": "focus",
+        "title": "Focus management and visible focus rings",
+        "paragraphs": [
+          "Hardware keyboards, D-pads, and TV remotes require clear visual focus indication:",
+          "• Visible Focus Ring: All focusable FrogUI components display a 2dp outline in FrogTheme.colors.focusRing with a 2dp offset.",
+          "• Contrast: The focus ring is verified to achieve > 3:1 contrast against both light and dark surface fills.",
+          "• Focus Restoration: Modal overlays (such as FrogDrawer) capture focus when opened and restore focus back to the triggering button upon dismissal."
+        ]
+      },
+      {
+        "id": "talkback",
+        "title": "TalkBack 7-step verification protocol",
+        "paragraphs": [
+          "Every FrogUI component is verified on a physical Android device following this standard 7-step testing protocol:",
+          "1. Enable TalkBack in Android Accessibility settings.",
+          "2. Swipe forward to focus the component.",
+          "3. Verify role announcement (e.g. 'Button').",
+          "4. Verify label announcement without duplication.",
+          "5. Verify state announcement (e.g. 'Disabled' or 'Loading').",
+          "6. Double-tap to activate the action.",
+          "7. Verify subsequent focus movement and confirmation announcement."
+        ]
+      },
+      {
+        "id": "font-scaling",
+        "title": "Font scaling up to 2.0x",
+        "paragraphs": [
+          "Components must support users who set large system font sizes in Android display settings:",
+          "• Scalable Units: All typography is defined in scalable sp units.",
+          "• No Clipped Boundaries: Containers wrap content vertically rather than clipping text with fixed height modifiers.",
+          "• Multi-line Adaptation: Buttons and card headers wrap gracefully without truncating essential action labels."
+        ]
+      },
+      {
+        "id": "contrast",
+        "title": "Contrast and non-color cues",
+        "paragraphs": [
+          "Color must never be the sole conveyor of information:",
+          "• Text Contrast: foreground against background exceeds 15:1; mutedForeground exceeds 4.5:1 (WCAG AA).",
+          "• Non-Text Contrast: Focus rings and active borders exceed 3:1.",
+          "• Non-Color Cues: Error states always combine red accents with an error icon and descriptive message text. Users with red-green color blindness are never left guessing."
+        ]
+      },
+      {
+        "id": "rtl",
+        "title": "Bi-directional layout (RTL)",
+        "paragraphs": [
+          "FrogUI natively supports Right-to-Left languages (Arabic, Hebrew, Persian):",
+          "• Logical Dimensions: Components use Start and End alignment rather than hardcoded Left and Right.",
+          "• Icon Mirroring: Directional icons (back, forward, chevron) automatically mirror based on LayoutDirection.",
+          "• Drawer Docking: Side drawers dock to the logical start or end edge."
+        ]
+      },
+      {
+        "id": "reduced-motion",
+        "title": "Reduced motion integration",
+        "paragraphs": [
+          "FrogTheme.reduceMotion listens live to Android's Settings.Global.ANIMATOR_DURATION_SCALE.",
+          "When animations are disabled in developer options or accessibility settings, FrogUI transitions snap to their destination state in 0ms, protecting users with motion sensitivity while keeping all state updates visible."
+        ]
+      },
+      {
+        "id": "testing",
+        "title": "Accessibility testing layers",
+        "paragraphs": [
+          "Automated checks catch regressions, but manual verification provides ground truth:",
+          "• Automated Semantics Tests: Compose test rules verify assertHasClickAction(), assertContentDescriptionEquals(), and state nodes in CI.",
+          "• Accessibility Scanner: Google Accessibility Scanner audits touch targets and color contrast.",
+          "• Device Verification: Manual TalkBack, hardware keyboard, and RTL review on physical Android hardware."
+        ]
+      },
+      {
+        "id": "do-dont",
+        "title": "Do and Don't guidelines",
+        "paragraphs": [
+          "Best practices for accessible Android applications:"
+        ],
+        "bullets": [
+          "DO: Rely on FrogUI's built-in 48dp minimum touch targets.",
+          "DO: Test all critical user flows with TalkBack and physical keyboard navigation.",
+          "DO: Pair error and destructive states with icons and descriptive text.",
+          "DON'T: Set contentDescription on buttons with visible text labels.",
+          "DON'T: Suppress visible focus rings or set focus ring color to transparent.",
+          "DON'T: Rely on color alone to communicate interactive, selected, or error state."
+        ]
+      },
+      {
+        "id": "api",
+        "title": "API reference",
+        "paragraphs": [
+          "Key accessibility properties across foundation and theme:",
+          "• io.github.codewitheswar.frogui.foundation.sizing.FrogSizing.minimumTouchTarget (≥ 48dp invariant)",
+          "• io.github.codewitheswar.frogui.theme.FrogTheme.colors.focusRing (2dp visible keyboard focus outline)",
+          "• io.github.codewitheswar.frogui.theme.FrogTheme.reduceMotion (Platform animator scale listener)",
+          "• androidx.compose.ui.semantics.Role (Standard Compose semantics integration)"
+        ]
+      },
+      {
+        "id": "related",
+        "title": "Related foundations",
+        "paragraphs": [
+          "Explore how accessibility integrates across the design system:",
+          "• Colors & Theme: Review WCAG AA contrast ratios and focus ring colors.",
+          "• Sizing: Understand the difference between visual control height and 48dp touch targets.",
+          "• Motion: Learn how transitions snap instantly when reduced motion is requested."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/architecture",
+    "eyebrow": "Architecture",
+    "title": "Architecture Overview",
+    "description": "Understand how FrogUI separates reusable Android code, design foundations, component discovery, native showcase, documentation, and release infrastructure.",
+    "intro": "FrogUI is engineered around an acyclic, single-direction dependency model where native Kotlin and Jetpack Compose code is the authoritative runtime source, machine-readable registry metadata synchronizes cross-platform discovery, and web documentation provides in-depth technical guidance without executing Compose in the browser.",
+    "sections": [
+      {
+        "id": "goals",
+        "title": "Architectural goals",
+        "paragraphs": [
+          "FrogUI is designed from first principles to solve the fragmentation, drift, and maintenance debt commonly encountered in multi-module design systems.",
+          "Rather than treating components as isolated UI widgets, the architecture establishes strict contracts across runtime implementation, metadata discovery, testing evidence, and documentation delivery:"
+        ],
+        "bullets": [
+          "Predictable dependency direction: Lower-level primitives never import higher-level consumers or applications.",
+          "Small public API surface: Clean, focused composables that expose only necessary parameters and avoid framework bloat.",
+          "Runtime independence: Published Android libraries contain zero documentation tooling, web code, or showcase state.",
+          "One canonical component: Each component has exactly one native Jetpack Compose implementation in frogui-components.",
+          "Registry-driven discoverability: Machine-readable JSON schemas drive cataloging, search, and routes across platforms.",
+          "Native Android execution: The Android Showcase application provides authentic on-device verification and laboratory inspection.",
+          "Web documentation as guidance: The React/Vite docs platform renders static documentation and metadata without executing Compose.",
+          "Release safety: Binary compatibility validation, schema verification, and product contract checks run on every pull request."
+        ]
+      },
+      {
+        "id": "system-map",
+        "title": "Main system map",
+        "paragraphs": [
+          "The FrogUI repository is structured into four distinct horizontal subsystems coordinated by centralized build logic and automated CI workflows.",
+          "Each subsystem has a clear boundary, dedicated technology stack, and defined consumption contract:"
+        ],
+        "visual": "arch-system-map",
+        "code": {
+          "language": "text",
+          "title": "Architectural Subsystems & Information Flow",
+          "value": "                    FrogUI Repository\n                          │\n        ┌─────────────────┼──────────────────┐\n        ▼                 ▼                  ▼\n Android Library       Registry           Web Docs\n (foundation/theme/   (JSON schemas &    (React 19, Vite 6,\n  components AARs)    metadata models)    Tailwind CSS 4)\n        │                 │                  │\n        ▼                 │                  │\n Native Showcase ◄────────┘                  │\n (:app Laboratory)                           │\n        │                                    │\n        └──────────── metadata & guidance ──►│"
+        }
+      },
+      {
+        "id": "dependencies",
+        "title": "Dependency direction & boundary enforcement",
+        "paragraphs": [
+          "Dependency direction in FrogUI is strictly top-down and acyclic. Lower architectural layers never import higher consumers. This rule is not merely an informal guideline—it is enforced by gradle/product-contract.gradle.kts on every Gradle build and CI run.",
+          "The product contract inspects all production and test configurations (api, implementation, compileOnly, runtimeOnly), verifying that only explicitly permitted module edges and external dependencies are declared."
+        ],
+        "visual": "arch-dependencies",
+        "callout": {
+          "type": "warning",
+          "title": "Enforced Boundary Rule",
+          "value": "Reusable library modules (:frogui-foundation, :frogui-theme, :frogui-components) must never depend on the Showcase (:app), test-only harnesses (:frogui-testing), or third-party icon/network libraries. Any unauthorized dependency immediately fails ./gradlew verifyArchitecture."
+        }
+      },
+      {
+        "id": "source-of-truth",
+        "title": "Authoritative sources of truth",
+        "paragraphs": [
+          "In a design system spanning multiple platforms and tools, ambiguity about which file owns a decision causes contract drift. FrogUI establishes a single, unambiguous source of truth for every concern:"
+        ],
+        "visual": "arch-source-of-truth"
+      },
+      {
+        "id": "canonical-rule",
+        "title": "One canonical component rule",
+        "paragraphs": [
+          "Every component in FrogUI exists as a single canonical Jetpack Compose implementation inside frogui-components (such as FrogButton.kt or FrogDrawer.kt).",
+          "There is no ShowcaseButton, no WebButton, and no alternative Android widget. The Android Showcase consumes the actual published library component directly. The web documentation site renders representative preview models designed specifically for documentation, but never attempts to emulate or duplicate Android Compose runtime behavior."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Canonical component import",
+          "value": "// Applications and Showcase import the exact same canonical implementation:\nimport io.github.codewitheswar.frogui.components.actions.button.FrogButton\nimport io.github.codewitheswar.frogui.components.actions.button.FrogButtonDefaults\nimport io.github.codewitheswar.frogui.components.actions.button.FrogButtonVariant\n\n@Composable\nfun PrimaryAction(onSave: () -> Unit) {\n    FrogButton(\n        onClick = onSave,\n        variant = FrogButtonVariant.Primary\n    ) {\n        Text(\"Save Changes\")\n    }\n}"
+        }
+      },
+      {
+        "id": "runtime-boundary",
+        "title": "Android runtime boundary",
+        "paragraphs": [
+          "To ensure minimal footprint and zero bloat for consumer applications, published Android artifacts are strictly limited to reusable library code.",
+          "Only three modules apply the publishing plugin and produce Maven AARs:"
+        ],
+        "bullets": [
+          ":frogui-foundation: Primitive design tokens, color models, typography scale, 12-step spacing, shapes, elevation, motion tokens, sizing contracts, and adaptive breakpoint resolvers.",
+          ":frogui-theme: FrogTheme composition locals, token resolution defaults, Material 3 theme bridge, dark mode resolver, and system reduced-motion listeners.",
+          ":frogui-components: Public reusable UI components (actions, overlays, and forthcoming forms and data primitives)."
+        ],
+        "callout": {
+          "type": "note",
+          "title": "What Remains Outside Consumer AARs",
+          "value": "The Showcase application (:app), metadata models (:frogui-registry), test fixtures (:frogui-testing), build convention plugins (build-logic), node generator scripts (tools/), and documentation platform (docs/) are never bundled into published Android libraries."
+        }
+      },
+      {
+        "id": "web-boundary",
+        "title": "Web documentation boundary",
+        "paragraphs": [
+          "The FrogUI documentation website (docs/) is a static React 19 application built with TypeScript, Vite 6, and Tailwind CSS 4, deployed directly to GitHub Pages.",
+          "It is fundamentally a documentation and metadata consumer, not a web UI port of the library. It consumes build-time generated catalog data (catalog.json and search.json), displays Shiki-highlighted Kotlin code, and provides responsive documentation layouts. It does not execute Jetpack Compose runtime in the browser."
+        ]
+      },
+      {
+        "id": "evolution",
+        "title": "Future modularization & evolution",
+        "paragraphs": [
+          "FrogUI maintains honesty about current versus planned architecture. Currently, all reusable components live within the single :frogui-components library module. This keeps initial adoption straightforward and eliminates dependency version skew for consumers.",
+          "As the catalog expands, modularization will be driven strictly by technical necessity (such as compile-time isolation or distinct release lifecycles), potentially splitting into:"
+        ],
+        "bullets": [
+          "Current Architecture: :frogui-foundation → :frogui-theme → :frogui-components (Single unified components artifact).",
+          "Planned Modularization: :frogui-components-actions (buttons, icon buttons), :frogui-components-overlays (drawers, dialogs, sheets), :frogui-components-forms (inputs, switches, pickers), :frogui-components-feedback (banners, toasts).",
+          "Evolution Rule: Future module splits will only be made when justified by measurable build times or dependency pressure, never merely for cosmetic organization."
+        ]
+      },
+      {
+        "id": "related",
+        "title": "Architecture documentation roadmap",
+        "paragraphs": [
+          "Explore each dedicated architectural area to understand specific design rules, implementation standards, and release infrastructure:"
+        ],
+        "visual": "architecture-index"
+      }
+    ]
+  },
+  {
+    "path": "/architecture/technology-foundation",
+    "eyebrow": "Architecture",
+    "title": "Technology Foundation",
+    "description": "The core technologies, dependency boundaries, and engineering standards used to build, document, test, and distribute FrogUI.",
+    "intro": "Every technology in the FrogUI stack is selected to maximize native Android fidelity, type safety, build performance, and zero-runtime leakage into consumer applications.",
+    "sections": [
+      {
+        "id": "overview",
+        "title": "Technology stack overview",
+        "paragraphs": [
+          "A reusable UI library must balance modern developer experience against long-term maintenance costs and consumer binary footprint.",
+          "FrogUI establishes explicit architectural boundaries around each chosen technology, ensuring that development tooling never pollutes the consumer runtime:"
+        ],
+        "visual": "arch-tech-matrix"
+      },
+      {
+        "id": "kotlin",
+        "title": "Kotlin runtime & language idioms",
+        "paragraphs": [
+          "FrogUI is written entirely in Kotlin 2.2.10, leveraging the latest Kotlin language features and the Compose Compiler plugin.",
+          "The library strictly adheres to Kotlin-first API conventions:"
+        ],
+        "bullets": [
+          "Explicit nullability: Non-nullable types are standard; nullable types are reserved for optional slots or absence of data.",
+          "Compose stability annotations: Public model types, color contracts, and theme token containers are annotated with @Immutable or @Stable to enable compiler smart recomposition skipping.",
+          "Named parameters & default expressions: Public APIs provide ergonomic default values for optional configurations, enabling concise call sites.",
+          "Trailing lambdas: Primary composable content slots are positioned as the final parameter to support idiomatic Compose trailing-lambda syntax.",
+          "State hoisting: Business logic and mutable state remain with the caller; components accept values and emit intent through typed callbacks."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Immutable model with stability annotation",
+          "value": "@Immutable\ndata class FrogButtonColors(\n    val containerColor: Color,\n    val contentColor: Color,\n    val disabledContainerColor: Color,\n    val disabledContentColor: Color,\n    val focusedBorderColor: Color\n)"
+        }
+      },
+      {
+        "id": "compose",
+        "title": "Jetpack Compose UI runtime",
+        "paragraphs": [
+          "Jetpack Compose is the canonical UI toolkit for FrogUI. The library does not provide parallel XML layouts or legacy View hierarchies in v1.",
+          "Building exclusively on Compose enables direct integration with Android platform accessibility semantics, hardware-accelerated graphics, layout modifiers, and dynamic window size classes without translation layers or legacy overhead."
+        ]
+      },
+      {
+        "id": "gradle-catalog",
+        "title": "Gradle Kotlin DSL & Version Catalog",
+        "paragraphs": [
+          "The build system uses Gradle 8+ with Kotlin DSL (*.gradle.kts), powered by a centralized version catalog in gradle/libs.versions.toml.",
+          "Hardcoded version strings and dependency coordinates in subproject build files are strictly prohibited. The version catalog centralizes Android Gradle Plugin (AGP 9.3.2), Kotlin (2.2.10), Compose BOM (2026.02.01), compileSdk 36, minSdk 24, and JVM 11 target compatibility."
+        ],
+        "code": {
+          "language": "toml",
+          "title": "gradle/libs.versions.toml excerpt",
+          "value": "[versions]\nagp = \"9.3.2\"\nkotlin = \"2.2.10\"\ncomposeBom = \"2026.02.01\"\nbinaryCompatibility = \"0.18.1\"\n\n[libraries]\nandroidx-compose-bom = { group = \"androidx.compose\", name = \"compose-bom\", version.ref = \"composeBom\" }\nandroidx-compose-foundation = { group = \"androidx.compose.foundation\", name = \"foundation\" }\nbinary-compatibility-validator = { module = \"org.jetbrains.kotlinx:binary-compatibility-validator\", version.ref = \"binaryCompatibility\" }"
+        }
+      },
+      {
+        "id": "build-logic",
+        "title": "Convention plugins in build-logic",
+        "paragraphs": [
+          "To eliminate boilerplate across Android modules while enforcing consistency, common configuration is factored into Gradle convention plugins in build-logic/src/main/kotlin:",
+          "1. frogui.android.library (FrogAndroidLibraryPlugin): Configures compileSdk 36, minSdk 24, Java 11 target, and Compose compiler flags across all library subprojects.",
+          "2. frogui.publishing (FrogPublishingPlugin): Configures maven-publish, POM metadata, sources JAR generation, and local staging into build/maven.",
+          "3. frogui.api.validation (FrogApiValidationPlugin): Integrates JetBrains Binary Compatibility Validator with AGP release AAR artifacts to track and enforce public ABI stability."
+        ]
+      },
+      {
+        "id": "coroutines-flow",
+        "title": "Asynchronous state & Coroutines",
+        "paragraphs": [
+          "Kotlin Coroutines and Flow are used strictly where asynchronous behavior genuinely exists in the user experience.",
+          "For example, FrogDrawerState exposes suspend fun open() and suspend fun close() to coordinate animated drawer transitions. Conversely, synchronous components like FrogButton do not introduce coroutine scopes or Flow wrappers, keeping execution immediate and zero-overhead."
+        ]
+      },
+      {
+        "id": "icon-strategy",
+        "title": "Icon strategy & boundary",
+        "paragraphs": [
+          "FrogUI enforces a strict boundary between Showcase iconography and public component contracts:",
+          "Showcase application: Uses a pinned @hugeicons/core-free-icons (v4.3.0) package containing 26 verified semantic icons for toolbars, navigation, and laboratory controls.",
+          "Public component APIs: Accept generic @Composable () -> Unit slots (such as leadingIcon and trailingIcon). FrogUI reusable libraries contain zero icon-pack dependencies, allowing consumers to use VectorDrawable, ImageVector, Material Icons, Lucide, or proprietary SVG assets without friction."
+        ]
+      },
+      {
+        "id": "image-strategy",
+        "title": "Image loading strategy",
+        "paragraphs": [
+          "Core reusable components in FrogUI contain zero network or image decoding dependencies. There is no hard dependency on Coil, Glide, Fresco, or Ktor.",
+          "Consumers retain complete freedom over their image loading pipeline. Where component layouts require media display, composable slots accept caller-rendered image content."
+        ]
+      },
+      {
+        "id": "registry-tech",
+        "title": "Registry technology & validation",
+        "paragraphs": [
+          "The component registry is built on JSON Schema (Draft-07) and validated via Ajv 8.20.0 using Node.js build tooling in tools/registry/.",
+          "The registry generates immutable Kotlin catalog classes (frogui-registry) for the Android Showcase and TypeScript modules (docs/src/generated/) for the web documentation. Runtime reflection is completely avoided: all discovery data is baked at build time."
+        ]
+      },
+      {
+        "id": "web-stack",
+        "title": "Web documentation platform stack",
+        "paragraphs": [
+          "The web documentation site is built with modern frontend technologies to ensure instant page loads and responsive navigation on GitHub Pages:",
+          "React 19, TypeScript 5.7, Vite 6.2, and Tailwind CSS 4 with the @tailwindcss/vite compiler plugin. The docs site consumes generated JSON metadata and renders documentation pages with client-side routing, search, and accessible navigation."
+        ]
+      },
+      {
+        "id": "syntax-highlighting",
+        "title": "Native vs web syntax highlighting",
+        "paragraphs": [
+          "Syntax highlighting is handled independently on each platform using platform-native engines:",
+          "Android Showcase: Uses dev.snipme:highlights (v1.1.0) to highlight Kotlin and Gradle code blocks natively in Compose.",
+          "Web Documentation: Uses Shiki 3.1.0 to render high-fidelity syntax highlighting across Kotlin, JSON, Bash, and TOML code snippets during build and runtime."
+        ]
+      },
+      {
+        "id": "ci-cd",
+        "title": "Continuous integration workflows",
+        "paragraphs": [
+          "Repository automation is managed through five specialized GitHub Actions workflows in .github/workflows/:",
+          "1. android-ci.yml: Runs verifyArchitecture, apiCheck, testDebugUnitTest, lintDebug, assembleDebug, and test APK compilation on PRs and main pushes.",
+          "2. docs-ci.yml: Validates registry schemas, runs Node test suites, typechecks TypeScript, builds the static Vite bundle, and verifies 404/index integrity.",
+          "3. docs-deploy.yml: Deploys the verified static documentation bundle to GitHub Pages on every push to main.",
+          "4. registry-docs.yml: Validates metadata synchronization when component definitions, examples, or release properties change.",
+          "5. release.yml: Manual workflow_dispatch pipeline that executes architecture checks, ABI validation, and stages reviewable Maven publications to build/maven."
+        ]
+      },
+      {
+        "id": "publishing",
+        "title": "Distribution & publishing state",
+        "paragraphs": [
+          "FrogUI maintains strict honesty regarding distribution status: the current codebase is an unpublished development snapshot (0.1.0-SNAPSHOT).",
+          "Publication logic is implemented and locally verifiable via ./gradlew publishAllPublicationsToBuildRepository, which outputs release AARs, sources JARs, and POMs to build/maven. Remote upload to Maven Central and GitHub Releases is planned and intentionally deferred until the component catalog reaches maturity."
+        ],
+        "callout": {
+          "type": "note",
+          "title": "Current Distribution Status",
+          "value": "Current: Development version 0.1.0-SNAPSHOT, local staging in build/maven. Planned: Maven Central publication and signed GitHub Releases."
+        }
+      },
+      {
+        "id": "api-compatibility",
+        "title": "API compatibility tooling",
+        "paragraphs": [
+          "To guarantee that public API changes are deliberate and reviewed, FrogUI uses JetBrains Binary Compatibility Validator (0.18.1) via FrogApiValidationPlugin.",
+          "The plugin extracts the Kotlin JVM ABI from release AAR artifacts, normalizes the output, checks against forbidden implementation leaks, and validates candidates against version-controlled api/*.api files. Any unreviewed signature change fails CI immediately."
+        ]
+      },
+      {
+        "id": "dependency-philosophy",
+        "title": "Dependency discipline & library cost",
+        "paragraphs": [
+          "Every third-party dependency added to a reusable UI library carries significant hidden costs: transitive dependency conflicts, library size inflation, security vulnerabilities, and lifecycle coupling.",
+          "FrogUI follows an aggressive zero-unnecessary-dependency policy: if a capability is not strictly required to render native UI components or enforce design foundations, it is excluded from the published artifacts."
+        ]
+      },
+      {
+        "id": "non-dependencies",
+        "title": "What FrogUI intentionally does not depend on",
+        "paragraphs": [
+          "To preserve architectural clarity and lightweight integration, FrogUI explicitly and intentionally avoids dependency on:"
+        ],
+        "bullets": [
+          "No HTTP or Networking libraries (Retrofit, Ktor, OkHttp, Volley).",
+          "No Dependency Injection frameworks (Hilt, Dagger, Koin).",
+          "No Database or Persistence engines (Room, SQLite, DataStore, SQLDelight).",
+          "No Navigation frameworks (Navigation Compose, Voyager, Decompose) in component libraries.",
+          "No Analytics, Telemetry, or Crash Reporting SDKs.",
+          "No Server-Driven UI engines or remote JSON layout parsers.",
+          "No WebView runtimes or JavaScript bridges."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/architecture/repository",
+    "eyebrow": "Architecture",
+    "title": "Repository Structure",
+    "description": "How FrogUI organizes reusable Android code, Showcase tooling, registry metadata, documentation, and automation.",
+    "intro": "The FrogUI repository enforces physical separation between publishable Android library modules, the developer showcase application, schema-validated registry metadata, build logic, and documentation.",
+    "sections": [
+      {
+        "id": "tree",
+        "title": "Current repository tree",
+        "paragraphs": [
+          "The FrogUI repository contains only active, verified directories. No aspirational empty modules are committed.",
+          "Here is the verified top-level directory layout:"
+        ],
+        "visual": "arch-repo-tree",
+        "code": {
+          "language": "text",
+          "title": "Repository Directory Layout",
+          "value": "FrogUI/\n├── app/                      # Native Android Showcase & laboratory app\n├── frogui-foundation/        # Primitive design tokens, color, typography, spacing, motion\n├── frogui-theme/             # FrogTheme provider, locals, Material bridge, dark mode\n├── frogui-components/        # Public UI components (FrogButton, FrogDrawer)\n├── frogui-registry/          # Generated immutable native catalog models\n├── frogui-testing/           # Test harness fixture for theme and compose tests\n├── build-logic/              # Gradle convention plugins (library, publishing, API check)\n├── registry/                 # JSON schemas and component metadata records\n│   ├── schema/               # Draft-07 schemas (component, example, registry)\n│   └── components/           # Canonical records: button.json, drawer.json\n├── docs/                     # Web documentation platform (React 19, Vite 6, Tailwind 4)\n│   ├── content/              # Authored pages.json and component prose\n│   └── src/                  # React documentation application\n├── tools/                    # Node.js generator and validation scripts\n│   ├── registry/             # Validation and code generation\n│   ├── theme/                # Token verification scripts\n│   └── icons/                # Showcase icon validation\n├── gradle/                   # Gradle wrapper, libs.versions.toml, product contract\n└── .github/                  # GitHub Actions CI/CD workflows"
+        }
+      },
+      {
+        "id": "modules",
+        "title": "Module responsibilities & boundaries",
+        "paragraphs": [
+          "Each module has a strictly bounded responsibility defined by gradle/product-contract.gradle.kts:",
+          ":frogui-foundation: Owns primitive token definitions (FrogColors, FrogTypography, FrogSpacing, FrogShapes, FrogElevation, FrogMotion, FrogSizing, FrogAdaptive). Depends on zero project modules.",
+          ":frogui-theme: Owns FrogTheme runtime, composition locals (LocalFrogColors, LocalFrogTypography, etc.), defaults resolvers, and the Material 3 bridge. Depends only on :frogui-foundation.",
+          ":frogui-components: Owns public, reusable Jetpack Compose components (FrogButton, FrogDrawer, variants, and defaults). Depends on :frogui-foundation and :frogui-theme.",
+          ":frogui-registry: Owns generated immutable catalog metadata and route descriptors for native Showcase consumption. Depends only on Compose runtime.",
+          ":frogui-testing: Owns shared test theme fixtures and test harness utilities. Used strictly in test configurations; never published.",
+          ":app: The native Android Showcase application. Integrates all modules to provide on-device inspection, interactive property drawers, and TalkBack verification."
+        ]
+      },
+      {
+        "id": "dependency-graph",
+        "title": "Enforced dependency graph",
+        "paragraphs": [
+          "The build contract enforces this acyclic dependency structure on every compilation. The productionEdges map in gradle/product-contract.gradle.kts codifies these rules:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "gradle/product-contract.gradle.kts productionEdges",
+          "value": "val productionEdges = mapOf(\n    \":frogui-foundation\" to emptySet<String>(),\n    \":frogui-theme\" to setOf(\":frogui-foundation\"),\n    \":frogui-components\" to setOf(\":frogui-foundation\", \":frogui-theme\"),\n    \":frogui-registry\" to emptySet<String>(),\n    \":frogui-testing\" to setOf(\":frogui-theme\"),\n    \":app\" to setOf(\":frogui-foundation\", \":frogui-theme\", \":frogui-components\", \":frogui-registry\")\n)"
+        }
+      },
+      {
+        "id": "package-structure",
+        "title": "Kotlin package organization",
+        "paragraphs": [
+          "All published Android code resides under the root group io.github.codewitheswar.frogui:",
+          "• io.github.codewitheswar.frogui.foundation: Token types and primitive models.",
+          "• io.github.codewitheswar.frogui.theme: FrogTheme runtime, environment, and bridge.",
+          "• io.github.codewitheswar.frogui.components: Reusable UI controls grouped by functional category (actions, overlays, forms, feedback).",
+          "• io.github.codewitheswar.frogui.registry: Generated catalog metadata classes."
+        ]
+      },
+      {
+        "id": "component-package",
+        "title": "Component package anatomy (Button reference)",
+        "paragraphs": [
+          "Each component package follows a standardized file layout that separates public composable functions, configuration defaults, semantic enums, and private internal rendering logic:"
+        ],
+        "code": {
+          "language": "text",
+          "title": "frogui-components/.../actions/button/ Layout",
+          "value": "io/github/codewitheswar/frogui/components/actions/button/\n├── FrogButton.kt           # Public FrogButton composable & FrogIconButton\n├── FrogButtonDefaults.kt   # Theme-aware colors(), shapes, sizes, and padding defaults\n├── FrogButtonVariant.kt    # Semantic variant enum: Primary, Secondary, Outline, Ghost, Destructive\n├── FrogButtonSize.kt       # Size enum: Small, Medium, Large\n├── FrogButtonColors.kt     # Immutable @Immutable color contract\n└── internal/               # Private layout, spinner rendering, and border drawing helpers"
+        }
+      },
+      {
+        "id": "showcase-ownership",
+        "title": "Showcase ownership (:app)",
+        "paragraphs": [
+          "The :app module is the developer showcase and laboratory. It owns navigation shells, component inspection drawers, live property editors, accessibility status cards, and real-time Kotlin code generators.",
+          "None of this showcase infrastructure is bundled into library artifacts. Component implementations remain completely unaware of the showcase shell."
+        ]
+      },
+      {
+        "id": "registry-ownership",
+        "title": "Registry ownership (registry/)",
+        "paragraphs": [
+          "The registry directory owns the machine-readable component catalog:",
+          "• registry/schema/component.schema.json: Draft-07 schema validating metadata, properties, examples, accessibility facts, and evidence.",
+          "• registry/schema/example.schema.json: Schema for compilable Kotlin example regions.",
+          "• registry/schema/registry.schema.json: Top-level catalog index schema.",
+          "• registry/components/*.json: Per-component records (button.json, drawer.json)."
+        ]
+      },
+      {
+        "id": "docs-ownership",
+        "title": "Documentation platform ownership (docs/)",
+        "paragraphs": [
+          "The docs directory owns the web documentation application:",
+          "• docs/content/pages.json: Authored structured documentation for Getting Started, Foundations, and Architecture.",
+          "• docs/content/components/<id>.md: Detailed component usage prose, layout rules, and accessibility notes.",
+          "• docs/src/: React 19 application code, navigation trees, visual token components, and layout shells.",
+          "• docs/dist/: Production static output built by Vite, validated and deployed to GitHub Pages."
+        ]
+      },
+      {
+        "id": "generated-files",
+        "title": "Source vs generated files",
+        "paragraphs": [
+          "A fundamental architectural rule in FrogUI is the strict separation between authored sources and generated artifacts:",
+          "Authored sources (Kotlin files, JSON schemas, component JSON records, pages.json) are committed to git and edited by developers.",
+          "Generated files (frogui-registry/build/generated/.../GeneratedComponentRegistry.kt, docs/src/generated/catalog.ts, docs/dist/) are produced by build scripts and must never be edited manually. Any manual edit to a generated file will be overwritten on the next build."
+        ]
+      },
+      {
+        "id": "split-rules",
+        "title": "When to split modules",
+        "paragraphs": [
+          "Module boundaries create maintenance, versioning, and compilation overhead. FrogUI applies a strict rule for module creation:",
+          "A module split is justified ONLY when it provides real dependency isolation, improves parallel build times, enables distinct publishing lifecycles, or prevents heavy transitive dependencies from leaking to light consumers.",
+          "Modules are never split merely for aesthetic symmetry or theoretical organization."
+        ]
+      },
+      {
+        "id": "future-evolution",
+        "title": "Planned repository modularization",
+        "paragraphs": [
+          "As FrogUI expands toward 20+ components, the single :frogui-components library module may eventually be decomposed into categorized submodules:",
+          "• :frogui-components-actions (FrogButton, FrogIconButton, FrogSplitButton)",
+          "• :frogui-components-overlays (FrogDrawer, FrogDialog, FrogBottomSheet)",
+          "• :frogui-components-forms (FrogTextField, FrogSwitch, FrogCheckbox, FrogRadio)",
+          "• :frogui-components-feedback (FrogBanner, FrogToast, FrogBadge)",
+          "This evolution remains planned and will only be executed when module size and compile times justify the boundary."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/architecture/api-design",
+    "eyebrow": "Architecture",
+    "title": "API Design",
+    "description": "State ownership, parameter conventions, slots, defaults, boundaries, compatibility, and migration.",
+    "intro": "FrogUI public APIs adhere to a unified set of Compose-first design conventions: caller-owned state, predictable parameter ordering, semantic variants instead of boolean explosion, generic composable slots, and theme-aware Defaults.",
+    "sections": [
+      {
+        "id": "principles",
+        "title": "Core API design principles",
+        "paragraphs": [
+          "FrogUI APIs are designed to make standard use simple while keeping advanced customization possible without exposing internal implementation details:",
+          "1. Make the common case effortless: A button with text and a click callback should take fewer than 5 lines of code.",
+          "2. Caller owns state: Components do not store business or navigation state internally; state is hoisted to the caller.",
+          "3. Compose with slots: Components accept composable lambdas for extension rather than rigid configuration flags.",
+          "4. Small public API surface: Internal helpers and implementation details are kept private or internal.",
+          "5. Binary and source compatibility: Parameter names, types, ordering, and default values are treated as binding contracts."
+        ]
+      },
+      {
+        "id": "state-hoisting",
+        "title": "State hoisting & caller ownership",
+        "paragraphs": [
+          "In idiomatic Jetpack Compose, UI components are stateless renderers of hoisted state. FrogUI strictly follows this pattern.",
+          "Every controllable state is passed as a value alongside an explicit change callback. The component never mutates caller state directly:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Stateless component state hoisting pattern",
+          "value": "// The caller owns checked state; FrogSwitch renders value and emits intent:\nvar notificationsEnabled by rememberSaveable { mutableStateOf(true) }\n\nFrogSwitch(\n    checked = notificationsEnabled,\n    onCheckedChange = { notificationsEnabled = it }\n)"
+        }
+      },
+      {
+        "id": "state-helpers",
+        "title": "Non-trivial state helpers",
+        "paragraphs": [
+          "Not every component requires a dedicated state class. FrogUI enforces clear criteria for when a state helper object is justified:",
+          "Simple action controls (such as FrogButton) do not need a ButtonState class. Introducing state objects for simple click targets adds unnecessary ceremony and allocation.",
+          "Complex overlay controls (such as FrogDrawer) justify a dedicated FrogDrawerState because they coordinate external open/close triggers, programmatic suspend animations, and saveable restoration across configuration changes."
+        ]
+      },
+      {
+        "id": "parameter-order",
+        "title": "Canonical parameter ordering standard",
+        "paragraphs": [
+          "To ensure consistency across the entire component catalog, all FrogUI composables follow a standardized 9-part parameter sequence:",
+          "1. Required content / value (e.g. text label or checked value)",
+          "2. Required behavior callback (e.g. onClick or onCheckedChange)",
+          "3. Modifier: Modifier = Modifier (always the first optional parameter)",
+          "4. Semantic variant and size enums (e.g. variant = Primary, size = Medium)",
+          "5. Caller-owned state flags (e.g. enabled = true, loading = false)",
+          "6. Component-specific layout parameters (e.g. fullWidth = false)",
+          "7. Composable extension slots (e.g. leadingIcon, trailingIcon, header, footer)",
+          "8. Theme defaults & style overrides (e.g. colors = FrogButtonDefaults.colors())",
+          "9. Advanced interaction observation hooks (e.g. interactionSource = null)"
+        ],
+        "visual": "arch-api-order"
+      },
+      {
+        "id": "semantic-variants",
+        "title": "Semantic variants vs boolean explosion",
+        "paragraphs": [
+          "A common anti-pattern in UI libraries is boolean flag explosion: adding isPrimary, isOutline, isGhost, and isDestructive parameters to a single component. This leads to conflicting combinations (such as isPrimary = true && isGhost = true) and unmaintainable render logic.",
+          "FrogUI replaces boolean flags with strongly-typed, mutually-exclusive semantic enums (e.g. FrogButtonVariant.Primary, Secondary, Outline, Ghost, Destructive). Each variant maps cleanly to distinct theme color tokens and visual hierarchy."
+        ]
+      },
+      {
+        "id": "slots",
+        "title": "Composable slots & vendor independence",
+        "paragraphs": [
+          "Components provide composable slots (@Composable () -> Unit) for content extension. Slots preserve complete caller freedom over content rendering.",
+          "FrogButton provides leadingIcon and trailingIcon slots; FrogDrawer provides header, footer, navigationIcon, and actions slots. Slots accept any Compose content, ensuring zero coupling to specific icon packages, image loaders, or text rendering engines."
+        ]
+      },
+      {
+        "id": "defaults",
+        "title": "Theme-aware Defaults objects",
+        "paragraphs": [
+          "Every component provides an associated companion Defaults object (such as FrogButtonDefaults or FrogDrawerDefaults) that resolves semantic values from the local FrogTheme.",
+          "Defaults methods accept individual parameter overrides, allowing developers to customize a specific color, border stroke, or padding value while inheriting all other tokens automatically from the surrounding theme."
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Customizing button colors via Defaults",
+          "value": "FrogButton(\n    onClick = { /* proceed */ },\n    variant = FrogButtonVariant.Outline,\n    colors = FrogButtonDefaults.colors(\n        variant = FrogButtonVariant.Outline,\n        containerColor = FrogTheme.colors.surfaceElevated,\n        contentColor = FrogTheme.colors.foreground\n    )\n) {\n    Text(\"Continue\")\n}"
+        }
+      },
+      {
+        "id": "style-overrides",
+        "title": "Style overrides & escape hatches",
+        "paragraphs": [
+          "While FrogUI components provide polished out-of-the-box styling, real applications occasionally require brand-specific visual treatments.",
+          "Components expose type-safe style parameters (such as shape, colors, and border) using standard Compose types (Shape, BorderStroke, PaddingValues). This provides an escape hatch without breaking accessibility or layout contracts."
+        ]
+      },
+      {
+        "id": "material-boundary",
+        "title": "Material & external boundaries",
+        "paragraphs": [
+          "FrogUI libraries may use Material 3 primitives internally where beneficial, but Material types must never appear in public component signatures, parameter types, or return types.",
+          "This strict boundary is enforced automatically by FrogApiBoundaryTask during build: the task scans generated API files and fails if androidx/compose/material, hugeicons/, or coil/ types leak into published ABI baselines."
+        ]
+      },
+      {
+        "id": "hugeicons-boundary",
+        "title": "Icon library boundary",
+        "paragraphs": [
+          "Hugeicons Free (v4.3.0) is used within the Android Showcase application for consistent iconography. However, Hugeicons is strictly an application dependency.",
+          "No public component in frogui-components imports or references Hugeicons types. Consumers supply their own icons via composable slots."
+        ]
+      },
+      {
+        "id": "accessibility",
+        "title": "Accessibility properties & KDoc",
+        "paragraphs": [
+          "All interactive components incorporate native Android accessibility semantics directly into their implementation:",
+          "Action controls declare Role.Button, enforce minimum 48dp touch targets, render visible 2dp focus rings for keyboard/D-pad navigation, and announce loading/disabled states through TalkBack.",
+          "All public composables, Defaults objects, and configuration models are documented with thorough KDoc explaining purpose, ownership, accessibility behavior, and parameter contracts."
+        ]
+      },
+      {
+        "id": "compatibility",
+        "title": "API compatibility commitments",
+        "paragraphs": [
+          "In Kotlin and Compose, public APIs are sensitive to changes that might appear benign in Java. Renaming a parameter breaks Kotlin named-argument callers; adding a defaulted parameter changes the underlying JVM method descriptor and breaks pre-compiled binary consumers.",
+          "FrogUI reviews every API modification across three distinct dimensions: source compatibility (compilation of existing calls), binary compatibility (JVM ABI descriptors), and behavioral compatibility (runtime invariants)."
+        ]
+      },
+      {
+        "id": "api-dump",
+        "title": "Binary compatibility validation workflow",
+        "paragraphs": [
+          "Public JVM ABI is tracked via JetBrains Binary Compatibility Validator. The workflow ensures zero accidental ABI drift:",
+          "1. ./gradlew apiBuild: Extracts release AAR classes and generates candidate .api files under build/api/.",
+          "2. Review: Maintainers inspect the diff between candidate .api and version-controlled api/*.api baselines.",
+          "3. ./gradlew apiDump: Maintainer explicitly accepts the reviewed changes by copying candidates to baselines.",
+          "4. ./gradlew apiCheck: CI runs this verification task. If any unreviewed public declaration differs from the baseline, CI fails."
+        ],
+        "code": {
+          "language": "bash",
+          "title": "API Compatibility Workflow Commands",
+          "value": "# 1. Build ABI candidate from release AAR:\n./gradlew apiBuild\n\n# 2. Inspect diff against version-controlled baselines:\ngit diff frogui-components/api/\n\n# 3. Accept reviewed ABI changes (maintainer only):\n./gradlew apiDump\n\n# 4. Verify baseline matches candidate (CI gate):\n./gradlew apiCheck check"
+        }
+      },
+      {
+        "id": "deprecation",
+        "title": "Deprecation & migration policy",
+        "paragraphs": [
+          "When an API must be retired, FrogUI enforces a disciplined deprecation lifecycle:",
+          "Obsolete APIs are marked with @Deprecated(message, replaceWith = ReplaceWith(...), level = DeprecationLevel.WARNING).",
+          "Deprecations must provide accurate migration guidance. Before 1.0, breaking changes require release notes and migration guides. Post-1.0, removing a stable API requires a major version bump and at least one preceding minor release under deprecation."
+        ]
+      },
+      {
+        "id": "examples",
+        "title": "Reference component signatures",
+        "paragraphs": [
+          "The canonical signatures of FrogButton and FrogDrawer serve as reference standards for all future components in the catalog:"
+        ],
+        "code": {
+          "language": "kotlin",
+          "title": "Reference Composable Signatures",
+          "value": "@Composable\nfun FrogButton(\n    onClick: () -> Unit,\n    modifier: Modifier = Modifier,\n    variant: FrogButtonVariant = FrogButtonVariant.Primary,\n    size: FrogButtonSize = FrogButtonSize.Medium,\n    enabled: Boolean = true,\n    loading: Boolean = false,\n    fullWidth: Boolean = false,\n    leadingIcon: (@Composable () -> Unit)? = null,\n    trailingIcon: (@Composable () -> Unit)? = null,\n    shape: Shape = FrogButtonDefaults.shape(size),\n    border: BorderStroke? = FrogButtonDefaults.border(variant),\n    colors: FrogButtonColors = FrogButtonDefaults.colors(variant),\n    contentPadding: PaddingValues = FrogButtonDefaults.contentPadding(size),\n    interactionSource: MutableInteractionSource? = null,\n    content: @Composable RowScope.() -> Unit\n)\n\n@Composable\nfun FrogDrawer(\n    visible: Boolean,\n    onDismissRequest: () -> Unit,\n    modifier: Modifier = Modifier,\n    presentation: FrogDrawerPresentation = FrogDrawerPresentation.Auto,\n    title: String? = null,\n    subtitle: String? = null,\n    header: (@Composable () -> Unit)? = null,\n    footer: (@Composable () -> Unit)? = null,\n    navigationIcon: (@Composable () -> Unit)? = null,\n    actions: (@Composable RowScope.() -> Unit)? = null,\n    colors: FrogDrawerColors = FrogDrawerDefaults.colors(),\n    content: @Composable () -> Unit\n)"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/architecture/component-standard",
+    "eyebrow": "Architecture",
+    "title": "Component Standard",
+    "description": "The shared specification-to-stability procedure applied to every FrogUI component.",
+    "intro": "A component in FrogUI is not complete when its visual layout is drawn. It is complete only when it satisfies all 12 canonical delivery gates across implementation, accessibility, testing, metadata, Showcase, and documentation.",
+    "sections": [
+      {
+        "id": "lifecycle",
+        "title": "Component delivery pipeline",
+        "paragraphs": [
+          "Every component in FrogUI progresses through a rigorous 12-stage delivery pipeline from initial specification to production stability.",
+          "Contributors audit existing work, resume at the first incomplete gate, and record evidence in a dedicated delivery record before promoting status:"
+        ],
+        "visual": "arch-lifecycle"
+      },
+      {
+        "id": "specification",
+        "title": "Behavior specification requirement",
+        "paragraphs": [
+          "Implementation never begins with drawing UI. It begins with a comprehensive written specification covering:",
+          "• Purpose & scope: What user problem does the component solve? What is explicitly out of scope?",
+          "• State ownership: What state is caller-owned? Is a state helper object justified?",
+          "• Variants & sizes: What semantic variants exist? What visual sizes are supported?",
+          "• Visual states: Default, pressed, focused, disabled, and loading treatments.",
+          "• Accessibility: Role announcement, minimum 48dp touch targets, focus rings, TalkBack labels.",
+          "• Adaptive behavior: How does the component respond to Compact (< 600dp), Medium (600–839dp), and Expanded (≥ 840dp) window sizes?"
+        ]
+      },
+      {
+        "id": "matrix",
+        "title": "The 12 canonical delivery gates",
+        "paragraphs": [
+          "Every component is tracked against 12 delivery gates recorded in docs/components/<id>-delivery.md:",
+          "1. Specification: Purpose, caller state, variants, sizes, states, interaction, accessibility, and adaptive behavior documented.",
+          "2. Public API: Kotlin composable signature, parameter ordering, slot contracts, and theme-aware Defaults designed and reviewed.",
+          "3. Implementation: One canonical Compose component built; zero Material, Hugeicons, or demo leaks.",
+          "4. Theme / states: Defaults resolve FrogTheme tokens for all variants and visual states.",
+          "5. Accessibility: Semantics role, enforced 48dp minimum touch target, visible focus ring, TalkBack annotations.",
+          "6. Compose previews: FrogComponentPreview renders variants, sizes, states, dark theme, and customization.",
+          "7. Automated tests: JVM unit tests and Compose semantics/activation/restoration tests pass.",
+          "8. Registry metadata: JSON record created with schema v2 lifecycle evidence, properties, and routes.",
+          "9. Showcase integration: ComponentShowcaseDefinition supplies component, typed controls, and inspector to ComponentDetailScreen.",
+          "10. Web documentation: Shared ComponentDetailPage renders prose, API property tables, and registered preview.",
+          "11. API compatibility: Binary ABI baseline established in api/<module>.api; passes apiCheck.",
+          "12. Visual regression: High-value native screen captures and deterministic pixel assertions verified."
+        ]
+      },
+      {
+        "id": "button-reference",
+        "title": "FrogButton reference implementation",
+        "paragraphs": [
+          "FrogButton serves as the canonical reference for simple action controls in FrogUI.",
+          "It provides 5 semantic variants (Primary, Secondary, Outline, Ghost, Destructive), 3 sizes (Small 32dp, Medium 40dp, Large 48dp), and 5 visual states (default, pressed, focused, disabled, loading). While visual height can be 32dp or 40dp, the clickable touch target is enforced at >= 48dp by the runtime contract."
+        ]
+      },
+      {
+        "id": "drawer-reference",
+        "title": "FrogDrawer reference implementation",
+        "paragraphs": [
+          "FrogDrawer serves as the canonical reference for complex overlay controls in FrogUI.",
+          "It demonstrates adaptive presentation (automatically switching between Bottom Sheet on Compact displays and Side Drawer on Medium/Expanded displays), focus trapping, scrim dismissal, Back handler integration, and saveable state management via FrogDrawerState."
+        ]
+      },
+      {
+        "id": "shared-showcase",
+        "title": "Shared Showcase architecture",
+        "paragraphs": [
+          "FrogUI rejects bespoke screen designs for different components in the Showcase.",
+          "All components are presented through a single, unified ComponentDetailScreen shell in the :app module. Each component provides a ComponentShowcaseDefinition supplying live preview composables, typed property controls, inspector drawers, and code generators."
+        ]
+      },
+      {
+        "id": "shared-docs",
+        "title": "Shared web docs architecture",
+        "paragraphs": [
+          "Similarly, the web documentation platform renders all component pages through a single, shared ComponentDetailPage component.",
+          "The page dynamically renders the component prose, interactive preview canvas, generated API property tables, accessibility guidance, and delivery status badges from catalog.json."
+        ]
+      },
+      {
+        "id": "promotion",
+        "title": "Stability promotion gates",
+        "paragraphs": [
+          "Component maturity is governed by strict, validator-enforced lifecycle statuses:",
+          "• Experimental: Working implementation with verified core behaviors; may retain partial or deferred gates.",
+          "• Beta: Feature-complete implementation; cannot contain missing, outdated, or duplicated delivery gates.",
+          "• Stable: Every single gate of the 12 canonical delivery gates must be COMPLETE, accompanied by an approved docs/components/<id>-review.md stability record and binary compatibility baselines."
+        ],
+        "callout": {
+          "type": "warning",
+          "title": "Automated Promotion Enforcement",
+          "value": "The registry validator (tools/registry/registry.mjs) inspects docs/components/<id>-delivery.md on every build. It actively rejects any component claiming Stable status if any gate remains incomplete."
+        }
+      },
+      {
+        "id": "definition-of-done",
+        "title": "Component Definition of Done",
+        "paragraphs": [
+          "Before any component is merged or promoted in FrogUI, maintainers verify this complete Definition of Done checklist:"
+        ],
+        "bullets": [
+          "Specification: Purpose, state ownership, and variants documented in a delivery record.",
+          "API: Follows canonical parameter ordering; slot names are vendor-neutral; Defaults resolve FrogTheme.",
+          "Implementation: Pure Compose; zero Material leaks; zero Hugeicons or network dependencies.",
+          "Accessibility: ≥ 48dp touch envelope guaranteed; visible 2dp focus ring; TalkBack tested.",
+          "Testing: JVM unit tests for state machines; Compose tests for semantics and activation.",
+          "Registry: Validated against schema v2; source paths, examples, and routes verified.",
+          "Showcase: Integrated into ComponentDetailScreen with typed controls and live preview.",
+          "Docs: Component prose authored; API table generated; preview registered.",
+          "Compatibility: Release AAR ABI extracted and verified against baseline with apiCheck."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/architecture/registry",
+    "eyebrow": "Architecture",
+    "title": "Registry",
+    "description": "A machine-readable metadata layer that keeps component identity, discovery, documentation, and tooling synchronized.",
+    "intro": "The FrogUI registry is a build-time metadata contract that synchronizes component discovery across the native Android showcase, web documentation, search indices, and validation tooling. It does not render UI or execute at runtime.",
+    "sections": [
+      {
+        "id": "purpose",
+        "title": "Why a registry exists",
+        "paragraphs": [
+          "In multi-surface design systems, maintaining component lists, API properties, interactive routes, and documentation separately leads inevitably to documentation drift.",
+          "The FrogUI registry solves this by establishing a single machine-readable source of truth for component metadata in registry/components/<id>.json. From this structured metadata, build tooling automatically projects typed discovery models for both Android and the Web:"
+        ],
+        "visual": "arch-registry-flow"
+      },
+      {
+        "id": "not-ui",
+        "title": "The registry does not implement UI",
+        "paragraphs": [
+          "It is critical to understand what the registry is NOT: the registry is NOT a server-driven UI engine, layout definition, or runtime widget factory.",
+          "The registry stores descriptive facts about components—their names, categories, status, parameters, accessible roles, and example snippet bounds. It contains zero Compose rendering logic, zero UI layout trees, and zero JSON-to-Composable reflection."
+        ],
+        "callout": {
+          "type": "important",
+          "title": "Registry Scope Boundary",
+          "value": "Registry JSON ≠ UI definition. FrogUI never interprets JSON into Compose UI at runtime. All user interface execution happens strictly through compiled Kotlin composables."
+        }
+      },
+      {
+        "id": "id-contract",
+        "title": "Component ID contract",
+        "paragraphs": [
+          "Every component possesses a stable, lowercase, kebab-case identifier (such as button or drawer).",
+          "This ID forms an immutable contract across the entire ecosystem: registry JSON filename (registry/components/button.json), Android Showcase destination route (/components/button), web documentation URL (/components/button), delivery record (docs/components/button-delivery.md), and future CLI commands (frogui add button)."
+        ]
+      },
+      {
+        "id": "anatomy",
+        "title": "Registry entry anatomy",
+        "paragraphs": [
+          "Component records adhere to Schema Version 2 (component.schema.json). Here is the actual structured anatomy of a canonical record:"
+        ],
+        "code": {
+          "language": "json",
+          "title": "registry/components/button.json structure",
+          "value": "{\n  \"$schema\": \"../schema/component.schema.json\",\n  \"schemaVersion\": 2,\n  \"id\": \"button\",\n  \"name\": \"FrogButton\",\n  \"displayName\": \"Button\",\n  \"description\": \"Trigger an action or event with explicit visual hierarchy and accessible states.\",\n  \"category\": \"actions\",\n  \"status\": \"experimental\",\n  \"since\": \"0.1.0-SNAPSHOT\",\n  \"source\": \"frogui-components/src/main/java/io/github/codewitheswar/frogui/components/actions/button/FrogButton.kt\",\n  \"showcase\": {\n    \"route\": \"/components/button\",\n    \"source\": \"app/src/main/java/io/github/codewitheswar/frogui/showcase/components/button/ButtonShowcaseDefinition.kt\",\n    \"screen\": \"io.github.codewitheswar.frogui.showcase.components.button.ButtonShowcaseDefinition\"\n  },\n  \"variants\": [\"Primary\", \"Secondary\", \"Outline\", \"Ghost\", \"Destructive\"],\n  \"sizes\": [\"Small\", \"Medium\", \"Large\"],\n  \"properties\": [\n    { \"name\": \"onClick\", \"type\": \"() -> Unit\", \"defaultValue\": \"required\", \"description\": \"Callback triggered on click.\" },\n    { \"name\": \"variant\", \"type\": \"FrogButtonVariant\", \"defaultValue\": \"FrogButtonVariant.Primary\", \"description\": \"Visual hierarchy variant.\" }\n  ],\n  \"accessibility\": {\n    \"role\": \"Role.Button\",\n    \"minTouchTarget\": \"48.dp\",\n    \"talkBackNotes\": \"Announces button role, enabled/disabled state, and loading progress.\"\n  }\n}"
+        }
+      },
+      {
+        "id": "schemas",
+        "title": "Draft-07 JSON schemas",
+        "paragraphs": [
+          "The registry uses three formal Draft-07 schemas in registry/schema/:",
+          "• component.schema.json: Validates component records, requiring identity, paths, status, variants, properties, and schema v2 lifecycle evidence.",
+          "• example.schema.json: Validates compilable code example descriptors.",
+          "• registry.schema.json: Validates the top-level index (registry/index.json) containing category taxonomy and component ordering."
+        ]
+      },
+      {
+        "id": "generated-outputs",
+        "title": "Generated outputs & projections",
+        "paragraphs": [
+          "Build tools process registry JSON and produce typed models for consumption:",
+          "1. frogui-registry/build/.../GeneratedComponentRegistry.kt: Kotlin data structures consumed by the Showcase for offline search, category listing, and navigation dispatch.",
+          "2. docs/dist/catalog.json & search.json: Static JSON datasets containing full component metadata and search indexes for the web docs.",
+          "3. docs/src/generated/catalog.ts & searchIndex.ts: Typed TypeScript interfaces and arrays for Vite frontend development."
+        ]
+      },
+      {
+        "id": "showcase-integration",
+        "title": "Showcase integration",
+        "paragraphs": [
+          "The native Android Showcase does not maintain hardcoded lists of components or screens. Instead, it queries FrogComponentRegistry at runtime to discover available components, display category counts, and route users to the appropriate ComponentDetailScreen."
+        ]
+      },
+      {
+        "id": "docs-integration",
+        "title": "Web docs integration",
+        "paragraphs": [
+          "The web documentation site uses the generated catalog data to populate sidebar navigation, render API property tables, display status badges, and power the instant search dialog (Cmd/Ctrl + K)."
+        ]
+      },
+      {
+        "id": "validation",
+        "title": "Automated registry validation",
+        "paragraphs": [
+          "Running npm run registry:validate executes tools/registry/registry.mjs with comprehensive checks:",
+          "• Validates JSON against Draft-07 schemas via Ajv.",
+          "• Verifies source file paths exist within the repository.",
+          "• Performs lexical checks verifying Kotlin parameter names, types, defaults, and ordering match source code.",
+          "• Verifies referenced example regions exist in compiled Showcase source files.",
+          "• Enforces delivery record existence and promotion criteria for Beta and Stable components."
+        ]
+      },
+      {
+        "id": "registry-vs-code",
+        "title": "Registry vs Kotlin vs Markdown",
+        "paragraphs": [
+          "FrogUI maintains a clean separation of concerns across its three content representations:",
+          "• Kotlin Source: The authoritative runtime implementation and public API contract.",
+          "• Registry JSON: Machine-readable facts (identity, properties, status, evidence paths, routes).",
+          "• Markdown Docs: Long-form human guidance, design rationale, architectural principles, and layout examples."
+        ]
+      },
+      {
+        "id": "future-cli",
+        "title": "Future CLI integration (Planned)",
+        "paragraphs": [
+          "A future command-line interface (frogui CLI) is planned to leverage the registry for developer workflows:",
+          "• frogui init: Configures dependencies and theme wrappers in consumer Android projects.",
+          "• frogui add <component-id>: Copies or configures component source modules.",
+          "These capabilities are planned and not currently usable in the current 0.1.0-SNAPSHOT release."
+        ]
+      }
+    ]
+  },
+  {
+    "path": "/architecture/release",
+    "eyebrow": "Architecture",
+    "title": "Release Architecture",
+    "description": "How FrogUI validates source, APIs, registry metadata, documentation, and published artifacts before a release.",
+    "intro": "FrogUI enforces strict release verification where no artifact is published until compilation, binary ABI checks, registry schemas, tests, and documentation builds pass with zero errors.",
+    "sections": [
+      {
+        "id": "philosophy",
+        "title": "Release philosophy & safety",
+        "paragraphs": [
+          "Releasing a design system library requires significantly higher verification standards than typical application releases. Once a library version is consumed by external apps, bugs, broken ABI contracts, or missing tokens cannot be easily patched without forcing breaking changes on downstream teams.",
+          "FrogUI release philosophy is built on three unbreakable rules:",
+          "1. Atomic gate enforcement: If any verification gate fails, release execution stops immediately.",
+          "2. Truthful metadata: Version numbers and publication statuses must never claim remote release before it occurs.",
+          "3. Zero manual drift: Published AARs, documentation, registry metadata, and API baselines must come from the exact same verified git commit."
+        ]
+      },
+      {
+        "id": "release-flow",
+        "title": "End-to-end release pipeline",
+        "paragraphs": [
+          "A change moves from pull request to verified staging through a structured pipeline:"
+        ],
+        "visual": "arch-release-flow"
+      },
+      {
+        "id": "pr-gates",
+        "title": "Pull request verification gates",
+        "paragraphs": [
+          "Every pull request targeting main triggers automated verification across Android and web stacks:",
+          "• Android CI: Compiles release classes, executes JVM unit tests, runs Android Lint, and verifies API baselines.",
+          "• Docs CI: Validates registry schemas, typechecks TypeScript, builds the static Vite bundle, and verifies 404/base-path integrity.",
+          "Pull requests cannot be merged while any CI check is red."
+        ]
+      },
+      {
+        "id": "android-ci",
+        "title": "Android CI pipeline",
+        "paragraphs": [
+          "The .github/workflows/android-ci.yml workflow runs on Ubuntu with Temurin JDK 21 and Android SDK 36.1:",
+          "It executes: bash gradlew verifyArchitecture apiCheck testDebugUnitTest lintDebug assembleDebug :app:assembleDebugAndroidTest :frogui-theme:assembleDebugAndroidTest",
+          "This validates dependency boundaries, public API compatibility, state machine logic, static lint checks, and test APK compilation in a single unified run."
+        ]
+      },
+      {
+        "id": "docs-ci",
+        "title": "Documentation CI pipeline",
+        "paragraphs": [
+          "The .github/workflows/docs-ci.yml workflow runs on Node 24:",
+          "It executes: npm run registry:validate, npm test, npm run docs:typecheck, and npm run docs:build.",
+          "Post-build verification scripts verify that docs/dist/index.html, 404.html, catalog.json, and search.json exist and correctly reference the /FrogUI/ base path."
+        ]
+      },
+      {
+        "id": "api-gate",
+        "title": "Public API compatibility gate",
+        "paragraphs": [
+          "The apiCheck task ensures that no accidental or unreviewed changes leak into public library interfaces.",
+          "During build, release AAR bytecodes are analyzed, normalized, and compared against api/<module>.api baselines. If a public class, method, or parameter changes, the build fails with an explicit diff. Only an explicit maintainer action (./gradlew apiDump) can update baselines."
+        ]
+      },
+      {
+        "id": "registry-gate",
+        "title": "Registry validation gate",
+        "paragraphs": [
+          "The validateRegistry Gradle task (node tools/registry/generate.mjs --validate) runs as a mandatory dependency of verifyArchitecture.",
+          "It catches schema violations, missing source files, invalid routes, or out-of-sync parameter signatures before any build artifact is assembled."
+        ]
+      },
+      {
+        "id": "versioning",
+        "title": "Versioning strategy & release.properties",
+        "paragraphs": [
+          "Version information is centralized in gradle/release.properties:",
+          "• version: The library SemVer coordinate (currently 0.1.0-SNAPSHOT).",
+          "• versionCode: Integer version code for the Android Showcase application (currently 1).",
+          "• published: Boolean flag tracking whether this version has been uploaded to a remote repository (currently false).",
+          "Build tools, Gradle coordinates, Showcase version banners, and generated documentation read this single file."
+        ]
+      },
+      {
+        "id": "local-staging",
+        "title": "Local artifact staging (publishAllPublicationsToBuildRepository)",
+        "paragraphs": [
+          "FrogUI includes full Maven publication configuration in FrogPublishingPlugin, wired to an ignored local repository in build/maven:",
+          "Running ./gradlew publishAllPublicationsToBuildRepository packages release AARs, sources JARs, POM files (with license, developer, and SCM metadata), and Gradle module metadata for :frogui-foundation, :frogui-theme, and :frogui-components.",
+          "This enables maintainers to inspect packaged artifacts, POM dependencies, and classes before any remote release action."
+        ],
+        "code": {
+          "language": "bash",
+          "title": "Staging Maven Publications Locally",
+          "value": "# Package and stage release artifacts locally:\n./gradlew publishAllPublicationsToBuildRepository\n\n# Inspect staged output:\nls build/maven/io/github/codewitheswar/"
+        }
+      },
+      {
+        "id": "github-releases",
+        "title": "GitHub Releases",
+        "paragraphs": [
+          "Official releases correspond to signed git tags (e.g. v0.1.0). Each release includes release notes detailing new components, API updates, accessibility notes, and breaking changes or migration guides."
+        ]
+      },
+      {
+        "id": "maven-central",
+        "title": "Maven Central distribution (Planned)",
+        "paragraphs": [
+          "Remote distribution to Maven Central is planned for the 0.1.0 stable release.",
+          "Remote publishing will require GPG signing keys, Sonatype Central credentials, and automated validation via GitHub Secrets. Secret keys and credentials are never stored in repository files."
+        ]
+      },
+      {
+        "id": "github-pages",
+        "title": "GitHub Pages deployment",
+        "paragraphs": [
+          "Documentation deployment is decoupled from library publication. The docs-deploy.yml workflow deploys the documentation site to GitHub Pages on every push to main.",
+          "This ensures that documentation updates, guides, and fixes are published immediately without requiring a new library version bump."
+        ]
+      },
+      {
+        "id": "failure-recovery",
+        "title": "Failure handling & recovery",
+        "paragraphs": [
+          "If any CI check or release gate fails during release staging:",
+          "1. Publication is halted immediately; no partial artifacts are uploaded.",
+          "2. The root cause (compile failure, ABI mismatch, registry error, broken link) is identified and resolved in a new commit.",
+          "3. The full verification suite is re-executed from a clean state.",
+          "Partially publishing mismatched library versions or out-of-sync documentation is strictly forbidden."
+        ]
+      },
+      {
+        "id": "checklist",
+        "title": "Production release checklist",
+        "paragraphs": [
+          "Maintainers follow this checklist prior to cutting a release:"
+        ],
+        "bullets": [
+          "1. Component Status: All promoted components satisfy delivery gates in docs/components/<id>-delivery.md.",
+          "2. Architecture Verification: ./gradlew verifyArchitecture passes with 0 errors.",
+          "3. API Compatibility: ./gradlew apiCheck passes against version-controlled .api baselines.",
+          "4. Registry Validation: npm run registry:validate confirms 0 schema or route errors.",
+          "5. Tests: JVM unit tests, Compose tests, and Node test suites pass.",
+          "6. Documentation: npm run docs:build succeeds and static output integrity is verified.",
+          "7. Local Staging: ./gradlew publishAllPublicationsToBuildRepository succeeds; POMs inspected in build/maven.",
+          "8. Version Bump: gradle/release.properties updated with target version and tag created."
+        ]
+      }
+    ]
+  }
+]

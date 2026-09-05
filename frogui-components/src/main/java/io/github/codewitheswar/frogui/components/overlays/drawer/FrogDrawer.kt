@@ -455,16 +455,26 @@ private fun DrawerCloseButton(
     icon: (@Composable () -> Unit)? = null,
 ) {
     val glyphColor = FrogTheme.colors.foreground
-    FrogIconButton(onClick, "Close drawer", modifier, size = FrogButtonSize.Small) {
-        if (icon != null) { icon(); return@FrogIconButton }
-        // Crisp 14dp vector close crosshair
-        androidx.compose.foundation.Canvas(modifier = Modifier.size(14.dp)) {
-            val strokeWidth = 2.dp.toPx()
-            val color = glyphColor
-            drawLine(color, start = androidx.compose.ui.geometry.Offset(0f, 0f), end = androidx.compose.ui.geometry.Offset(size.width, size.height), strokeWidth = strokeWidth)
-            drawLine(color, start = androidx.compose.ui.geometry.Offset(size.width, 0f), end = androidx.compose.ui.geometry.Offset(0f, size.height), strokeWidth = strokeWidth)
-        }
-    }
+    FrogIconButton(
+        icon = {
+            if (icon != null) {
+                icon()
+            } else {
+                // Crisp 14dp vector close crosshair
+                androidx.compose.foundation.Canvas(modifier = Modifier.size(14.dp)) {
+                    val strokeWidth = 2.dp.toPx()
+                    val color = glyphColor
+                    drawLine(color, start = androidx.compose.ui.geometry.Offset(0f, 0f), end = androidx.compose.ui.geometry.Offset(size.width, size.height), strokeWidth = strokeWidth)
+                    drawLine(color, start = androidx.compose.ui.geometry.Offset(size.width, 0f), end = androidx.compose.ui.geometry.Offset(0f, size.height), strokeWidth = strokeWidth)
+                }
+            }
+        },
+        contentDescription = "Close drawer",
+        onClick = onClick,
+        modifier = modifier,
+        variant = FrogIconButtonVariant.Ghost,
+        size = FrogIconButtonSize.Small
+    )
 }
 
 /**
@@ -476,16 +486,23 @@ private fun DrawerBackButton(
     modifier: Modifier = Modifier
 ) {
     val glyphColor = FrogTheme.colors.foreground
-    FrogIconButton(onClick, "Back within drawer", modifier, variant = FrogButtonVariant.Secondary, size = FrogButtonSize.Small) {
-        androidx.compose.foundation.Canvas(modifier = Modifier.size(16.dp)) {
-            val strokeWidth = 2.dp.toPx()
-            val color = glyphColor
-            val w = size.width
-            val h = size.height
-            // Left arrow
-            drawLine(color, start = androidx.compose.ui.geometry.Offset(w * 0.8f, h * 0.5f), end = androidx.compose.ui.geometry.Offset(w * 0.2f, h * 0.5f), strokeWidth = strokeWidth)
-            drawLine(color, start = androidx.compose.ui.geometry.Offset(w * 0.5f, h * 0.2f), end = androidx.compose.ui.geometry.Offset(w * 0.2f, h * 0.5f), strokeWidth = strokeWidth)
-            drawLine(color, start = androidx.compose.ui.geometry.Offset(w * 0.5f, h * 0.8f), end = androidx.compose.ui.geometry.Offset(w * 0.2f, h * 0.5f), strokeWidth = strokeWidth)
-        }
-    }
+    FrogIconButton(
+        icon = {
+            androidx.compose.foundation.Canvas(modifier = Modifier.size(16.dp)) {
+                val strokeWidth = 2.dp.toPx()
+                val color = glyphColor
+                val w = size.width
+                val h = size.height
+                // Left arrow
+                drawLine(color, start = androidx.compose.ui.geometry.Offset(w * 0.8f, h * 0.5f), end = androidx.compose.ui.geometry.Offset(w * 0.2f, h * 0.5f), strokeWidth = strokeWidth)
+                drawLine(color, start = androidx.compose.ui.geometry.Offset(w * 0.5f, h * 0.2f), end = androidx.compose.ui.geometry.Offset(w * 0.2f, h * 0.5f), strokeWidth = strokeWidth)
+                drawLine(color, start = androidx.compose.ui.geometry.Offset(w * 0.5f, h * 0.8f), end = androidx.compose.ui.geometry.Offset(w * 0.2f, h * 0.5f), strokeWidth = strokeWidth)
+            }
+        },
+        contentDescription = "Back within drawer",
+        onClick = onClick,
+        modifier = modifier,
+        variant = FrogIconButtonVariant.Tonal,
+        size = FrogIconButtonSize.Small
+    )
 }

@@ -201,4 +201,11 @@ internal object FrogIcons {
             addPath(pathData = PathParser().parsePathString("M8 12.4668C6.51828 13.2031 5.5 14.7322 5.5 16.499C5.5 18.9843 7.51472 20.999 10 20.999C11.5602 20.999 12.935 20.205 13.7422 18.999").toNodes(), fill = null, stroke = SolidColor(Color.Black), strokeLineWidth = 1.5f, strokeLineCap = StrokeCap.Round, strokeLineJoin = StrokeJoin.Miter)
         }.build()
     }
+    // Hugeicons Add01Icon, Stroke Rounded.
+    val Add: ImageVector by lazy {
+        ImageVector.Builder(name = "Add", defaultWidth = 24.dp, defaultHeight = 24.dp, viewportWidth = 24f, viewportHeight = 24f, autoMirror = false).apply {
+            addPath(pathData = PathParser().parsePathString("M12.001 5.00003V19.002").toNodes(), fill = null, stroke = SolidColor(Color.Black), strokeLineWidth = 1.5f, strokeLineCap = StrokeCap.Round, strokeLineJoin = StrokeJoin.Round)
+            addPath(pathData = PathParser().parsePathString("M19.002 12.002L4.99998 12.002").toNodes(), fill = null, stroke = SolidColor(Color.Black), strokeLineWidth = 1.5f, strokeLineCap = StrokeCap.Round, strokeLineJoin = StrokeJoin.Round)
+        }.build()
+    }
 }

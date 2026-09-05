@@ -86,4 +86,66 @@ class PublicApiContractTest {
         pane.performSemanticsAction(SemanticsActions.Dismiss) { it() }
         compose.onNodeWithText("Saved body").assertDoesNotExist()
     }
+
+    @Test fun canonicalIconButtonExposesRoleAndMandatoryLabel() {
+        var clicked = false
+        compose.setContent {
+            FrogTheme {
+                FrogIconButton(
+                    icon = { Spacer(Modifier.size(16.dp)) },
+                    contentDescription = "Search catalog",
+                    onClick = { clicked = true },
+                    modifier = Modifier.testTag("canonical-icon-btn")
+                )
+            }
+        }
+        val button = compose.onNodeWithTag("canonical-icon-btn")
+        button.assert(SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Button))
+        button.assertContentDescriptionEquals("Search catalog")
+        button.assertWidthIsAtLeast(48.dp).assertHeightIsAtLeast(48.dp)
+        button.performClick()
+        compose.runOnIdle { assertEquals(true, clicked) }
+    }
+
+    @Test fun canonicalFabExposesRoleActionDescriptionAndTouchTarget() {
+        var clicked = false
+        compose.setContent {
+            FrogTheme {
+                io.github.codewitheswar.frogui.components.fab.FrogFloatingActionButton(
+                    icon = { Spacer(Modifier.size(20.dp)) },
+                    contentDescription = "New draft",
+                    onClick = { clicked = true },
+                    presentation = io.github.codewitheswar.frogui.components.fab.FrogFabPresentation.Small,
+                    modifier = Modifier.testTag("canonical-fab-btn")
+                )
+            }
+        }
+        val fab = compose.onNodeWithTag("canonical-fab-btn")
+        fab.assert(SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Button))
+        fab.assertContentDescriptionEquals("New draft")
+        fab.assertWidthIsAtLeast(48.dp).assertHeightIsAtLeast(48.dp)
+        fab.performClick()
+        compose.runOnIdle { assertEquals(true, clicked) }
+    }
+
+    @Test fun canonicalTextFieldExposesErrorSemanticsAndAccessibleLabel() {
+        var text by mutableStateOf("")
+        compose.setContent {
+            FrogTheme {
+                io.github.codewitheswar.frogui.components.textfield.FrogTextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    label = "Full Name",
+                    errorText = "Name is required",
+                    modifier = Modifier.testTag("canonical-text-field")
+                )
+            }
+        }
+        val field = compose.onNodeWithTag("canonical-text-field")
+        field.assertTextContains("Full Name")
+        field.assert(SemanticsMatcher.expectValue(SemanticsProperties.Error, "Name is required"))
+        field.assertHeightIsAtLeast(56.dp)
+        field.performTextInput("Eswar")
+        compose.runOnIdle { assertEquals("Eswar", text) }
+    }
 }

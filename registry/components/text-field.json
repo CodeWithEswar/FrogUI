@@ -1,0 +1,244 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "id": "text-field",
+  "name": "FrogTextField",
+  "displayName": "Text Field",
+  "description": "A state-hoisted text input with filled, outline, and underline presentations, supporting content, slots, and accessible error handling.",
+  "category": "inputs",
+  "status": "experimental",
+  "since": "0.1.0-SNAPSHOT",
+  "docs": "/components/text-field",
+  "source": "frogui-components/src/main/java/io/github/codewitheswar/frogui/components/textfield/FrogTextField.kt",
+  "variants": [
+    "Filled",
+    "Outline",
+    "Underline"
+  ],
+  "sizes": [],
+  "accessibility": {
+    "role": "TextField",
+    "minTouchTarget": "56dp",
+    "talkBackNotes": "Persistent or floating label association ensures TalkBack identifies the field after text entry. Error messages are semantically exposed via error semantics. Enabled and read-only states are differentiated."
+  },
+  "properties": [
+    {
+      "name": "value",
+      "type": "String",
+      "defaultValue": "required",
+      "description": "Current text value owned by the caller."
+    },
+    {
+      "name": "onValueChange",
+      "type": "(String) -> Unit",
+      "defaultValue": "required",
+      "description": "Callback invoked when proposed text modifications occur."
+    },
+    {
+      "name": "modifier",
+      "type": "Modifier",
+      "defaultValue": "Modifier",
+      "description": "Applied to the outer field container layout."
+    },
+    {
+      "name": "label",
+      "type": "String?",
+      "defaultValue": "null",
+      "description": "Primary identifying text label associated with the field."
+    },
+    {
+      "name": "placeholder",
+      "type": "String?",
+      "defaultValue": "null",
+      "description": "Secondary contextual hint displayed when value is empty."
+    },
+    {
+      "name": "helperText",
+      "type": "String?",
+      "defaultValue": "null",
+      "description": "Non-error supporting information shown below the field when errorText is null."
+    },
+    {
+      "name": "errorText",
+      "type": "String?",
+      "defaultValue": "null",
+      "description": "Validation error message shown below the field; activates error styling and semantics."
+    },
+    {
+      "name": "leading",
+      "type": "(@Composable () -> Unit)?",
+      "defaultValue": "null",
+      "description": "Composable slot rendered at the start of the field."
+    },
+    {
+      "name": "trailing",
+      "type": "(@Composable () -> Unit)?",
+      "defaultValue": "null",
+      "description": "Composable slot rendered at the end of the field."
+    },
+    {
+      "name": "variant",
+      "type": "FrogTextFieldVariant",
+      "defaultValue": "FrogTextFieldVariant.Filled",
+      "description": "Visual presentation style: Filled, Outline, or Underline."
+    },
+    {
+      "name": "enabled",
+      "type": "Boolean",
+      "defaultValue": "true",
+      "description": "Controls interactive capability. When false, user editing is suppressed."
+    },
+    {
+      "name": "readOnly",
+      "type": "Boolean",
+      "defaultValue": "false",
+      "description": "When true, text cannot be edited but remains focusable and selectable."
+    },
+    {
+      "name": "singleLine",
+      "type": "Boolean",
+      "defaultValue": "false",
+      "description": "When true, the field is constrained to a single horizontally scrolling line."
+    },
+    {
+      "name": "maxLines",
+      "type": "Int",
+      "defaultValue": "if (singleLine) 1 else Int.MAX_VALUE",
+      "description": "Maximum visual lines of text allowed."
+    },
+    {
+      "name": "keyboardOptions",
+      "type": "KeyboardOptions",
+      "defaultValue": "KeyboardOptions.Default",
+      "description": "Software keyboard configuration."
+    },
+    {
+      "name": "keyboardActions",
+      "type": "KeyboardActions",
+      "defaultValue": "KeyboardActions.Default",
+      "description": "Callbacks invoked on IME action triggers."
+    },
+    {
+      "name": "visualTransformation",
+      "type": "VisualTransformation",
+      "defaultValue": "VisualTransformation.None",
+      "description": "Formats the visual presentation of the text."
+    },
+    {
+      "name": "interactionSource",
+      "type": "MutableInteractionSource?",
+      "defaultValue": "null",
+      "description": "Hoisted MutableInteractionSource to observe focus and interaction events."
+    },
+    {
+      "name": "colors",
+      "type": "FrogTextFieldColors",
+      "defaultValue": "FrogTextFieldDefaults.colors(variant)",
+      "description": "Color specification mapped to current FrogTheme tokens."
+    },
+    {
+      "name": "shape",
+      "type": "Shape",
+      "defaultValue": "FrogTextFieldDefaults.shape(variant)",
+      "description": "Geometry for the field container border and background."
+    }
+  ],
+  "examples": [
+    {
+      "id": "basic",
+      "title": "Basic Text Field",
+      "description": "Label and state-hoisted value entry.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/textfield/TextFieldExamples.kt",
+      "region": "basic"
+    },
+    {
+      "id": "placeholder-helper",
+      "title": "Placeholder and Helper Text",
+      "description": "Contextual input guidance with helper text.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/textfield/TextFieldExamples.kt",
+      "region": "placeholder-helper"
+    },
+    {
+      "id": "validation-error",
+      "title": "Validation Error",
+      "description": "Caller-owned error state and message replacement.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/textfield/TextFieldExamples.kt",
+      "region": "validation-error"
+    },
+    {
+      "id": "leading-trailing",
+      "title": "Leading and Trailing Content",
+      "description": "Icon slots and interactive trailing clear action.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/textfield/TextFieldExamples.kt",
+      "region": "leading-trailing"
+    },
+    {
+      "id": "read-only",
+      "title": "Read-Only Field",
+      "description": "Readable non-editable text field presentation.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/textfield/TextFieldExamples.kt",
+      "region": "read-only"
+    },
+    {
+      "id": "multiline",
+      "title": "Multiline Input",
+      "description": "Text field expanding up to multiple lines.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/textfield/TextFieldExamples.kt",
+      "region": "multiline"
+    },
+    {
+      "id": "form-flow",
+      "title": "Form Flow with IME Actions",
+      "description": "Keyboard navigation flow across multiple text fields.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/textfield/TextFieldExamples.kt",
+      "region": "form-flow"
+    }
+  ],
+  "quality": {
+    "visualStates": [
+      "Default",
+      "Focused",
+      "Error",
+      "Disabled",
+      "ReadOnly"
+    ],
+    "interactions": [
+      "Typing",
+      "Focus",
+      "Clear",
+      "IME action",
+      "Click"
+    ],
+    "themes": [
+      "Light",
+      "Dark",
+      "Custom"
+    ],
+    "adaptiveClasses": [
+      "Compact",
+      "Medium",
+      "Expanded"
+    ],
+    "composePreviews": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/textfield/TextFieldComponentPreviews.kt",
+    "unitTests": [
+      "frogui-components/src/test/java/io/github/codewitheswar/frogui/components/textfield/FrogTextFieldTest.kt"
+    ],
+    "androidTests": [
+      "app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/PublicApiContractTest.kt",
+      "app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/TextFieldDetailTest.kt"
+    ],
+    "webPreview": "docs/src/components/preview/previews/text-field/TextFieldPreview.tsx"
+  },
+  "schemaVersion": 2,
+  "tags": [
+    "input",
+    "form",
+    "text-field",
+    "entry",
+    "editable"
+  ],
+  "showcase": {
+    "route": "components/text-field",
+    "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/textfield/TextFieldShowcaseDefinition.kt",
+    "screen": "textFieldShowcaseDefinition"
+  }
+}

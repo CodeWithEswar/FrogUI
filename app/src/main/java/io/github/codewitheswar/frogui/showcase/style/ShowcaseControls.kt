@@ -25,12 +25,14 @@ import androidx.compose.foundation.BorderStroke
 
 @Composable
 internal fun ShowcaseBackButton(onClick: () -> Unit, modifier: Modifier = Modifier, label: String = "Back") {
-    val colors = FrogTheme.colors
-    FrogIconButton(onClick, label, modifier, variant = FrogButtonVariant.Secondary, size = FrogButtonSize.Small,
-        colors = FrogButtonDefaults.colors(FrogButtonVariant.Secondary, containerColor = colors.muted, contentColor = colors.foreground),
-        border = BorderStroke(1.dp, colors.border)) {
-        Icon(FrogIcons.Back, null, Modifier.size(FrogTheme.sizing.iconMedium))
-    }
+    FrogIconButton(
+        icon = { Icon(FrogIcons.Back, null, Modifier.size(FrogIconButtonDefaults.iconSize(FrogIconButtonSize.Small))) },
+        contentDescription = label,
+        onClick = onClick,
+        modifier = modifier,
+        variant = FrogIconButtonVariant.Tonal,
+        size = FrogIconButtonSize.Small
+    )
 }
 
 /** Shared visible keyboard focus and pressed feedback. Interaction modifiers own semantics. */
@@ -44,15 +46,6 @@ internal fun Modifier.showcaseFocus(source: MutableInteractionSource): Modifier 
         .border(if (focused) 2.dp else 0.dp, if (focused) colors.focusRing else Color.Transparent, shape)
 }
 
-@Composable
-internal fun ShowcaseIconButton(icon: ImageVector, label: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val source = remember { MutableInteractionSource() }
-    Box(modifier.sizeIn(minWidth = FrogTheme.sizing.minimumTouchTarget, minHeight = FrogTheme.sizing.minimumTouchTarget).showcaseFocus(source)
-        .clickable(interactionSource = source, indication = null, role = Role.Button, onClickLabel = label, onClick = onClick),
-        contentAlignment = Alignment.Center) {
-        Icon(icon, contentDescription = label, tint = FrogTheme.colors.foreground, modifier = Modifier.size(FrogTheme.sizing.iconLarge))
-    }
-}
 
 @Composable
 internal fun ShowcaseChoice(label: String, selected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {

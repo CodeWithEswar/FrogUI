@@ -41,7 +41,7 @@ export const Shell: React.FC<ShellProps> = ({ currentPath, onNavigate, children 
       <Sidebar currentPath={currentPath} onNavigate={onNavigate} />
 
       {/* Main Content Area - Only middle content scrolls! */}
-      <div className="flex-1 pt-14 md:pl-64 min-w-0 flex flex-col justify-between min-h-screen">
+      <div className="flex-1 pt-14 md:pl-60 min-w-0 flex flex-col justify-between min-h-screen">
         <main className="flex-1 min-w-0 py-8 px-4 sm:px-6 lg:px-8 xl:px-10">
           {children}
         </main>

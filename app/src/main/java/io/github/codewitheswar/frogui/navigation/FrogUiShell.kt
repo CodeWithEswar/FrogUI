@@ -16,6 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import io.github.codewitheswar.frogui.registry.FrogComponentRegistry
+import io.github.codewitheswar.frogui.components.button.FrogIconButton
+import io.github.codewitheswar.frogui.components.button.FrogIconButtonSize
+import io.github.codewitheswar.frogui.components.button.FrogIconButtonVariant
 import io.github.codewitheswar.frogui.showcase.branding.FrogUiLogo
 import io.github.codewitheswar.frogui.showcase.icons.FrogIcons
 import io.github.codewitheswar.frogui.showcase.screens.*
@@ -63,7 +66,22 @@ internal fun FrogUiShell(appearance: ShowcaseAppearance, onAppearanceChange: (Sh
                         else if (compact) ({ FrogUiLogo(size = 28.dp, modifier = Modifier.padding(start = 12.dp, end = 4.dp), contentDescription = null) }) else null,
                     actions = {
                         Box {
-                            ShowcaseIconButton(when (appearance) { ShowcaseAppearance.System -> FrogIcons.System; ShowcaseAppearance.Light -> FrogIcons.Light; ShowcaseAppearance.Dark -> FrogIcons.Dark }, "Appearance", { appearanceMenu = true })
+                            FrogIconButton(
+                                icon = {
+                                    Icon(
+                                        imageVector = when (appearance) {
+                                            ShowcaseAppearance.System -> FrogIcons.System
+                                            ShowcaseAppearance.Light -> FrogIcons.Light
+                                            ShowcaseAppearance.Dark -> FrogIcons.Dark
+                                        },
+                                        contentDescription = null
+                                    )
+                                },
+                                contentDescription = "Appearance",
+                                onClick = { appearanceMenu = true },
+                                variant = FrogIconButtonVariant.Ghost,
+                                size = FrogIconButtonSize.Medium
+                            )
                             DropdownMenu(appearanceMenu, onDismissRequest = { appearanceMenu = false }, containerColor = colors.surfaceElevated) {
                                 ShowcaseAppearance.entries.forEach { option -> DropdownMenuItem(
                                     text = { Text(option.name) }, onClick = { onAppearanceChange(option); appearanceMenu = false },
@@ -71,7 +89,15 @@ internal fun FrogUiShell(appearance: ShowcaseAppearance, onAppearanceChange: (Sh
                                 ) }
                             }
                         }
-                        if (!nested && compact) ShowcaseIconButton(FrogIcons.Settings, "Settings", { navigate("settings") })
+                        if (!nested && compact) {
+                            FrogIconButton(
+                                icon = { Icon(FrogIcons.Settings, contentDescription = null) },
+                                contentDescription = "Settings",
+                                onClick = { navigate("settings") },
+                                variant = FrogIconButtonVariant.Ghost,
+                                size = FrogIconButtonSize.Medium
+                            )
+                        }
                     },
                 )
                 Box(Modifier.weight(1f).fillMaxWidth().then(if (compact && !nested && !imeVisible) Modifier else Modifier.navigationBarsPadding())) {

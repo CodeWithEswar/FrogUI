@@ -206,9 +206,13 @@ private fun FoundationSizing() {
         }
     }
     Box(Modifier.border(1.dp, FrogTheme.colors.focusRing, FrogTheme.shapes.sm)) {
-        FrogIconButton({}, "Sizing sample", size = FrogButtonSize.Small, variant = FrogButtonVariant.Secondary) {
-            Icon(FrogIcons.Check, null, Modifier.size(s.iconSmall))
-        }
+        FrogIconButton(
+            icon = { Icon(FrogIcons.Check, null, Modifier.size(s.iconSmall)) },
+            contentDescription = "Sizing sample",
+            onClick = {},
+            size = FrogIconButtonSize.Small,
+            variant = FrogIconButtonVariant.Tonal
+        )
     }
     Note("minimumTouchTarget · ${s.minimumTouchTarget} in both dimensions. Text scaling can increase a control's height.")
 }

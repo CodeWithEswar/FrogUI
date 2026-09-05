@@ -19,6 +19,15 @@
     --frog-destructive: #dc2626;
     --frog-destructive-foreground: #ffffff;
     --frog-focus-ring: #52525b;
+    --frog-sidebar-background: #fafafa;
+    --frog-nav-border: #00000014;
+    --frog-nav-hover: #00000008;
+    --frog-nav-group-active: #00000006;
+    --frog-nav-active: #ffffff;
+    --frog-nav-active-border: #0000001f;
+    --frog-nav-foreground: #18181b;
+    --frog-nav-muted: #52525b;
+    --frog-nav-section: #71717a;
     --bg-canvas: var(--frog-background);
     --bg-surface: var(--frog-surface);
     --bg-surface-elevated: var(--frog-surface-elevated);
@@ -46,6 +55,15 @@
     --frog-destructive: #dc2626;
     --frog-destructive-foreground: #ffffff;
     --frog-focus-ring: #a1a1aa;
+    --frog-sidebar-background: #0c0c0e;
+    --frog-nav-border: #ffffff12;
+    --frog-nav-hover: #ffffff0a;
+    --frog-nav-group-active: #ffffff08;
+    --frog-nav-active: #18181b;
+    --frog-nav-active-border: #ffffff1f;
+    --frog-nav-foreground: #fafafa;
+    --frog-nav-muted: #a1a1aa;
+    --frog-nav-section: #71717a;
     --fg-subtle: #71717a;
   }
 

@@ -100,9 +100,38 @@ export const DrawerPreview: React.FC<ComponentPreviewProps> = ({ isDark }) => {
   return (
     <div className="w-full h-full flex flex-col justify-between">
       {/* Presentation Mode & Open/Close Bar */}
-      <div className="flex items-center justify-between gap-3 px-3 sm:px-4 py-2.5 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/90 dark:bg-zinc-900/90 overflow-x-auto scrollbar-none">
-        <div className="flex items-center gap-1 shrink-0 text-xs">
-          <span className="text-zinc-500 font-medium mr-1 text-[11px] uppercase tracking-wider hidden sm:inline">
+      <div className="flex items-center justify-between gap-2.5 px-3 sm:px-4 py-2.5 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/90 dark:bg-zinc-900/90">
+        {/* Mobile Presentation Selector (< sm) */}
+        <div className="sm:hidden flex items-center gap-1.5 text-xs min-w-0">
+          <label htmlFor="mobile-drawer-presentation" className="text-zinc-500 font-medium text-[11px] uppercase tracking-wider shrink-0">
+            Mode:
+          </label>
+          <div className="relative inline-block">
+            <select
+              id="mobile-drawer-presentation"
+              value={presentation}
+              onChange={e => { setPresentation(e.target.value as any); setIsOpen(true); setDragOffset(0); }}
+              className="appearance-none pl-2.5 pr-7 py-1 rounded-md text-xs font-semibold border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-2xs focus:outline-none focus:ring-1 focus:ring-[var(--frog-focus-ring)] cursor-pointer"
+            >
+              <option value="bottom">Bottom Sheet</option>
+              <option value="side-end">Side (End)</option>
+              <option value="side-start">Side (Start)</option>
+            </select>
+            <svg
+              className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Desktop Mode Pills (>= sm) */}
+        <div className="hidden sm:flex items-center gap-1 shrink-0 text-xs">
+          <span className="text-zinc-500 font-medium mr-1 text-[11px] uppercase tracking-wider">
             Mode:
           </span>
           <button
@@ -137,15 +166,16 @@ export const DrawerPreview: React.FC<ComponentPreviewProps> = ({ isDark }) => {
           </button>
         </div>
 
+        {/* Action Toggle Button */}
         <button
           onClick={() => { setIsOpen(!isOpen); setDragOffset(0); }}
-          className={`px-2.5 py-1 rounded-md text-xs font-medium border transition-colors cursor-pointer ${
+          className={`shrink-0 px-2.5 py-1 rounded-md text-xs font-medium border transition-colors cursor-pointer ${
             isOpen
-              ? 'border-zinc-400 dark:border-zinc-600 bg-zinc-200/70 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-medium'
+              ? 'border-zinc-300 dark:border-zinc-600 bg-zinc-200/70 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-semibold'
               : 'border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
           }`}
         >
-          {isOpen ? 'Close Drawer' : 'Open Drawer'}
+          {isOpen ? 'Close' : 'Open Drawer'}
         </button>
       </div>
 
@@ -374,7 +404,7 @@ export const DrawerPreview: React.FC<ComponentPreviewProps> = ({ isDark }) => {
         )}
 
         {/* Configuration Checkboxes */}
-        <div className="absolute bottom-3 right-3 flex items-center gap-3 text-xs z-10">
+        <div className="absolute bottom-3 right-3 flex items-center gap-3 text-xs z-10 bg-zinc-900/40 dark:bg-zinc-950/60 backdrop-blur-xs px-2.5 py-1 rounded-md border border-zinc-700/20 sm:border-transparent sm:bg-transparent sm:backdrop-blur-none">
           <PreviewCheckbox
             label="Header"
             checked={hasHeader}

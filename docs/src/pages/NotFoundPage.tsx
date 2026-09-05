@@ -30,7 +30,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
           Browse Components
         </button>
         <button
-          onClick={() => onNavigate('/foundation')}
+          onClick={() => onNavigate('/foundations')}
           className="px-4 py-2 rounded-lg border border-[var(--frog-border)] text-xs font-medium text-[var(--frog-foreground)] hover:bg-[var(--frog-muted)] transition-colors"
         >
           Theme &amp; Foundation

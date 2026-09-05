@@ -1,0 +1,176 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "id": "icon-button",
+  "name": "FrogIconButton",
+  "displayName": "Icon Button",
+  "description": "Compact icon-only action control with semantic variants, accessible labeling, loading support, and optional badge content.",
+  "category": "actions",
+  "status": "experimental",
+  "since": "0.1.0-SNAPSHOT",
+  "docs": "/components/icon-button",
+  "source": "frogui-components/src/main/java/io/github/codewitheswar/frogui/components/button/FrogIconButton.kt",
+  "variants": [
+    "Filled",
+    "Tonal",
+    "Outline",
+    "Ghost"
+  ],
+  "sizes": [
+    "Small",
+    "Medium",
+    "Large"
+  ],
+  "accessibility": {
+    "role": "Role.Button",
+    "minTouchTarget": "48dp",
+    "talkBackNotes": "contentDescription is mandatory for actionable icon controls. TalkBack announces the button role, label, loading state, and disabled state while child icons remain decorative."
+  },
+  "properties": [
+    {
+      "name": "icon",
+      "type": "@Composable () -> Unit",
+      "defaultValue": "required",
+      "description": "The visual icon content. Should be decorative from the semantics tree as the parent IconButton provides the accessible name."
+    },
+    {
+      "name": "contentDescription",
+      "type": "String",
+      "defaultValue": "required",
+      "description": "Mandatory accessible description describing the action performed when activated."
+    },
+    {
+      "name": "onClick",
+      "type": "() -> Unit",
+      "defaultValue": "required",
+      "description": "Callback triggered when clicked by touch, keyboard, or accessibility action."
+    },
+    {
+      "name": "modifier",
+      "type": "Modifier",
+      "defaultValue": "Modifier",
+      "description": "Layout modifier applied to the outer touch-target container."
+    },
+    {
+      "name": "variant",
+      "type": "FrogIconButtonVariant",
+      "defaultValue": "FrogIconButtonVariant.Filled",
+      "description": "Visual semantic variant: Filled, Tonal, Outline, or Ghost."
+    },
+    {
+      "name": "size",
+      "type": "FrogIconButtonSize",
+      "defaultValue": "FrogIconButtonSize.Medium",
+      "description": "Dimensional scale: Small (32dp container), Medium (40dp container), or Large (48dp container)."
+    },
+    {
+      "name": "enabled",
+      "type": "Boolean",
+      "defaultValue": "true",
+      "description": "Controls interaction state. When false, clicks are suppressed and visual style becomes muted."
+    },
+    {
+      "name": "loading",
+      "type": "Boolean",
+      "defaultValue": "false",
+      "description": "Replaces visible icon with a centered progress indicator while preserving container bounds. Suppresses activation."
+    },
+    {
+      "name": "badge",
+      "type": "(@Composable () -> Unit)?",
+      "defaultValue": "null",
+      "description": "Optional badge overlay slot anchored at TopEnd outside the centered icon."
+    },
+    {
+      "name": "colors",
+      "type": "FrogIconButtonColors",
+      "defaultValue": "FrogIconButtonDefaults.colors(variant)",
+      "description": "Resolved container, content, and border colors across enabled and disabled states."
+    },
+    {
+      "name": "shape",
+      "type": "Shape",
+      "defaultValue": "FrogIconButtonDefaults.shape(size)",
+      "description": "Corner radius shape applied to the button container and border."
+    },
+    {
+      "name": "interactionSource",
+      "type": "MutableInteractionSource",
+      "defaultValue": "remember { MutableInteractionSource() }",
+      "description": "Interaction stream driving press animations and focus rings."
+    }
+  ],
+  "examples": [
+    {
+      "id": "basic",
+      "title": "Basic Action",
+      "description": "High-emphasis icon action with a solid container.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/iconbutton/IconButtonExamples.kt",
+      "region": "basic"
+    },
+    {
+      "id": "tonal",
+      "title": "Tonal Action",
+      "description": "Medium-emphasis icon action on a muted container.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/iconbutton/IconButtonExamples.kt",
+      "region": "tonal"
+    },
+    {
+      "id": "outline",
+      "title": "Outlined Action",
+      "description": "Medium/low-emphasis icon action with a structural border.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/iconbutton/IconButtonExamples.kt",
+      "region": "outline"
+    },
+    {
+      "id": "ghost",
+      "title": "Ghost Action",
+      "description": "Lowest-emphasis action for compact toolbars.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/iconbutton/IconButtonExamples.kt",
+      "region": "ghost"
+    },
+    {
+      "id": "loading",
+      "title": "Loading State",
+      "description": "Displays a centered progress indicator and suppresses user interaction.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/iconbutton/IconButtonExamples.kt",
+      "region": "loading"
+    },
+    {
+      "id": "badge",
+      "title": "Badged Action",
+      "description": "Displays an unclipped overlay badge anchored at TopEnd.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/iconbutton/IconButtonExamples.kt",
+      "region": "badge"
+    },
+    {
+      "id": "toolbar",
+      "title": "Toolbar Actions",
+      "description": "Multiple icon buttons composed inside an app toolbar.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/iconbutton/IconButtonExamples.kt",
+      "region": "toolbar"
+    }
+  ],
+  "quality": {
+    "visualStates": ["Default", "Pressed", "Focused", "Disabled", "Loading", "Badge"],
+    "interactions": ["Click", "Keyboard activation", "Focus"],
+    "themes": ["Light", "Dark", "Custom"],
+    "adaptiveClasses": [],
+    "composePreviews": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/iconbutton/IconButtonComponentPreviews.kt",
+    "unitTests": ["frogui-components/src/test/java/io/github/codewitheswar/frogui/components/button/FrogIconButtonTest.kt"],
+    "androidTests": ["app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/PublicApiContractTest.kt"],
+    "webPreview": "docs/src/components/preview/previews/icon-button/IconButtonPreview.tsx"
+  },
+  "schemaVersion": 2,
+  "tags": [
+    "action",
+    "icon",
+    "iconbutton",
+    "badge",
+    "toolbar"
+  ],
+  "showcase": {
+    "route": "components/icon-button",
+    "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/iconbutton/IconButtonShowcaseDefinition.kt",
+    "screen": "iconButtonShowcaseDefinition"
+  }
+}

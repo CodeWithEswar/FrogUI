@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { searchIndex } from '../../generated/searchIndex';
+import { docsNavigation, docsSearchIndex } from '../../navigation';
+
+const searchableDocs = [...docsSearchIndex(docsNavigation), ...searchIndex];
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -27,15 +30,15 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   const filteredResults = React.useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) {
-      return searchIndex.slice(0, 8);
+      return searchableDocs.slice(0, 8);
     }
-    return searchIndex.filter(item => {
+    return searchableDocs.filter(item => {
       return (
         item.displayName.toLowerCase().includes(q) ||
         item.name.toLowerCase().includes(q) ||
         item.description.toLowerCase().includes(q) ||
         item.category.toLowerCase().includes(q) ||
-        (item.tags && item.tags.some(tag => tag.toLowerCase().includes(q)))
+        (item.tags && item.tags.some((tag: string) => tag.toLowerCase().includes(q)))
       );
     });
   }, [query]);

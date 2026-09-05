@@ -68,8 +68,164 @@ public final class io/github/codewitheswar/frogui/components/button/FrogButtonVa
 	public static fun values ()[Lio/github/codewitheswar/frogui/components/button/FrogButtonVariant;
 }
 
+public final class io/github/codewitheswar/frogui/components/button/FrogIconButtonColors {
+	public static final field $stable I
+	public synthetic fun <init> (JJJJJJJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun component4-0d7_KjU ()J
+	public final fun component5-0d7_KjU ()J
+	public final fun component6-0d7_KjU ()J
+	public final fun component7-0d7_KjU ()J
+	public final fun component8-0d7_KjU ()J
+	public final fun copy-FD3wquc (JJJJJJJJ)Lio/github/codewitheswar/frogui/components/button/FrogIconButtonColors;
+	public static synthetic fun copy-FD3wquc$default (Lio/github/codewitheswar/frogui/components/button/FrogIconButtonColors;JJJJJJJJILjava/lang/Object;)Lio/github/codewitheswar/frogui/components/button/FrogIconButtonColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBorderColor-0d7_KjU ()J
+	public final fun getContainerColor-0d7_KjU ()J
+	public final fun getContentColor-0d7_KjU ()J
+	public final fun getDisabledBorderColor-0d7_KjU ()J
+	public final fun getDisabledContainerColor-0d7_KjU ()J
+	public final fun getDisabledContentColor-0d7_KjU ()J
+	public final fun getFocusRingColor-0d7_KjU ()J
+	public final fun getPressedOverlayColor-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/codewitheswar/frogui/components/button/FrogIconButtonDefaults {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/codewitheswar/frogui/components/button/FrogIconButtonDefaults;
+	public final fun border (Lio/github/codewitheswar/frogui/components/button/FrogIconButtonColors;Z)Landroidx/compose/foundation/BorderStroke;
+	public final fun border (Lio/github/codewitheswar/frogui/components/button/FrogIconButtonVariant;ZLandroidx/compose/runtime/Composer;I)Landroidx/compose/foundation/BorderStroke;
+	public final fun colors-dPtIKUs (Lio/github/codewitheswar/frogui/components/button/FrogIconButtonVariant;JJJJJJLandroidx/compose/runtime/Composer;II)Lio/github/codewitheswar/frogui/components/button/FrogIconButtonColors;
+	public final fun containerSize-ccRj1GA (Lio/github/codewitheswar/frogui/components/button/FrogIconButtonSize;Landroidx/compose/runtime/Composer;I)F
+	public final fun getBorderWidth-D9Ej5fM ()F
+	public final fun getMinTouchTarget-D9Ej5fM ()F
+	public final fun iconSize-ccRj1GA (Lio/github/codewitheswar/frogui/components/button/FrogIconButtonSize;Landroidx/compose/runtime/Composer;I)F
+	public final fun shape (Lio/github/codewitheswar/frogui/components/button/FrogIconButtonSize;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/graphics/Shape;
+}
+
 public final class io/github/codewitheswar/frogui/components/button/FrogIconButtonKt {
 	public static final fun FrogIconButton (Lkotlin/jvm/functions/Function0;Ljava/lang/String;Landroidx/compose/ui/Modifier;Lio/github/codewitheswar/frogui/components/button/FrogButtonVariant;Lio/github/codewitheswar/frogui/components/button/FrogButtonSize;ZZLandroidx/compose/ui/graphics/Shape;Lio/github/codewitheswar/frogui/components/button/FrogButtonColors;Landroidx/compose/foundation/BorderStroke;Landroidx/compose/foundation/interaction/MutableInteractionSource;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;III)V
+	public static final fun FrogIconButton (Lkotlin/jvm/functions/Function2;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lio/github/codewitheswar/frogui/components/button/FrogIconButtonVariant;Lio/github/codewitheswar/frogui/components/button/FrogIconButtonSize;ZZLkotlin/jvm/functions/Function2;Lio/github/codewitheswar/frogui/components/button/FrogIconButtonColors;Landroidx/compose/ui/graphics/Shape;Landroidx/compose/foundation/interaction/MutableInteractionSource;Landroidx/compose/runtime/Composer;III)V
+}
+
+public final class io/github/codewitheswar/frogui/components/button/FrogIconButtonSize : java/lang/Enum {
+	public static final field Large Lio/github/codewitheswar/frogui/components/button/FrogIconButtonSize;
+	public static final field Medium Lio/github/codewitheswar/frogui/components/button/FrogIconButtonSize;
+	public static final field Small Lio/github/codewitheswar/frogui/components/button/FrogIconButtonSize;
+	public final fun getContainerSize-D9Ej5fM ()F
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getIconSize-D9Ej5fM ()F
+	public final fun getMinTouchTarget-D9Ej5fM ()F
+	public static fun valueOf (Ljava/lang/String;)Lio/github/codewitheswar/frogui/components/button/FrogIconButtonSize;
+	public static fun values ()[Lio/github/codewitheswar/frogui/components/button/FrogIconButtonSize;
+}
+
+public final class io/github/codewitheswar/frogui/components/button/FrogIconButtonVariant : java/lang/Enum {
+	public static final field Filled Lio/github/codewitheswar/frogui/components/button/FrogIconButtonVariant;
+	public static final field Ghost Lio/github/codewitheswar/frogui/components/button/FrogIconButtonVariant;
+	public static final field Outline Lio/github/codewitheswar/frogui/components/button/FrogIconButtonVariant;
+	public static final field Tonal Lio/github/codewitheswar/frogui/components/button/FrogIconButtonVariant;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/codewitheswar/frogui/components/button/FrogIconButtonVariant;
+	public static fun values ()[Lio/github/codewitheswar/frogui/components/button/FrogIconButtonVariant;
+}
+
+public final class io/github/codewitheswar/frogui/components/fab/ComposableSingletons$FrogFabPreviewsKt {
+	public static final field INSTANCE Lio/github/codewitheswar/frogui/components/fab/ComposableSingletons$FrogFabPreviewsKt;
+	public fun <init> ()V
+	public final fun getLambda$-1761248312$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1916025215$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-2142655176$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-546345816$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-689686528$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1015226382$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1064267838$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1231014197$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1437878960$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1802569421$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$181437867$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1941939741$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$439572891$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$440858839$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$522277382$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$632130114$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$681446161$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$790575339$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$890569076$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$898034087$frogui_components ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/github/codewitheswar/frogui/components/fab/FrogFabColors {
+	public static final field $stable I
+	public synthetic fun <init> (JJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun component4-0d7_KjU ()J
+	public final fun component5-0d7_KjU ()J
+	public final fun component6-0d7_KjU ()J
+	public final fun copy-tNS2XkQ (JJJJJJ)Lio/github/codewitheswar/frogui/components/fab/FrogFabColors;
+	public static synthetic fun copy-tNS2XkQ$default (Lio/github/codewitheswar/frogui/components/fab/FrogFabColors;JJJJJJILjava/lang/Object;)Lio/github/codewitheswar/frogui/components/fab/FrogFabColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContainerColor-0d7_KjU ()J
+	public final fun getContentColor-0d7_KjU ()J
+	public final fun getDisabledContainerColor-0d7_KjU ()J
+	public final fun getDisabledContentColor-0d7_KjU ()J
+	public final fun getFocusRingColor-0d7_KjU ()J
+	public final fun getPressedOverlayColor-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/codewitheswar/frogui/components/fab/FrogFabElevation {
+	public static final field $stable I
+	public synthetic fun <init> (FFFFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FFFFLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-D9Ej5fM ()F
+	public final fun component2-D9Ej5fM ()F
+	public final fun component3-D9Ej5fM ()F
+	public final fun component4-D9Ej5fM ()F
+	public final fun copy-a9UjIt4 (FFFF)Lio/github/codewitheswar/frogui/components/fab/FrogFabElevation;
+	public static synthetic fun copy-a9UjIt4$default (Lio/github/codewitheswar/frogui/components/fab/FrogFabElevation;FFFFILjava/lang/Object;)Lio/github/codewitheswar/frogui/components/fab/FrogFabElevation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDefault-D9Ej5fM ()F
+	public final fun getDisabled-D9Ej5fM ()F
+	public final fun getFocused-D9Ej5fM ()F
+	public final fun getPressed-D9Ej5fM ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/codewitheswar/frogui/components/fab/FrogFabPresentation : java/lang/Enum {
+	public static final field Extended Lio/github/codewitheswar/frogui/components/fab/FrogFabPresentation;
+	public static final field Regular Lio/github/codewitheswar/frogui/components/fab/FrogFabPresentation;
+	public static final field Small Lio/github/codewitheswar/frogui/components/fab/FrogFabPresentation;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/codewitheswar/frogui/components/fab/FrogFabPresentation;
+	public static fun values ()[Lio/github/codewitheswar/frogui/components/fab/FrogFabPresentation;
+}
+
+public final class io/github/codewitheswar/frogui/components/fab/FrogFloatingActionButtonDefaults {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/codewitheswar/frogui/components/fab/FrogFloatingActionButtonDefaults;
+	public final fun colors-ro_MJ88 (JJJJLandroidx/compose/runtime/Composer;II)Lio/github/codewitheswar/frogui/components/fab/FrogFabColors;
+	public final fun containerHeight-u2uoSUM (Lio/github/codewitheswar/frogui/components/fab/FrogFabPresentation;)F
+	public final fun containerWidth-u2uoSUM (Lio/github/codewitheswar/frogui/components/fab/FrogFabPresentation;)F
+	public final fun contentPadding (Lio/github/codewitheswar/frogui/components/fab/FrogFabPresentation;)Landroidx/compose/foundation/layout/PaddingValues;
+	public final fun elevation-xZ9-QkE (FFFFLandroidx/compose/runtime/Composer;II)Lio/github/codewitheswar/frogui/components/fab/FrogFabElevation;
+	public final fun getIconLabelSpacing-D9Ej5fM ()F
+	public final fun getMinTouchTarget-D9Ej5fM ()F
+	public final fun iconSize-u2uoSUM (Lio/github/codewitheswar/frogui/components/fab/FrogFabPresentation;)F
+	public final fun shape (Lio/github/codewitheswar/frogui/components/fab/FrogFabPresentation;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/graphics/Shape;
+}
+
+public final class io/github/codewitheswar/frogui/components/fab/FrogFloatingActionButtonKt {
+	public static final fun FrogFloatingActionButton (Lkotlin/jvm/functions/Function2;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lio/github/codewitheswar/frogui/components/fab/FrogFabPresentation;Lkotlin/jvm/functions/Function2;ZZZLio/github/codewitheswar/frogui/components/fab/FrogFabElevation;Lio/github/codewitheswar/frogui/components/fab/FrogFabColors;Landroidx/compose/ui/graphics/Shape;Landroidx/compose/foundation/interaction/MutableInteractionSource;Landroidx/compose/runtime/Composer;III)V
 }
 
 public final class io/github/codewitheswar/frogui/components/overlays/FrogOverlayHostKt {
@@ -162,4 +318,102 @@ public final class io/github/codewitheswar/frogui/components/overlays/drawer/Fro
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/codewitheswar/frogui/components/overlays/drawer/FrogDrawerValue;
 	public static fun values ()[Lio/github/codewitheswar/frogui/components/overlays/drawer/FrogDrawerValue;
+}
+
+public final class io/github/codewitheswar/frogui/components/textfield/ComposableSingletons$FrogTextFieldPreviewsKt {
+	public static final field INSTANCE Lio/github/codewitheswar/frogui/components/textfield/ComposableSingletons$FrogTextFieldPreviewsKt;
+	public fun <init> ()V
+	public final fun getLambda$-1106746889$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-531204914$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-596270046$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1219217443$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$519001370$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$755824770$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$767627595$frogui_components ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$906513151$frogui_components ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/github/codewitheswar/frogui/components/textfield/FrogTextFieldColors {
+	public static final field $stable I
+	public synthetic fun <init> (JJJJJJJJJJJJJJJJJJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component10-0d7_KjU ()J
+	public final fun component11-0d7_KjU ()J
+	public final fun component12-0d7_KjU ()J
+	public final fun component13-0d7_KjU ()J
+	public final fun component14-0d7_KjU ()J
+	public final fun component15-0d7_KjU ()J
+	public final fun component16-0d7_KjU ()J
+	public final fun component17-0d7_KjU ()J
+	public final fun component18-0d7_KjU ()J
+	public final fun component19-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun component20-0d7_KjU ()J
+	public final fun component21-0d7_KjU ()J
+	public final fun component22-0d7_KjU ()J
+	public final fun component23-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun component4-0d7_KjU ()J
+	public final fun component5-0d7_KjU ()J
+	public final fun component6-0d7_KjU ()J
+	public final fun component7-0d7_KjU ()J
+	public final fun component8-0d7_KjU ()J
+	public final fun component9-0d7_KjU ()J
+	public final fun copy-ZLJeMyA (JJJJJJJJJJJJJJJJJJJJJJJ)Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldColors;
+	public static synthetic fun copy-ZLJeMyA$default (Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldColors;JJJJJJJJJJJJJJJJJJJJJJJILjava/lang/Object;)Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContainerColor-0d7_KjU ()J
+	public final fun getCursorColor-0d7_KjU ()J
+	public final fun getDisabledContainerColor-0d7_KjU ()J
+	public final fun getDisabledIndicatorColor-0d7_KjU ()J
+	public final fun getDisabledLabelColor-0d7_KjU ()J
+	public final fun getDisabledLeadingIconColor-0d7_KjU ()J
+	public final fun getDisabledPlaceholderColor-0d7_KjU ()J
+	public final fun getDisabledTextColor-0d7_KjU ()J
+	public final fun getDisabledTrailingIconColor-0d7_KjU ()J
+	public final fun getErrorIndicatorColor-0d7_KjU ()J
+	public final fun getErrorLabelColor-0d7_KjU ()J
+	public final fun getErrorTextColor-0d7_KjU ()J
+	public final fun getFocusedContainerColor-0d7_KjU ()J
+	public final fun getFocusedIndicatorColor-0d7_KjU ()J
+	public final fun getFocusedLabelColor-0d7_KjU ()J
+	public final fun getHelperTextColor-0d7_KjU ()J
+	public final fun getIndicatorColor-0d7_KjU ()J
+	public final fun getLabelColor-0d7_KjU ()J
+	public final fun getLeadingIconColor-0d7_KjU ()J
+	public final fun getPlaceholderColor-0d7_KjU ()J
+	public final fun getReadOnlyTextColor-0d7_KjU ()J
+	public final fun getTextColor-0d7_KjU ()J
+	public final fun getTrailingIconColor-0d7_KjU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/codewitheswar/frogui/components/textfield/FrogTextFieldDefaults {
+	public static final field $stable I
+	public static final field INSTANCE Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldDefaults;
+	public final fun colors-uKsWAxw (Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldVariant;JJJJJJJJJJJJJJJJJJJJJJJLandroidx/compose/runtime/Composer;IIII)Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldColors;
+	public final fun contentPadding (Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldVariant;ZZ)Landroidx/compose/foundation/layout/PaddingValues;
+	public static synthetic fun contentPadding$default (Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldDefaults;Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldVariant;ZZILjava/lang/Object;)Landroidx/compose/foundation/layout/PaddingValues;
+	public final fun getCompactMinHeight-D9Ej5fM ()F
+	public final fun getFocusedIndicatorThickness-D9Ej5fM ()F
+	public final fun getIconSize-D9Ej5fM ()F
+	public final fun getMinHeight-D9Ej5fM ()F
+	public final fun getUnfocusedIndicatorThickness-D9Ej5fM ()F
+	public final fun indicatorThickness-u2uoSUM (Z)F
+	public final fun minHeight-u2uoSUM (Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldVariant;)F
+	public final fun shape (Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldVariant;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/graphics/Shape;
+}
+
+public final class io/github/codewitheswar/frogui/components/textfield/FrogTextFieldKt {
+	public static final fun FrogTextField (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldVariant;ZZZILandroidx/compose/foundation/text/KeyboardOptions;Landroidx/compose/foundation/text/KeyboardActions;Landroidx/compose/ui/text/input/VisualTransformation;Landroidx/compose/foundation/interaction/MutableInteractionSource;Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldColors;Landroidx/compose/ui/graphics/Shape;Landroidx/compose/runtime/Composer;III)V
+}
+
+public final class io/github/codewitheswar/frogui/components/textfield/FrogTextFieldVariant : java/lang/Enum {
+	public static final field Filled Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldVariant;
+	public static final field Outline Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldVariant;
+	public static final field Underline Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldVariant;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldVariant;
+	public static fun values ()[Lio/github/codewitheswar/frogui/components/textfield/FrogTextFieldVariant;
 }

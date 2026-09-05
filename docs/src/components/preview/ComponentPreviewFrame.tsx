@@ -75,17 +75,17 @@ export const ComponentPreviewFrame: React.FC<ComponentPreviewFrameProps> = ({
       </div>
 
       {/* Frame Bottom Footer */}
-      <div className="px-4 py-2.5 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/60 dark:bg-zinc-900/60 flex items-center justify-between text-xs">
-        <span className="text-zinc-500 dark:text-zinc-400 text-[11px] sm:text-xs">
+      <div className="px-3.5 sm:px-4 py-2.5 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/60 dark:bg-zinc-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+        <span className="text-zinc-500 dark:text-zinc-400 text-[11px] sm:text-xs leading-relaxed">
           Representative preview &middot; Actual component renders in native Compose
         </span>
         {onOpenShowcase && (
           <button
             onClick={onOpenShowcase}
-            className="font-medium text-zinc-900 dark:text-zinc-100 hover:underline inline-flex items-center gap-1 cursor-pointer"
+            className="self-start sm:self-auto shrink-0 font-medium text-zinc-900 dark:text-zinc-100 hover:underline inline-flex items-center gap-1.5 text-xs cursor-pointer group"
           >
             <span>Open in Showcase</span>
-            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </button>

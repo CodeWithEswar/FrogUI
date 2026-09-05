@@ -21,11 +21,19 @@ import io.github.codewitheswar.frogui.showcase.icons.FrogIcons
 import io.github.codewitheswar.frogui.showcase.style.showcaseFocus
 import io.github.codewitheswar.frogui.theme.FrogTheme
 
+import io.github.codewitheswar.frogui.components.textfield.FrogTextField
+import io.github.codewitheswar.frogui.components.textfield.FrogTextFieldVariant
+
 @Composable
 internal fun FrogInspectorText(label: String, value: String, onChange: (String) -> Unit) {
-    OutlinedTextField(value, onChange, Modifier.fillMaxWidth(), label = { Text(label) }, singleLine = true,
-        textStyle = FrogTheme.typography.bodySmall, shape = FrogTheme.shapes.sm,
-        colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = FrogTheme.colors.focusRing, unfocusedBorderColor = FrogTheme.colors.border))
+    FrogTextField(
+        value = value,
+        onValueChange = onChange,
+        label = label,
+        variant = FrogTextFieldVariant.Outline,
+        singleLine = true,
+        modifier = Modifier.fillMaxWidth(),
+    )
 }
 
 @Composable

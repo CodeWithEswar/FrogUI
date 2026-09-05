@@ -46,6 +46,18 @@
     {
       "id": "drawer",
       "file": "components/drawer.json"
+    },
+    {
+      "id": "fab",
+      "file": "components/fab.json"
+    },
+    {
+      "id": "icon-button",
+      "file": "components/icon-button.json"
+    },
+    {
+      "id": "text-field",
+      "file": "components/text-field.json"
     }
   ],
   "$schema": "./schema/registry.schema.json",

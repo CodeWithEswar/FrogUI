@@ -20,7 +20,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="fixed top-0 inset-x-0 h-14 z-40 border-b border-[var(--frog-border)] bg-[var(--frog-background)]">
       <div className="w-full h-14 flex items-center">
         {/* Left Column: w-auto on mobile, w-64 on desktop to align with Sidebar */}
-        <div className="w-auto md:w-64 shrink-0 px-3 sm:px-4 h-full flex items-center justify-between border-r border-transparent md:border-[var(--frog-border)]">
+        <div className="w-auto md:w-60 shrink-0 px-3 sm:px-4 h-full flex items-center justify-between border-r border-transparent md:border-[var(--frog-border)]">
           <div className="flex items-center gap-2.5 sm:gap-3">
             {/* Mobile hamburger */}
             <button
@@ -60,37 +60,46 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Center & Right Column */}
         <div className="flex-1 px-3 sm:px-6 lg:px-8 xl:px-10 h-full flex items-center justify-between gap-2 sm:gap-4 min-w-0">
           {/* Top Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 text-sm">
-            <button
-              onClick={() => onNavigate('/docs/introduction')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
-                currentPath.startsWith('/docs')
-                  ? 'text-[var(--frog-foreground)] bg-[var(--frog-subtle-surface)] font-semibold'
-                  : 'text-[var(--frog-muted-foreground)] hover:text-[var(--frog-foreground)] hover:bg-zinc-100/60 dark:hover:bg-zinc-900/60'
-              }`}
-            >
-              Docs
-            </button>
-            <button
-              onClick={() => onNavigate('/components/button')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
-                currentPath.startsWith('/components')
-                  ? 'text-[var(--frog-foreground)] bg-[var(--frog-subtle-surface)] font-semibold'
-                  : 'text-[var(--frog-muted-foreground)] hover:text-[var(--frog-foreground)] hover:bg-zinc-100/60 dark:hover:bg-zinc-900/60'
-              }`}
-            >
-              Components
-            </button>
-            <button
-              onClick={() => onNavigate('/foundation')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
-                currentPath.startsWith('/foundation')
-                  ? 'text-[var(--frog-foreground)] bg-[var(--frog-subtle-surface)] font-semibold'
-                  : 'text-[var(--frog-muted-foreground)] hover:text-[var(--frog-foreground)] hover:bg-zinc-100/60 dark:hover:bg-zinc-900/60'
-              }`}
-            >
-              Foundation
-            </button>
+          <nav className="hidden md:flex items-center gap-1" aria-label="Main documentation navigation">
+            {[
+              {
+                label: 'Docs',
+                href: '/docs/introduction',
+                isActive: (path: string) => path.startsWith('/docs')
+              },
+              {
+                label: 'Foundation',
+                href: '/foundations',
+                isActive: (path: string) => path.startsWith('/foundations') || path.startsWith('/foundation')
+              },
+              {
+                label: 'Components',
+                href: '/components',
+                isActive: (path: string) => path.startsWith('/components')
+              },
+              {
+                label: 'Architecture',
+                href: '/architecture',
+                isActive: (path: string) => path.startsWith('/architecture')
+              }
+            ].map(item => {
+              const active = item.isActive(currentPath);
+              return (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => onNavigate(item.href)}
+                  aria-current={active ? 'page' : undefined}
+                  className={`px-3 py-1.5 rounded-md text-xs transition-all duration-150 cursor-pointer ${
+                    active
+                      ? 'text-[var(--frog-foreground)] font-semibold bg-[var(--frog-subtle-surface)] border border-[var(--frog-border)] shadow-2xs'
+                      : 'text-[var(--frog-muted-foreground)] hover:text-[var(--frog-foreground)] hover:bg-[var(--frog-subtle-surface)]/50 border border-transparent font-medium'
+                  } focus-visible:outline-2 focus-visible:outline-[var(--frog-focus-ring)]`}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
           </nav>
 
           {/* Right Action Icons: Search, Theme Toggle, GitHub */}

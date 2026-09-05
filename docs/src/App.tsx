@@ -2,58 +2,89 @@ import React, { useState, useEffect } from 'react';
 import { Shell } from './components/layout/Shell';
 import { HomePage } from './pages/HomePage';
 import { ComponentDetailPage } from './pages/ComponentDetailPage';
-import { GettingStartedPage } from './pages/GettingStartedPage';
-import { FoundationPage } from './pages/FoundationPage';
 import { MarkdownGalleryPage } from './pages/MarkdownGalleryPage';
-import { TechnologyPage } from './pages/TechnologyPage';
+import { DocumentationPage } from './pages/DocumentationPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { catalog, getComponentById } from './generated/catalog';
+import { documentationPages, normalizeDocsPath } from './navigation';
 
 const BASE_PATH = '/FrogUI';
 
+const foundationHashRedirects: Record<string, string> = {
+  overview: '/foundations',
+  colors: '/foundations/colors',
+  theme: '/foundations/colors',
+  typography: '/foundations/typography',
+  spacing: '/foundations/spacing',
+  shapes: '/foundations/shapes',
+  elevation: '/foundations/elevation',
+  motion: '/foundations/motion',
+  sizing: '/foundations/sizing',
+  adaptive: '/foundations/adaptive',
+  accessibility: '/foundations/accessibility'
+};
+
+const architectureHashRedirects: Record<string, string> = {
+  technology: '/architecture/technology-foundation',
+  'technology-foundation': '/architecture/technology-foundation',
+  repository: '/architecture/repository',
+  'api-design': '/architecture/api-design',
+  'component-standard': '/architecture/component-standard',
+  registry: '/architecture/registry',
+  release: '/architecture/release'
+};
+
 export const App: React.FC = () => {
   const [currentPath, setCurrentPath] = useState<string>(() => {
-    return window.location.pathname;
+    return window.location.pathname + window.location.hash;
   });
 
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname);
+      setCurrentPath(window.location.pathname + window.location.hash);
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   const navigate = (path: string) => {
+    const [requestedPath, hash = ''] = path.split('#');
     // Normalise path with BASE_PATH for GitHub Pages
-    const targetUrl = path.startsWith(BASE_PATH)
-      ? path
-      : path === '/'
+    const targetPath = requestedPath.startsWith(BASE_PATH)
+      ? requestedPath
+      : requestedPath === '/'
       ? `${BASE_PATH}/`
-      : `${BASE_PATH}${path.startsWith('/') ? path : `/${path}`}`;
+      : `${BASE_PATH}${requestedPath.startsWith('/') ? requestedPath : `/${requestedPath}`}`;
+    const targetUrl = `${targetPath}${hash ? `#${hash}` : ''}`;
 
     window.history.pushState(null, '', targetUrl);
     setCurrentPath(targetUrl);
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.requestAnimationFrame(() => {
+      if (hash) document.getElementById(hash)?.scrollIntoView();
+      else window.scrollTo({ top: 0, behavior: 'instant' });
+    });
   };
 
-  // Strip BASE_PATH to get the canonical logical route
-  const getLogicalRoute = (path: string): string => {
-    let clean = path;
-    if (clean.startsWith(BASE_PATH)) {
-      clean = clean.slice(BASE_PATH.length);
-    }
-    if (!clean.startsWith('/')) {
-      clean = `/${clean}`;
-    }
-    return clean.replace(/\/$/, '') || '/';
-  };
+  const hash = (currentPath.split('#')[1] || '').toLowerCase();
+  let logicalRoute = normalizeDocsPath(currentPath);
 
-  const logicalRoute = getLogicalRoute(currentPath);
+  // Redirect legacy anchor URLs on monolithic sections to dedicated child pages
+  if (logicalRoute === '/foundations' && hash && foundationHashRedirects[hash]) {
+    logicalRoute = foundationHashRedirects[hash];
+  } else if (logicalRoute === '/architecture' && hash && architectureHashRedirects[hash]) {
+    logicalRoute = architectureHashRedirects[hash];
+  } else if (logicalRoute === '/docs' || logicalRoute === '/getting-started') {
+    logicalRoute = '/docs/introduction';
+  }
 
   const renderContent = () => {
     if (logicalRoute === '/') {
       return <HomePage onNavigate={navigate} />;
+    }
+
+    const documentationPage = documentationPages.find(page => page.path === logicalRoute);
+    if (documentationPage) {
+      return <DocumentationPage page={documentationPage} onNavigate={navigate} />;
     }
 
     if (logicalRoute.startsWith('/components/')) {
@@ -70,26 +101,6 @@ export const App: React.FC = () => {
       return <NotFoundPage onNavigate={navigate} />;
     }
 
-    if (logicalRoute === '/docs/introduction') {
-      return <GettingStartedPage section="introduction" onNavigate={navigate} />;
-    }
-
-    if (logicalRoute === '/docs/installation') {
-      return <GettingStartedPage section="installation" onNavigate={navigate} />;
-    }
-
-    if (logicalRoute === '/docs/quick-start') {
-      return <GettingStartedPage section="quick-start" onNavigate={navigate} />;
-    }
-
-    if (logicalRoute === '/docs/technology' || logicalRoute === '/architecture/technology') {
-      return <TechnologyPage onNavigate={navigate} />;
-    }
-
-    if (logicalRoute.startsWith('/foundation')) {
-      return <FoundationPage section={logicalRoute.split('/').at(-1)} />;
-    }
-
     if (logicalRoute === '/dev/markdown') {
       return <MarkdownGalleryPage />;
     }
@@ -98,7 +109,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <Shell currentPath={currentPath} onNavigate={navigate}>
+    <Shell currentPath={logicalRoute} onNavigate={navigate}>
       {renderContent()}
     </Shell>
   );

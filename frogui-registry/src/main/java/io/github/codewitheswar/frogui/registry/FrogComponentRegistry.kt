@@ -7,6 +7,15 @@ object FrogComponentRegistry {
     /** Architectural reference; remains Experimental until its stability review is complete. */
     val Button: FrogComponentMetadata = allComponents.single { it.id == "button" }
 
+    /** Compact action control; Experimental. */
+    val IconButton: FrogComponentMetadata = allComponents.single { it.id == "icon-button" }
+
+    /** Prominent floating action control; Experimental. */
+    val Fab: FrogComponentMetadata = allComponents.single { it.id == "fab" }
+
+    /** State-hoisted form input; Experimental. */
+    val TextField: FrogComponentMetadata = allComponents.single { it.id == "text-field" }
+
     fun findById(id: String): FrogComponentMetadata? =
         allComponents.firstOrNull { it.id.equals(id, ignoreCase = true) }
 

@@ -1,5 +1,8 @@
 import { ButtonPreview } from './previews/button/ButtonPreview';
 import { DrawerPreview } from './previews/drawer/DrawerPreview';
+import { FabPreview } from './previews/fab/FabPreview';
+import { IconButtonPreview } from './previews/icon-button/IconButtonPreview';
+import { TextFieldPreview } from './previews/text-field/TextFieldPreview';
 import { ComponentPreviewDefinition } from './types';
 
 export const componentPreviewRegistry: Record<string, ComponentPreviewDefinition> = {
@@ -15,6 +18,24 @@ export const componentPreviewRegistry: Record<string, ComponentPreviewDefinition
     component: DrawerPreview,
     previewMode: 'overlay',
     minHeight: 420
+  },
+  fab: {
+    id: 'fab',
+    displayName: 'Floating Action Button',
+    component: FabPreview,
+    previewMode: 'canvas'
+  },
+  'icon-button': {
+    id: 'icon-button',
+    displayName: 'Icon Button',
+    component: IconButtonPreview,
+    previewMode: 'canvas'
+  },
+  'text-field': {
+    id: 'text-field',
+    displayName: 'Text Field',
+    component: TextFieldPreview,
+    previewMode: 'canvas'
   }
 };
 

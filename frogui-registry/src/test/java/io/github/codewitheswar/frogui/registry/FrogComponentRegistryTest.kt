@@ -42,8 +42,38 @@ class FrogComponentRegistryTest {
     }
 
     @Test
+    fun testIconButtonMetadataCompleteness() {
+        val iconButton = FrogComponentRegistry.IconButton
+        assertEquals("FrogIconButton", iconButton.name)
+        assertEquals(FrogComponentCategory.Actions, iconButton.category)
+        assertEquals(FrogComponentStatus.Experimental, iconButton.status)
+        assertFalse(iconButton.properties.isEmpty())
+        assertFalse(iconButton.examples.isEmpty())
+    }
+
+    @Test
+    fun testFabMetadataCompleteness() {
+        val fab = FrogComponentRegistry.Fab
+        assertEquals("FrogFloatingActionButton", fab.name)
+        assertEquals(FrogComponentCategory.Actions, fab.category)
+        assertEquals(FrogComponentStatus.Experimental, fab.status)
+        assertFalse(fab.properties.isEmpty())
+        assertFalse(fab.examples.isEmpty())
+    }
+
+    @Test
+    fun testTextFieldMetadataCompleteness() {
+        val textField = FrogComponentRegistry.TextField
+        assertEquals("FrogTextField", textField.name)
+        assertEquals(FrogComponentCategory.Inputs, textField.category)
+        assertEquals(FrogComponentStatus.Experimental, textField.status)
+        assertFalse(textField.properties.isEmpty())
+        assertFalse(textField.examples.isEmpty())
+    }
+
+    @Test
     fun testCatalogDoesNotAdvertiseRoadmapPlaceholders() {
-        assertEquals(listOf("button", "drawer"), FrogComponentRegistry.allComponents.map { it.id })
+        assertEquals(listOf("button", "drawer", "fab", "icon-button", "text-field"), FrogComponentRegistry.allComponents.map { it.id })
         assertTrue(FrogComponentRegistry.search("card").isEmpty())
         assertTrue(FrogComponentRegistry.findById("not-a-component") == null)
     }

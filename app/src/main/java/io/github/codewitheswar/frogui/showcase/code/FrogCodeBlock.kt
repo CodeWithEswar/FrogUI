@@ -9,6 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -26,8 +27,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.codewitheswar.frogui.components.button.FrogIconButton
+import io.github.codewitheswar.frogui.components.button.FrogIconButtonDefaults
+import io.github.codewitheswar.frogui.components.button.FrogIconButtonSize
+import io.github.codewitheswar.frogui.components.button.FrogIconButtonVariant
 import io.github.codewitheswar.frogui.showcase.icons.FrogIcons
-import io.github.codewitheswar.frogui.showcase.style.ShowcaseIconButton
 import io.github.codewitheswar.frogui.theme.FrogTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -82,10 +86,36 @@ internal fun FrogCodeToolbar(code: String, title: String, expandable: Boolean, e
     Row(modifier.fillMaxWidth().heightIn(min = FrogTheme.sizing.minimumTouchTarget).padding(start = 14.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(title, Modifier.weight(1f), style = FrogTheme.typography.bodySmall, color = FrogTheme.colors.mutedForeground, maxLines = 1, overflow = TextOverflow.Ellipsis)
         if (copied) Text("Copied", Modifier.semantics { liveRegion = LiveRegionMode.Polite }, style = FrogTheme.typography.bodySmall, color = FrogTheme.colors.foreground)
-        if (expandable) ShowcaseIconButton(if (expanded) FrogIcons.Collapse else FrogIcons.Expand, if (expanded) "Collapse code" else "Expand code", onExpand)
-        ShowcaseIconButton(if (copied) FrogIcons.Check else FrogIcons.Copy, if (copied) "Copied code" else "Copy code", {
-            scope.launch { clipboard.setClipEntry(ClipEntry(ClipData.newPlainText(title, code))); copyCount++ }
-        })
+        if (expandable) {
+            FrogIconButton(
+                icon = {
+                    Icon(
+                        imageVector = if (expanded) FrogIcons.Collapse else FrogIcons.Expand,
+                        contentDescription = null,
+                        modifier = Modifier.size(FrogIconButtonDefaults.iconSize(FrogIconButtonSize.Small))
+                    )
+                },
+                contentDescription = if (expanded) "Collapse code" else "Expand code",
+                onClick = onExpand,
+                variant = FrogIconButtonVariant.Ghost,
+                size = FrogIconButtonSize.Small
+            )
+        }
+        FrogIconButton(
+            icon = {
+                Icon(
+                    imageVector = if (copied) FrogIcons.Check else FrogIcons.Copy,
+                    contentDescription = null,
+                    modifier = Modifier.size(FrogIconButtonDefaults.iconSize(FrogIconButtonSize.Small))
+                )
+            },
+            contentDescription = if (copied) "Copied code" else "Copy code",
+            onClick = {
+                scope.launch { clipboard.setClipEntry(ClipEntry(ClipData.newPlainText(title, code))); copyCount++ }
+            },
+            variant = FrogIconButtonVariant.Ghost,
+            size = FrogIconButtonSize.Small
+        )
     }
 }
 

@@ -1,0 +1,194 @@
+{
+  "$schema": "../schema/component.schema.json",
+  "id": "fab",
+  "name": "FrogFloatingActionButton",
+  "displayName": "Floating Action Button",
+  "description": "A prominent floating contextual action with regular, small, and extended presentations, accessible naming, and reduced-motion fallbacks.",
+  "category": "actions",
+  "status": "experimental",
+  "since": "0.1.0-SNAPSHOT",
+  "docs": "/components/fab",
+  "source": "frogui-components/src/main/java/io/github/codewitheswar/frogui/components/fab/FrogFloatingActionButton.kt",
+  "variants": [
+    "Regular",
+    "Small",
+    "Extended"
+  ],
+  "sizes": [
+    "Small",
+    "Regular"
+  ],
+  "accessibility": {
+    "role": "Role.Button",
+    "minTouchTarget": "48dp",
+    "talkBackNotes": "contentDescription is mandatory for all presentations. When hidden, the button is removed completely from the accessibility tree and interaction. Minimum 48dp touch target is guaranteed even for Small FAB."
+  },
+  "properties": [
+    {
+      "name": "icon",
+      "type": "@Composable () -> Unit",
+      "defaultValue": "required",
+      "description": "Primary visual glyph composable. Should use contentDescription = null since the parent button owns the accessible name."
+    },
+    {
+      "name": "contentDescription",
+      "type": "String",
+      "defaultValue": "required",
+      "description": "Mandatory concise action description announced by accessibility services."
+    },
+    {
+      "name": "onClick",
+      "type": "() -> Unit",
+      "defaultValue": "required",
+      "description": "Callback invoked when the button is activated via touch, keyboard, or accessibility action."
+    },
+    {
+      "name": "modifier",
+      "type": "Modifier",
+      "defaultValue": "Modifier",
+      "description": "Layout modifier applied to the outer touch-target container."
+    },
+    {
+      "name": "presentation",
+      "type": "FrogFabPresentation",
+      "defaultValue": "FrogFabPresentation.Regular",
+      "description": "Visual presentation form: Regular (56dp), Small (40dp), or Extended (48dp height)."
+    },
+    {
+      "name": "label",
+      "type": "(@Composable () -> Unit)?",
+      "defaultValue": "null",
+      "description": "Composable visible text label used when presentation is Extended."
+    },
+    {
+      "name": "expanded",
+      "type": "Boolean",
+      "defaultValue": "true",
+      "description": "When true and presentation is Extended, displays both icon and label. When false, collapses to icon-only. Ignored for Regular and Small."
+    },
+    {
+      "name": "enabled",
+      "type": "Boolean",
+      "defaultValue": "true",
+      "description": "Controls interaction state. When false, clicks are suppressed and visual style becomes muted."
+    },
+    {
+      "name": "visible",
+      "type": "Boolean",
+      "defaultValue": "true",
+      "description": "Controls presence. When false, smoothly animates out and is removed from semantics and interaction."
+    },
+    {
+      "name": "elevation",
+      "type": "FrogFabElevation",
+      "defaultValue": "FrogFloatingActionButtonDefaults.elevation()",
+      "description": "Elevation tokens controlling shadow and surface separation across resting, pressed, and focused states."
+    },
+    {
+      "name": "colors",
+      "type": "FrogFabColors",
+      "defaultValue": "FrogFloatingActionButtonDefaults.colors()",
+      "description": "Resolved container, content, disabled, and interaction colors."
+    },
+    {
+      "name": "shape",
+      "type": "Shape",
+      "defaultValue": "FrogFloatingActionButtonDefaults.shape(presentation)",
+      "description": "Corner radius shape applied to the FAB container."
+    },
+    {
+      "name": "interactionSource",
+      "type": "MutableInteractionSource",
+      "defaultValue": "remember { MutableInteractionSource() }",
+      "description": "Interaction stream driving press animations and focus rings."
+    }
+  ],
+  "examples": [
+    {
+      "id": "regular",
+      "title": "Regular FAB",
+      "description": "Default prominent floating action button for screen-level actions.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/fab/FabExamples.kt",
+      "region": "regular"
+    },
+    {
+      "id": "small",
+      "title": "Small FAB",
+      "description": "Compact floating action button maintaining the 48dp minimum touch target.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/fab/FabExamples.kt",
+      "region": "small"
+    },
+    {
+      "id": "extended",
+      "title": "Extended FAB",
+      "description": "Floating action with icon and visible text label.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/fab/FabExamples.kt",
+      "region": "extended"
+    },
+    {
+      "id": "collapsing",
+      "title": "Collapsing Extended FAB",
+      "description": "Extended FAB with caller-toggled expansion state.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/fab/FabExamples.kt",
+      "region": "collapsing"
+    },
+    {
+      "id": "scroll-aware",
+      "title": "Scroll-Aware FAB",
+      "description": "Demonstrates screen-driven visibility and expansion based on list scroll direction.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/fab/FabExamples.kt",
+      "region": "scroll-aware"
+    },
+    {
+      "id": "inset-aware",
+      "title": "Inset-Aware Placement",
+      "description": "Positioning a FAB at the bottom-end above navigation bars and system insets.",
+      "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/fab/FabExamples.kt",
+      "region": "inset-aware"
+    }
+  ],
+  "quality": {
+    "visualStates": [
+      "Default",
+      "Pressed",
+      "Focused",
+      "Disabled",
+      "Hidden",
+      "Expanded",
+      "Collapsed"
+    ],
+    "interactions": [
+      "Click",
+      "Keyboard activation",
+      "Focus"
+    ],
+    "themes": [
+      "Light",
+      "Dark",
+      "Custom"
+    ],
+    "adaptiveClasses": [],
+    "composePreviews": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/fab/FabComponentPreviews.kt",
+    "unitTests": [
+      "frogui-components/src/test/java/io/github/codewitheswar/frogui/components/fab/FrogFloatingActionButtonTest.kt"
+    ],
+    "androidTests": [
+      "app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/PublicApiContractTest.kt",
+      "app/src/androidTest/java/io/github/codewitheswar/frogui/showcase/FabDetailTest.kt"
+    ],
+    "webPreview": "docs/src/components/preview/previews/fab/FabPreview.tsx"
+  },
+  "schemaVersion": 2,
+  "tags": [
+    "action",
+    "fab",
+    "floating",
+    "extended",
+    "speeddial"
+  ],
+  "showcase": {
+    "route": "components/fab",
+    "source": "app/src/main/java/io/github/codewitheswar/frogui/showcase/components/fab/FabShowcaseDefinition.kt",
+    "screen": "fabShowcaseDefinition"
+  }
+}

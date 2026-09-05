@@ -50,7 +50,7 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
             </div>
 
             {/* Header Action Buttons */}
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 onClick={() => setIsShowcaseOpen(true)}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--frog-border)] bg-[var(--frog-surface-elevated)] text-xs font-medium text-[var(--frog-foreground)] hover:bg-[var(--frog-muted)] transition-colors shadow-xs cursor-pointer"
@@ -78,11 +78,11 @@ export const ComponentDetailPage: React.FC<ComponentDetailPageProps> = ({ compon
             {component.description}
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-400 font-mono">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-zinc-400 font-mono">
             <span>Category: <strong className="text-zinc-600 dark:text-zinc-300 capitalize">{component.category}</strong></span>
-            <span>&bull;</span>
+            <span className="hidden sm:inline text-zinc-500">&bull;</span>
             <span>Composable: <strong className="text-zinc-600 dark:text-zinc-300">{component.name}</strong></span>
-            <span>&bull;</span>
+            <span className="hidden sm:inline text-zinc-500">&bull;</span>
             <span>Since: <strong className="text-zinc-600 dark:text-zinc-300">{component.since}</strong></span>
           </div>
         </header>

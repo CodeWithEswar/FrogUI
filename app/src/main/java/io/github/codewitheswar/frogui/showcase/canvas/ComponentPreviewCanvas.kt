@@ -10,8 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.github.codewitheswar.frogui.components.button.FrogIconButton
+import io.github.codewitheswar.frogui.components.button.FrogIconButtonDefaults
+import io.github.codewitheswar.frogui.components.button.FrogIconButtonSize
+import io.github.codewitheswar.frogui.components.button.FrogIconButtonVariant
 import io.github.codewitheswar.frogui.showcase.icons.FrogIcons
-import io.github.codewitheswar.frogui.showcase.style.ShowcaseIconButton
 import io.github.codewitheswar.frogui.theme.FrogTheme
 import io.github.codewitheswar.frogui.showcase.colorpicker.checkerboard
 import io.github.codewitheswar.frogui.showcase.style.LocalFrogMotionEnabled
@@ -40,15 +43,67 @@ internal fun ComponentPreviewCanvas(previewDarkTheme: Boolean, onTogglePreviewTh
         Row(Modifier.fillMaxWidth().padding(start = 14.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
             Text("Preview · ${widthMode.label}", Modifier.weight(1f), style = FrogTheme.typography.bodySmall, color = colors.mutedForeground)
             if (capabilities.width) Box {
-                ShowcaseIconButton(if (widthMode == PreviewWidthMode.Medium) FrogIcons.Tablet else FrogIcons.Phone, "Preview width: ${widthMode.label}", { widthsOpen = true })
+                FrogIconButton(
+                    icon = {
+                        Icon(
+                            imageVector = if (widthMode == PreviewWidthMode.Medium) FrogIcons.Tablet else FrogIcons.Phone,
+                            contentDescription = null,
+                            modifier = Modifier.size(FrogIconButtonDefaults.iconSize(FrogIconButtonSize.Small))
+                        )
+                    },
+                    contentDescription = "Preview width: ${widthMode.label}",
+                    onClick = { widthsOpen = true },
+                    variant = FrogIconButtonVariant.Ghost,
+                    size = FrogIconButtonSize.Small
+                )
                 DropdownMenu(widthsOpen, { widthsOpen = false }, containerColor = colors.surfaceElevated) {
                     PreviewWidthMode.entries.forEach { mode -> DropdownMenuItem(text = { Text(mode.label + (mode.width?.let { " · ${it.value.toInt()} dp" } ?: "")) }, onClick = { onChangeWidthMode(mode); widthsOpen = false },
                         trailingIcon = if (mode == widthMode) ({ Icon(FrogIcons.Check, "Selected") }) else null) }
                 }
             }
-            if (capabilities.theme) ShowcaseIconButton(if (previewDarkTheme) FrogIcons.Light else FrogIcons.Dark, "Use ${if (previewDarkTheme) "light" else "dark"} preview", onTogglePreviewTheme)
-            ShowcaseIconButton(FrogIcons.Reset, "Reset component properties", onReset)
-            if (onConfigure != null) ShowcaseIconButton(FrogIcons.Sliders, "Preview settings", onConfigure)
+            if (capabilities.theme) {
+                FrogIconButton(
+                    icon = {
+                        Icon(
+                            imageVector = if (previewDarkTheme) FrogIcons.Light else FrogIcons.Dark,
+                            contentDescription = null,
+                            modifier = Modifier.size(FrogIconButtonDefaults.iconSize(FrogIconButtonSize.Small))
+                        )
+                    },
+                    contentDescription = "Use ${if (previewDarkTheme) "light" else "dark"} preview",
+                    onClick = onTogglePreviewTheme,
+                    variant = FrogIconButtonVariant.Ghost,
+                    size = FrogIconButtonSize.Small
+                )
+            }
+            FrogIconButton(
+                icon = {
+                    Icon(
+                        imageVector = FrogIcons.Reset,
+                        contentDescription = null,
+                        modifier = Modifier.size(FrogIconButtonDefaults.iconSize(FrogIconButtonSize.Small))
+                    )
+                },
+                contentDescription = "Reset component properties",
+                onClick = onReset,
+                variant = FrogIconButtonVariant.Ghost,
+                size = FrogIconButtonSize.Small
+            )
+            if (onConfigure != null) {
+                FrogIconButton(
+                    icon = {
+                        Icon(
+                            imageVector = FrogIcons.Sliders,
+                            contentDescription = null,
+                            modifier = Modifier.size(FrogIconButtonDefaults.iconSize(FrogIconButtonSize.Small))
+                        )
+                    },
+                    contentDescription = "Preview settings",
+                    onClick = onConfigure,
+                    variant = FrogIconButtonVariant.Ghost,
+                    size = FrogIconButtonSize.Small
+                )
+            }
         }
         HorizontalDivider(color = colors.border)
         FrogTheme(darkTheme = previewDarkTheme) {
